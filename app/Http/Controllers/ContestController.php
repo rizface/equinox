@@ -95,10 +95,14 @@ class ContestController extends Controller
 
     public function DetailQuestionPage($id, $questionId) {
         $question = Question::where("id", $questionId)->first();
-        $testCases = explode("|",$question->params);
-        $result = explode("^", $question->expected_result);
-        $numberOfParams = sizeof(explode("*", $testCases[0]));
+        $question->test_cases = json_decode($question->test_cases);
+        $numberOfParams = 0;
 
-        return view('admin.dashboard.detail-question', compact('id', 'question', 'testCases', 'result', 'numberOfParams'));
+        foreach ($question->toArray()["test_cases"]->params[0] as $key => $value) {
+            $numberOfParams++;
+        }
+        $numberOfParams-=1;
+
+        return view('admin.dashboard.detail-question', compact('id', 'question', 'numberOfParams'));
     }
 }

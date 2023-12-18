@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Description</div>
+                    <div class="card-title">{{$question->title}}</div>
                 </div>
                 <div class="card-body">
                     {!!$question->description!!}
@@ -28,24 +28,21 @@
                         </thead>
                         <tbody>
                             <?php $i = 0 ?>
-                            @foreach ($testCases as $t)         
-                                @if ($t != "")                                    
-                                    <tr>
-                                        <td>{{$i+1}}</td>
-                                        @foreach (explode("*", $t) as $it)
-                                            <td>{{$it}}</td>
-                                        @endforeach
-                                        <td>{{$result[$i]}}</td>
-                                    </tr>
-                                    <?php $i++ ?>
-                                @endif
+                            @foreach ($question->test_cases->params as $params)
+                                <tr>
+                                        <?php $i++; ?>
+                                        <td>{{$i}}</td>
+                                    @foreach ($params as $param)
+                                        <td>{{$param}}</td>
+                                    @endforeach
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Solvers</div>
