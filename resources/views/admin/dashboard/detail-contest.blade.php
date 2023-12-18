@@ -53,6 +53,7 @@
                                     <td>{{$i}}</td>
                                     <td>{{$q->title}}</td>
                                     <td><a href="{{route('admin.questionDetailPage', ["id" => request('id'), "questionId" => $q->id])}}">View</a></td>
+                                    <?php $i += 1 ?>
                                 </tr>
                             @endforeach
                         </tbody>
