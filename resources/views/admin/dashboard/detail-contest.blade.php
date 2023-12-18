@@ -18,12 +18,12 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th>1</th>
+                                <td>1</td>
                                 <td>Muhammad Al Farizzi</td>
                                 <td>50 / 50</td>
                             </tr>
                             <tr>
-                                <th>2</th>
+                                <td>2</td>
                                 <td>Elon Musk</td>
                                 <td>15 / 50</td>
                             </tr>
