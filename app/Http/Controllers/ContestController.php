@@ -11,10 +11,13 @@ use RealRashid\SweetAlert\Facades\Alert;
 class ContestController extends Controller
 {
     public function Dashboard() {
-        $allContest = Contest::get();
-        $myContest = Contest::where("admin_id", Auth::guard("admin")->user()->id)->get();
+        $allCourses = Contest::orderBy("updated_at", "desc")
+        ->get();
+        $myCourses = Contest::where("admin_id", Auth::guard("admin")->user()->id)
+        ->orderBy("updated_at", "desc")
+        ->get();
         
-        return view('admin.dashboard.contest', compact('allContest','myContest'));
+        return view('admin.dashboard.contest', compact('allCourses','myCourses'));
     }
 
     public function CreateQuestionPage() {

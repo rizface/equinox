@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Contest extends Model
 {
@@ -18,5 +19,9 @@ class Contest extends Model
 
     public function Questions() {
         return $this->hasMany(Question::class);
+    }
+
+    public function GetNumberOfQuestions() {
+        return Question::where("contest_id", $this->id)->count();
     }
 }
