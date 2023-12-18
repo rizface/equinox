@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  leetcode-lite:
+    container_name: leetcode-lite
+    image: postgres:15
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
