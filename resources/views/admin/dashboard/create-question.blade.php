@@ -37,7 +37,7 @@
                             <input class="form-control" type="number" id="num_of_params">
                         </div>                   
                         <div class="col-2">
-                            <button id="add_params" class="btn btn-success">Add Params</button>    
+                            <button id="add_params" class="btn btn-secondary btn-sm">Add Params</button>    
                         </div> 
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" class="btn btn-secondary btn-sm">Submit</button>
                 </div>
             </div>
         </div>
@@ -60,7 +60,9 @@
 <script>
     $(function () {
       //Add text editor
-      $('#compose-textarea').summernote()
+      $('#compose-textarea').summernote({
+        height: 250
+      })
     })
 </script>
 <script src="{{asset('scripts/contest.js')}}"></script>
