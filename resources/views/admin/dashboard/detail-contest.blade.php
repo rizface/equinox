@@ -74,6 +74,7 @@
     <script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
     
     <script>
+        const thisIsMyContest = `{{$contest->ThisIsMyContest()}}`
         $(function () {
             const commonConfig = {
                 "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -85,21 +86,32 @@
                 "autoWidth": false,
                 "responsive": true,
             }
-
             $("#example1").DataTable(commonConfig);
 
-            $("#example2").DataTable({
-                ...commonConfig,
-                buttons: [
-                    {
-                        text: 'New Question',
-                        action: function ( e, dt, node, config ) {
-                            window.location.href = "{{route('admin.createQuestionPage', ['id' => request('id')])}}"
-                        },
-                        className: "btn-sm"
-                    }
-                ]
-            }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+            let table2Config = {
+                ...commonConfig
+            }
+
+            if(thisIsMyContest) {
+                table2Config = {
+                    ...table2Config,
+                    buttons: [
+                        {
+                            text: 'New Question',
+                            action: function ( e, dt, node, config ) {
+                                window.location.href = "{{route('admin.createQuestionPage', ['id' => request('id')])}}"
+                            },
+                            className: "btn-sm"
+                        }
+                    ]
+                }
+            }
+
+            const table2 = $("#example2").DataTable(table2Config);
+            
+            if(thisIsMyContest) {
+                table2.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)')
+            }
         });
     </script>
     @endpush

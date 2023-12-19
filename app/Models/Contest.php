@@ -24,4 +24,8 @@ class Contest extends Model
     public function GetNumberOfQuestions() {
         return Question::where("contest_id", $this->id)->count();
     }
+
+    public function ThisIsMyContest() {
+        return $this->admin_id == Auth::guard("admin")->user()->id;
+    }
 }
