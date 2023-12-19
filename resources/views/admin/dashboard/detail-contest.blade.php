@@ -5,6 +5,35 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
+                    <div class="card-title">Questions</div>
+                </div>
+                <div class="card-body">
+                    <table id="example2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1 ?>
+                            @foreach ($contest->Questions as $q)
+                                <tr>
+                                    <td>{{$i}}</td>
+                                    <td>{{$q->title}}</td>
+                                    <td><a href="{{route('admin.questionDetailPage', ["id" => request('id'), "questionId" => $q->id])}}">View</a></td>
+                                    <?php $i += 1 ?>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
                     <div class="card-title">Leaderboard</div>
                 </div>
                 <div class="card-body">
@@ -32,35 +61,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Questions</div>
-                </div>
-                <div class="card-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>View</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $i = 1 ?>
-                            @foreach ($contest->Questions as $q)
-                                <tr>
-                                    <td>{{$i}}</td>
-                                    <td>{{$q->title}}</td>
-                                    <td><a href="{{route('admin.questionDetailPage', ["id" => request('id'), "questionId" => $q->id])}}">View</a></td>
-                                    <?php $i += 1 ?>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
 @push('datatable')
@@ -75,18 +75,31 @@
     
     <script>
         $(function () {
-            ["#example1", "#example2"].forEach(e => {
-                $(e).DataTable({
-                    "responsive": true, "lengthChange": false, "autoWidth": false,
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
-            })
+            const commonConfig = {
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            }
+
+            $("#example1").DataTable(commonConfig);
+
+            $("#example2").DataTable({
+                ...commonConfig,
+                buttons: [
+                    {
+                        text: 'New Question',
+                        action: function ( e, dt, node, config ) {
+                            window.location.href = "{{route('admin.createQuestionPage', ['id' => request('id')])}}"
+                        },
+                        className: "btn-sm"
+                    }
+                ]
+            }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
     </script>
     @endpush
