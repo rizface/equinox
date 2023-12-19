@@ -32,7 +32,13 @@ const createNParams = (n) => {
 
 btnAddParams.addEventListener("click", (e) => {
     e.preventDefault()
-    numberOfParams.disable = true
 
+    if (numberOfParams.value == "" || Number(numberOfParams.value) == 0) {
+        alert("You need at least 1 param")
+        return
+    }
+
+    numberOfParams.disabled = true
+    
     paramsContainer.append(...createNParams(numberOfParams.value), document.createElement("br"))
 })
