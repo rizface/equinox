@@ -150,4 +150,50 @@ class ContestController extends Controller
             return redirect()->back();
         }
     }
+
+    public function UpdateCoursePage($id) {
+        try {
+            $course = Contest::where("id", $id)->first();
+            if(!$course) {
+                throw new Error("Course not found");
+            }
+
+            if(!$course->ThisIsMyContest()) {
+                throw new Error("Can't update other admin's questions");
+            }
+
+            return view("admin.dashboard.update-contest", compact('course'));
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function UpdateCourse(Request $request, $id) {
+        try {
+            $course = Contest::where("id", $id)->first();
+            if(!$course) {
+                throw new Error("Course not found");
+            }
+
+            if(!$course->ThisIsMyContest()) {
+                throw new Error("Can't update other admin's questions");
+            }
+
+            $course->title = $request->title;
+
+            $error = $course->Validate();
+            if($error) {
+                throw new Error($error);
+            }
+
+            $course->save();
+
+            Alert::success("Success", "Successfully update course");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect()->back();
+        }
+    }
 }

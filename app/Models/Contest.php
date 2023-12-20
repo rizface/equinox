@@ -28,4 +28,12 @@ class Contest extends Model
     public function ThisIsMyContest() {
         return $this->admin_id == Auth::guard("admin")->user()->id;
     }
+
+    public function Validate() {
+        if(!$this->title || $this->title == "") {
+            return "Title is required";
+        }
+
+        return null;
+    }
 }

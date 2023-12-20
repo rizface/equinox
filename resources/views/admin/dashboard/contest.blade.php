@@ -60,8 +60,8 @@
                                     <td>{{20}}</td>
                                     <td>
                                       <a href="{{route("admin.contestDetailPage", ["id" => $i->id])}}">View</a>
-                                      <a class="m-4" href="{{route("admin.contestDetailPage", ["id" => $i->id])}}">Delete</a>
-                                      <a class="m-2" href="{{route("admin.contestDetailPage", ["id" => $i->id])}}">Update</a>
+                                      <a class="m-4" href="{{route("admin.deleteCourse", ["id" => $i->id])}}">Delete</a>
+                                      <a class="m-2" href="{{route("admin.updateCoursePage", ["id" => $i->id])}}">Update</a>
                                     </td>
                                 </tr>
                             @endforeach
