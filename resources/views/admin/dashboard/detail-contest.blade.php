@@ -13,7 +13,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
-                                <th>View</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -22,7 +22,11 @@
                                 <tr>
                                     <td>{{$i}}</td>
                                     <td>{{$q->title}}</td>
-                                    <td><a href="{{route('admin.questionDetailPage', ["id" => request('id'), "questionId" => $q->id])}}">View</a></td>
+                                    <td>
+                                        <a href="{{route('admin.questionDetailPage', ["id" => request('id'), "questionId" => $q->id])}}">View</a>
+                                        <a class="m-4" href="{{route('admin.deleteQuestion', ["id" => request('id'), "questionId" => $q->id])}}">Delete</a>
+                                        <a class="m-2" href="{{route('admin.questionDetailPage', ["id" => request('id'), "questionId" => $q->id])}}">Update</a>
+                                    </td>
                                     <?php $i += 1 ?>
                                 </tr>
                             @endforeach

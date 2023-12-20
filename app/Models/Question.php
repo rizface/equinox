@@ -15,4 +15,8 @@ class Question extends Model
     ];
     protected $primaryKey = "id";
     protected $table = "questions";
+
+    public function Contest() {
+        return $this->belongsTo(Contest::class);
+    }
 }

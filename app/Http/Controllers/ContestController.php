@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contest;
 use App\Models\Question;
+use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -74,14 +75,13 @@ class ContestController extends Controller
                 "title" => $request->title,
             ]); 
 
-            Alert::success("Berhasi", "Kontes $contest->title Berhasil Dibuat");
+            Alert::success("Success", "Successfully create $contest->title contest");
 
             return redirect(route("admin.createQuestionPage", [
                 "id" => $contest->id,
             ]));
         } catch (\Throwable $th) {
-            dd($th->getMessage());
-            Alert::error("Gagal", "Gagal membuat kontest");
+            Alert::error("Failed", "Failed create new contest");
 
             return redirect()->back();
         }
@@ -107,5 +107,26 @@ class ContestController extends Controller
         $numberOfParams-=1;
 
         return view('admin.dashboard.detail-question', compact('id', 'question', 'numberOfParams'));
+    }
+
+    public function DeleteQuestion($id, $questionId) {
+        try {
+            $question = Question::where("id", $questionId)->first();
+            if(!$question) {
+                throw new Error("Question not found");
+            }
+
+            if(!$question->Contest->ThisIsMyContest()) {
+                throw new Error("Can't delete other admin's questions");
+            }
+
+            $question->delete();
+
+            Alert::success("Success", "Success delete $question->title question");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect()->back();
+        }
     }
 }
