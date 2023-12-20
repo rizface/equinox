@@ -129,4 +129,25 @@ class ContestController extends Controller
             return redirect()->back();
         }
     }
+
+    public function DeleteCourse($id) {
+        try {
+            $course = Contest::where("id", $id)->first();
+            if(!$course) {
+                throw new Error("Contest not found");
+            }
+
+            if(!$course->ThisIsMyContest()) {
+                throw new Error("Can't delete other admin's courses");
+            }
+
+            $course->delete();
+
+            Alert::success("Success", "Success delete $course->title course");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect()->back();
+        }
+    }
 }
