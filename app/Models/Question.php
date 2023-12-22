@@ -19,4 +19,16 @@ class Question extends Model
     public function Contest() {
         return $this->belongsTo(Contest::class);
     }
+
+    public function DecodeParams() {
+        $this->test_cases = json_decode($this->test_cases);
+        $this->numberOfParams = 0; 
+
+        foreach ($this->toArray()["test_cases"]->params[0] as $key => $value) {
+            $this->numberOfParams++;
+        }
+
+        // dont count the return value
+        $this->numberOfParams-=1;
+    }
 }

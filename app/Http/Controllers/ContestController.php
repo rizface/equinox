@@ -98,6 +98,8 @@ class ContestController extends Controller
 
     public function DetailQuestionPage($id, $questionId) {
         $question = Question::where("id", $questionId)->first();
+        
+        // TODO: fix using method from model
         $question->test_cases = json_decode($question->test_cases);
         $numberOfParams = 0;
 
@@ -159,7 +161,7 @@ class ContestController extends Controller
             }
 
             if(!$course->ThisIsMyContest()) {
-                throw new Error("Can't update other admin's questions");
+                throw new Error("Can't update other admin's courses");
             }
 
             return view("admin.dashboard.update-contest", compact('course'));
@@ -177,7 +179,7 @@ class ContestController extends Controller
             }
 
             if(!$course->ThisIsMyContest()) {
-                throw new Error("Can't update other admin's questions");
+                throw new Error("Can't update other admin's courses");
             }
 
             $course->title = $request->title;
@@ -193,6 +195,27 @@ class ContestController extends Controller
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
         } finally {
+            return redirect()->back();
+        }
+    }
+
+    public function UpdateQuestionPage($id, $questionId) {
+        try {
+            $question = Question::where("id", $questionId)->first();
+            
+            if(!$question) {
+                throw new Error("Question not found");
+            }
+
+            if(!$question->Contest->ThisIsMyContest()) {
+                throw new Error("Can't update other admin's questions");
+            };
+
+            $question->DecodeParams();
+
+            return view("admin.dashboard.update-question-page", compact('question'));
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
             return redirect()->back();
         }
     }
