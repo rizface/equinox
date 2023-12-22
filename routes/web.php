@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContestController;
+use App\Http\Controllers\QuestionController;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,12 +33,12 @@ Route::prefix("/admin")->group(function() {
     Route::get('/course/{id}/update', [ContestController::class, "UpdateCoursePage"])->name("admin.updateCoursePage");
     Route::post('/course/{id}/update', [ContestController::class, "UpdateCourse"])->name("admin.updateCourse");
 
-    Route::get('/course/{id}/question', [ContestController::class, "CreateQuestionPage"])->name("admin.createQuestionPage");
-    Route::post("/course/{id}/question", [ContestController::class, "CreateQuestion"])->name("admin.createQuestion");
-    Route::get('/course/{id}/question/{questionId}', [ContestController::class, "DetailQuestionPage"])->name("admin.questionDetailPage");
-    Route::get('/course/{id}/question/{questionId}/delete', [ContestController::class, "DeleteQuestion"])->name("admin.deleteQuestion");
-    Route::get('/course/{id}/question/{questionId}/update', [ContestController::class, "UpdateQuestionPage"])->name("admin.updateQuestionPage");
-    Route::post('/course/{id}/question/{questionId}/update', [ContestController::class, "UpdateQuestion"])->name("admin.updateQuestion");
+    Route::get('/course/{id}/question', [QuestionController::class, "CreateQuestionPage"])->name("admin.createQuestionPage");
+    Route::post("/course/{id}/question", [QuestionController::class, "CreateQuestion"])->name("admin.createQuestion");
+    Route::get('/course/{id}/question/{questionId}', [QuestionController::class, "DetailQuestionPage"])->name("admin.questionDetailPage");
+    Route::get('/course/{id}/question/{questionId}/delete', [QuestionController::class, "DeleteQuestion"])->name("admin.deleteQuestion");
+    Route::get('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestionPage"])->name("admin.updateQuestionPage");
+    Route::post('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestion"])->name("admin.updateQuestion");
 });
 
 Route::get('/', function () {
