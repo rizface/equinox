@@ -38,16 +38,9 @@ class QuestionController extends Controller
     public function DetailQuestionPage($id, $questionId) {
         $question = Question::where("id", $questionId)->first();
         
-        // TODO: fix using method from model
-        $question->test_cases = json_decode($question->test_cases);
-        $numberOfParams = 0;
-
-        foreach ($question->toArray()["test_cases"]->params[0] as $key => $value) {
-            $numberOfParams++;
-        }
-        $numberOfParams-=1;
-
-        return view('admin.dashboard.detail-question', compact('id', 'question', 'numberOfParams'));
+        $question->DecodeParams();
+        
+        return view('admin.dashboard.detail-question', compact('question'));
     }
 
     public function DeleteQuestion($id, $questionId) {

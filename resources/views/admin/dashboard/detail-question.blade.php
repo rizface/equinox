@@ -20,7 +20,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                @for ($i = 1; $i <= $numberOfParams; $i++)
+                                @for ($i = 1; $i <= $question->numberOfParams; $i++)
                                     <th>Param {{$i}}</th>
                                 @endfor
                                 <th>Expected Result</th>
