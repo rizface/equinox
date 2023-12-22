@@ -8,7 +8,8 @@
                     <div class="card-title">{{$question->title}}</div>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="{{route('admin.updateQuestion', ['id' => request('id'), 'questionId' => request('questionId')])}}" method="post">
+                        @csrf
                         <div class="form-group">
                             <label class="form-label">Title</label>
                             <input type="text" name="title" value="{{$question->title}}" class="form form-control">
@@ -17,7 +18,7 @@
                             <label for="" class="form-label">
                                 Question Description
                             </label>
-                            <textarea name="question-description" id="compose-textarea" class="form-control">
+                            <textarea name="description" id="compose-textarea" class="form-control">
                                 {!! $question->description !!}
                             </textarea>
                         </div>
@@ -39,7 +40,7 @@
                                             @foreach ($params as $key => $param)
                                                 <td>
                                                     <input 
-                                                    disabled
+                                                    type="text"
                                                     id="input{{$i}}"
                                                     value="{{$param}}"
                                                     type="text" name="{{$key}}[]" id="" class="form form-control">
@@ -47,11 +48,6 @@
                                             @endforeach
                                             <td>
                                                 <a onclick="deleteParams(this)" data-row="{{$i}}" href="#">Delete</a>
-                                                <a onclick="updateParams(this)" data-row="{{$i}}" href="#" class="m-4">Update</a>
-                                                <a 
-                                                onclick="saveParams(this)"
-                                                style="opacity: 0"
-                                                data-row="{{$i}}" href="#" class="m-2" id="save-params-{{$i}}">Save</a>
                                             </td>
                                         </tr>
                                         <?php $i++; ?>

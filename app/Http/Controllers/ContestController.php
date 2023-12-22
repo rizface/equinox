@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contest;
 use App\Models\Question;
+use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ContestController extends Controller
 {
+    use UtilsTrait;
+
     public function Dashboard() {
         $allCourses = Contest::orderBy("updated_at", "desc")
         ->get();
@@ -27,31 +30,8 @@ class ContestController extends Controller
 
     public function CreateQuestion(Request $request, $id) {
         try {
-            $paramsLength = sizeof($request["input1"]);
-            $indexInput = 1;
-            while(true) {
-                if(isset($request["input$indexInput"])) {
-                    $indexInput++;
-                } else {
-                    $indexInput--;
-                    break;
-                }
-            }
-
-            $paramsAndReturnValue = [];
-
-            for ($i=0; $i < $paramsLength; $i++) { 
-                $paramAndReturnValue = [];
-
-                for ($j=1; $j <= $indexInput; $j++) { 
-                    $paramAndReturnValue["param$j"] = $request["input$j"][$i];
-                }
-
-                $paramAndReturnValue["return"] = $request["return"][$i];
-
-                array_push($paramsAndReturnValue, $paramAndReturnValue);
-            }
-
+            $paramsAndReturnValue = $this->ConstructParamsAndReturnValue($request,"input");
+            
             Question::create([
                 "contest_id" => $id,
                 "title" => $request->title,
@@ -61,7 +41,6 @@ class ContestController extends Controller
 
             Alert::success("Success", "Question successfully created");
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             Alert::error("Failed", "Failed create the question");
         } finally {
             return redirect(route('admin.createQuestionPage', ["id"=>$id]));
@@ -216,6 +195,35 @@ class ContestController extends Controller
             return view("admin.dashboard.update-question-page", compact('question'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function UpdateQuestion(Request $request, $id, $questionId) {
+        try {
+            $question = Question::where("id", $questionId)->first();
+            
+            if(!$question) {
+                throw new Error("Question not found");
+            }
+
+            if(!$question->Contest->ThisIsMyContest()) {
+                throw new Error("Can't update other admin's questions");
+            };
+
+            $question->title = $request->title;
+            $question->description = $request->description;
+            $question->test_cases = json_encode([
+                "params" => $this->ConstructParamsAndReturnValue($request, "param")
+            ]);
+
+            $question->Validate();
+            $question->save();
+
+            Alert::success("Success", "Successfully update question");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
             return redirect()->back();
         }
     }

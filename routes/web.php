@@ -37,6 +37,7 @@ Route::prefix("/admin")->group(function() {
     Route::get('/course/{id}/question/{questionId}', [ContestController::class, "DetailQuestionPage"])->name("admin.questionDetailPage");
     Route::get('/course/{id}/question/{questionId}/delete', [ContestController::class, "DeleteQuestion"])->name("admin.deleteQuestion");
     Route::get('/course/{id}/question/{questionId}/update', [ContestController::class, "UpdateQuestionPage"])->name("admin.updateQuestionPage");
+    Route::post('/course/{id}/question/{questionId}/update', [ContestController::class, "UpdateQuestion"])->name("admin.updateQuestion");
 });
 
 Route::get('/', function () {
