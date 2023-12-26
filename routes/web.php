@@ -39,6 +39,8 @@ Route::prefix("/admin")->group(function() {
     Route::get('/course/{id}/question/{questionId}/delete', [QuestionController::class, "DeleteQuestion"])->name("admin.deleteQuestion");
     Route::get('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestionPage"])->name("admin.updateQuestionPage");
     Route::post('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestion"])->name("admin.updateQuestion");
+
+    Route::get("/logout", [AdminController::class, "logout"])->name("admin.logout");
 });
 
 Route::get('/', function () {
