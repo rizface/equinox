@@ -28,7 +28,7 @@
     }
 </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-closed sidebar-collapse">
 @include('sweetalert::alert')
 <div class="wrapper">
   <!-- Navbar -->
@@ -121,14 +121,42 @@
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.31.1/src-min-noconflict/ace.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.31.1/src-min-noconflict/ext-language_tools.min.js"></script>
 <script>
     var editor = ace.edit("editor", {
         autoScrollEditorIntoView: true,
         maxLines: 50,
-        minLines: 50
+        minLines: 50,
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true,
+        theme: "ace/theme/dracula"
     });
-    editor.setTheme("ace/theme/dracula");
-    editor.session.setMode("ace/mode/javascript");
+
+    function phpInstruction() {
+      return `<!--write your solution below this comment using function called solution-->`
+    }
+
+    function pythonInstruction() {
+      return `# write your solution below this comment using function called solution`
+    }
+
+    editor.session.setMode("ace/mode/php");
+    editor.session.setValue(phpInstruction())
+
+    function changeLanguage(e) {
+      const lang = e.value
+      
+      editor.session.setMode(`ace/mode/${lang}`);
+
+      if (lang == "php") {
+        editor.session.setValue(phpInstruction())
+      }
+
+      if (lang == "python") {
+        editor.session.setValue(pythonInstruction())
+      }
+    }
 </script>
 @stack('datatable')
 @stack('summernote')
