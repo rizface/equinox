@@ -34,11 +34,13 @@
         </form>
         <!-- /.social-auth-links -->
 
-        <p class="mb-1">
+        {{-- TODO: MAKE RESET PASSWORD WORKS --}}
+        {{-- <p class="mb-1">
           <a href="forgot-password.html">Lupa Password ?</a>
-        </p>
+        </p> --}}
+
         <p class="mb-0">
-          <a href="register.html" class="text-center">Buat Akun</a>
+          <a href="{{route('admin.registerPage')}}" class="text-center">Buat Akun</a>
         </p>
       </div>
       <!-- /.login-card-body -->
