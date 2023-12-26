@@ -37,7 +37,9 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <img src="{{asset('/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">
+          POLBAT CODE
+      </span>
     </a>
 
     <!-- Sidebar -->
@@ -48,7 +50,11 @@
           <img src="{{asset('/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block text-capitalize">
+            @if (Auth::guard("admin")->user())
+                {{Auth::guard("admin")->user()->name}}
+            @endif
+          </a>
         </div>
       </div>
 
@@ -66,6 +72,12 @@
               <a href="{{route("admin.createContestPage")}}" class="nav-link">
                 <i class="fas fa-circle nav-icon"></i>
                 <p>Create Course</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route("admin.logout")}}" class="nav-link">
+                <i class="fas fa-lock nav-icon"></i>
+                <p>Logout</p>
               </a>
             </li>
         </ul>
