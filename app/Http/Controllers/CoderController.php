@@ -6,6 +6,7 @@ use App\Models\Coder;
 use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -19,7 +20,7 @@ class CoderController extends Controller
 
     public function register(Request $request) {
         try {
-            if ($this->nullOrEmpty($request->username)) {
+            if ($this->NullOrEmpty($request->username)) {
                 throw new Error("Username is required");
             }
 
@@ -67,5 +68,31 @@ class CoderController extends Controller
         return view("coder.auth.login");
     }
 
-    public function login(Request $request) {}
+    public function login(Request $request) {
+        try {
+            if ($this->NullOrEmpty($request->username)) {
+                throw new Error("Username is required");
+            }
+
+            if ($this->NullOrEmpty($request->password)) {
+                throw new Error("Password is required");
+            }
+
+            $coder = Coder::where("username", $request->username)->first();
+            
+            if(!$coder) {
+                throw new Error("Username $request->username not found");
+            }
+
+            if (Auth::guard("coder")->attempt(["username" => $request->username, "password" => $request->password])) {
+                Auth::guard("coder")->login($coder);
+                dd(Auth::guard("coder")->user());
+            }
+            
+            throw new Error("Login failed check your username/password");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+            return redirect()->route("coder.loginPage");
+        }    
+    }
 }

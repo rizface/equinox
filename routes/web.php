@@ -55,6 +55,7 @@ Route::prefix("/coder")->group(function() {
     Route::post("/register", [CoderController::class, "register"])->name("coder.register"); 
     
     Route::get("/login", [CoderController::class, "loginPage"])->name("coder.loginPage");
+    Route::post("/login", [CoderController::class, "login"])->name("coder.login");
 });
 
 Route::get('/', function () {

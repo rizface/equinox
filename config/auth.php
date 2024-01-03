@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 return [
 
@@ -43,6 +43,10 @@ return [
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
+        ],
+        'coder' => [
+            'driver' => 'session',
+            'provider' => 'coders',
         ]
     ],
 
@@ -71,6 +75,10 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+        'coders' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Coder::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
