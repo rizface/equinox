@@ -14,11 +14,11 @@ class CoderController extends Controller
 {
     use UtilsTrait;
     
-    public function registerPage() {
+    public function RegisterPage() {
         return view("coder.auth.register");
     }
 
-    public function register(Request $request) {
+    public function Register(Request $request) {
         try {
             if ($this->NullOrEmpty($request->username)) {
                 throw new Error("Username is required");
@@ -64,11 +64,11 @@ class CoderController extends Controller
         }
     }
 
-    public function loginPage() {
+    public function LoginPage() {
         return view("coder.auth.login");
     }
 
-    public function login(Request $request) {
+    public function Login(Request $request) {
         try {
             if ($this->NullOrEmpty($request->username)) {
                 throw new Error("Username is required");
@@ -86,7 +86,8 @@ class CoderController extends Controller
 
             if (Auth::guard("coder")->attempt(["username" => $request->username, "password" => $request->password])) {
                 Auth::guard("coder")->login($coder);
-                dd(Auth::guard("coder")->user());
+
+                return redirect()->route("coder.courses");
             }
             
             throw new Error("Login failed check your username/password");
@@ -96,7 +97,7 @@ class CoderController extends Controller
         }    
     }
 
-    public function logout(Request $request) {
+    public function Logout(Request $request) {
         Auth::guard("coder")->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

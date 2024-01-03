@@ -118,4 +118,9 @@ class ContestController extends Controller
             return redirect()->back();
         }
     }
+
+    public function AvailableCoursesForCoders() {
+        $allCourses = Contest::all();
+        return view("coder.dashboard.courses", compact("allCourses"));
+    }
 }

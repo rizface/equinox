@@ -51,13 +51,15 @@ Route::prefix("/admin")->group(function() {
 });
 
 Route::prefix("/coder")->group(function() {
-    Route::get("/register", [CoderController::class, "registerPage"])->name("coder.registerPage");
-    Route::post("/register", [CoderController::class, "register"])->name("coder.register"); 
+    Route::get("/register", [CoderController::class, "RegisterPage"])->name("coder.registerPage");
+    Route::post("/register", [CoderController::class, "Register"])->name("coder.register"); 
     
-    Route::get("/login", [CoderController::class, "loginPage"])->name("coder.loginPage");
-    Route::post("/login", [CoderController::class, "login"])->name("coder.login");
+    Route::get("/login", [CoderController::class, "LoginPage"])->name("coder.loginPage");
+    Route::post("/login", [CoderController::class, "Login"])->name("coder.login");
 
-    Route::get("/logout", [CoderController::class, "logout"])->name("coder.logout");
+    Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
+
+    Route::get("/courses", [ContestController::class, "AvailableCoursesForCoders"])->name("coder.courses");
 });
 
 Route::get('/', function () {
