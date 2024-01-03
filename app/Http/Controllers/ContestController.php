@@ -123,4 +123,18 @@ class ContestController extends Controller
         $allCourses = Contest::all();
         return view("coder.dashboard.courses", compact("allCourses"));
     }
+
+    public function DetailCoursePageForCoder($id) {
+        try {
+            $course = Contest::where("id", $id)->first();
+            if (!$course) {
+                throw new Error("Course not found");
+            }
+
+            return view("coder.dashboard.detail-course", compact('course'));
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
 }

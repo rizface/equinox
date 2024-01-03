@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contest;
 use App\Models\Question;
 use App\Traits\UtilsTrait;
 use Error;
@@ -112,5 +113,23 @@ class QuestionController extends Controller
         } finally {
             return redirect()->back();
         }
+    }
+
+    public function DetailQuestionPageForCoder($courseId, $questionId) {
+        try {
+            $question = Question::where("contest_id", $courseId)
+            ->where("id", $questionId)
+            ->first();
+            if (!$question) {
+                throw new Error("Question not found");
+            }
+
+            $question->DecodeParams();
+
+            return view("coder.dashboard.detail-question", compact('question'));
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        };
     }
 }

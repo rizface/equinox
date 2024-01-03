@@ -1,4 +1,4 @@
-@extends('admin.dashboard.index')
+@extends('coder.dashboard.index')
 
 @section('dashboard')
 <div class="row">
@@ -37,7 +37,7 @@
                                     <td>{{$i->GetNumberOfQuestions()}}</td>
                                     <td>{{20}}</td>
                                     <td>
-                                        <a href="{{route("admin.contestDetailPage", ["id" => $i->id])}}">View</a>
+                                        <a href="{{route("coder.detailCourse", ["id" => $i->id])}}">View</a>
                                         <a class="ml-3" href="{{route("admin.contestDetailPage", ["id" => $i->id])}}">Join</a>
                                     </td>
                                 </tr>
