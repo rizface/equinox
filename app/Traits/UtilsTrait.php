@@ -38,4 +38,12 @@ trait UtilsTrait {
 
         return $paramsAndReturnValue;
     }
+
+    public function NullOrEmpty ($val) {
+        if(!$val || $val == "") {
+            return true;
+        }
+        
+        return false;
+    }
 }

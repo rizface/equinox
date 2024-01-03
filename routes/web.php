@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CoderController;
 use App\Http\Controllers\ContestController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Middleware\AdminAuthMiddleware;
@@ -47,6 +48,13 @@ Route::prefix("/admin")->group(function() {
 
         Route::get("/logout", [AdminController::class, "logout"])->name("admin.logout");
     });
+});
+
+Route::prefix("/coder")->group(function() {
+    Route::get("/register", [CoderController::class, "registerPage"])->name("coder.registerPage");
+    Route::post("/register", [CoderController::class, "register"])->name("coder.register"); 
+    
+    Route::get("/login", [CoderController::class, "loginPage"])->name("coder.loginPage");
 });
 
 Route::get('/', function () {
