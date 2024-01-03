@@ -56,6 +56,8 @@ Route::prefix("/coder")->group(function() {
     
     Route::get("/login", [CoderController::class, "loginPage"])->name("coder.loginPage");
     Route::post("/login", [CoderController::class, "login"])->name("coder.login");
+
+    Route::get("/logout", [CoderController::class, "logout"])->name("coder.logout");
 });
 
 Route::get('/', function () {

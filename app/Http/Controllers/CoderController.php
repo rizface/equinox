@@ -95,4 +95,12 @@ class CoderController extends Controller
             return redirect()->route("coder.loginPage");
         }    
     }
+
+    public function logout(Request $request) {
+        Auth::guard("coder")->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route("coder.loginPage");
+    }
 }
