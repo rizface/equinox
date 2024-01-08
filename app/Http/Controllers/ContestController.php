@@ -123,7 +123,15 @@ class ContestController extends Controller
 
     public function AvailableCoursesForCoders() {
         $allCourses = Contest::all();
-        return view("coder.dashboard.courses", compact("allCourses"));
+
+        $coder = Coder::where("id", Auth::guard("coder")->user()->id)->first();
+        if (!$coder) {
+            throw new Error("Coder not found");
+        }
+
+        $coderCourses = $coder->JoinedCourses;  
+
+        return view("coder.dashboard.courses", compact("allCourses", "coderCourses"));
     }
 
     public function DetailCoursePageForCoder($id) {

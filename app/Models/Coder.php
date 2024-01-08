@@ -20,4 +20,8 @@ class Coder extends Authenticatable
         ->where("coder_id", $this->id)
         ->count() > 0;
     }
+
+    public function JoinedCourses() {
+        return $this->hasMany(Participant::class, "coder_id", "id");
+    }
 }
