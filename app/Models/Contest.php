@@ -36,4 +36,8 @@ class Contest extends Model
 
         return null;
     }
+
+    public function GetNumberOfParticipants() {
+        return Participant::where("contest_id", $this->id)->count();
+    }
 }

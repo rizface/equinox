@@ -38,7 +38,7 @@
                 <tr>
                   <td>{{$i->title}}</td>
                   <td>{{$i->GetNumberOfQuestions()}}</td>
-                  <td>{{20}}</td>
+                  <td>{{$i->GetNumberOfParticipants()}}</td>
                   <td>
                     <a href="{{route("coder.detailCourse", ["id"=> $i->id])}}">View</a>
                     <a class="ml-3" href="{{route("coder.joinCourse", [ "courseId"=> $i->id,
@@ -66,7 +66,7 @@
                 <tr>
                   <td>{{$i->Course->title}}</td>
                   <td>{{$i->Course->GetNumberOfQuestions()}}</td>
-                  <td>{{20}}</td>
+                  <td>{{$i->Course->GetNumberOfParticipants()}}</td>
                   <td>
                     <a href="{{route("coder.detailCourse", ["id"=> $i->Course->id])}}">View</a>
                   </td>
