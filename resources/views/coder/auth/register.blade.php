@@ -61,7 +61,7 @@
           </div>
         </form>
   
-        <a href="{{route('admin.loginPage')}}" class="text-center">Saya Sudah Memiliki Akun</a>
+        <a href="{{route('coder.loginPage')}}" class="text-center">Saya Sudah Memiliki Akun</a>
       </div>
       <!-- /.form-box -->
     </div><!-- /.card -->

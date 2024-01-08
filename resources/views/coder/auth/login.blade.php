@@ -40,7 +40,7 @@
         </p> --}}
 
         <p class="mb-0">
-          <a href="{{route('admin.registerPage')}}" class="text-center">Buat Akun</a>
+          <a href="{{route('coder.registerPage')}}" class="text-center">Buat Akun</a>
         </p>
       </div>
       <!-- /.login-card-body -->
