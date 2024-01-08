@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coder;
 use App\Models\Contest;
+use App\Models\Participant;
 use App\Models\Question;
 use App\Traits\UtilsTrait;
 use Error;
@@ -134,6 +136,39 @@ class ContestController extends Controller
             return view("coder.dashboard.detail-course", compact('course'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function CoderJoinCourse($courseId, $coderId) {
+        try {
+            $course = Contest::where("id", $courseId)->first();
+            if (!$course) {
+                throw new Error("Course not found");
+            }
+
+            $coder = Coder::where("id", $coderId)->first();
+            if(!$coder) {
+                throw new Error("Coder not found");
+            }
+
+            if ($coder->id != Auth::guard("coder")->user()->id) {
+                throw new Error("Something wrong with this coder");
+            }
+            
+            if ($coder->AlreadyJoinThisCourse($courseId)) {
+                throw new Error("Your are already join this course");
+            }
+            
+            Participant::create([
+                "coder_id" => $coderId,
+                "contest_id" => $courseId
+            ]);
+
+            Alert::success("Success", "Success join course $course->title");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
             return redirect()->back();
         }
     }

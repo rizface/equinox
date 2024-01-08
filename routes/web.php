@@ -65,6 +65,8 @@ Route::prefix("/coder")->group(function() {
         Route::get("/courses/{id}", [ContestController::class, "DetailCoursePageForCoder"])->name("coder.detailCourse");
         Route::get("/courses/{courseId}/questions/{questionId}", [QuestionController::class, "DetailQuestionPageForCoder"])->name("coder.detailQuestion");
 
+        Route::get("/courses/{courseId}/coder/{coderId}/join", [ContestController::class, "CoderJoinCourse"])->name("coder.joinCourse");
+
         Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
     });
 });

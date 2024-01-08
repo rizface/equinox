@@ -38,7 +38,10 @@
                                     <td>{{20}}</td>
                                     <td>
                                         <a href="{{route("coder.detailCourse", ["id" => $i->id])}}">View</a>
-                                        <a class="ml-3" href="{{route("admin.contestDetailPage", ["id" => $i->id])}}">Join</a>
+                                        <a class="ml-3" href="{{route("coder.joinCourse", [
+                                          "courseId" => $i->id,
+                                          "coderId" => Auth::guard("coder")->user()->id
+                                        ])}}">Join</a>
                                     </td>
                                 </tr>
                             @endforeach

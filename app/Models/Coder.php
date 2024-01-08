@@ -15,4 +15,9 @@ class Coder extends Authenticatable
     protected $primaryKey = "id";
     protected $fillable = ["name", "username", "password", "nim"];
 
+    public function AlreadyJoinThisCourse(string $courseId) {
+        return Participant::where("contest_id", $courseId)
+        ->where("coder_id", $this->id)
+        ->count() > 0;
+    }
 }
