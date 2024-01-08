@@ -6,6 +6,8 @@ use App\Http\Controllers\ContestController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\AdminGuestMiddleware;
+use App\Http\Middleware\CoderAuth;
+use App\Http\Middleware\CoderGuest;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,17 +53,20 @@ Route::prefix("/admin")->group(function() {
 });
 
 Route::prefix("/coder")->group(function() {
-    Route::get("/register", [CoderController::class, "RegisterPage"])->name("coder.registerPage");
-    Route::post("/register", [CoderController::class, "Register"])->name("coder.register"); 
-    
-    Route::get("/login", [CoderController::class, "LoginPage"])->name("coder.loginPage");
-    Route::post("/login", [CoderController::class, "Login"])->name("coder.login");
+    Route::middleware([CoderGuest::class])->group(function() {
+        Route::get("/register", [CoderController::class, "RegisterPage"])->name("coder.registerPage");
+        Route::post("/register", [CoderController::class, "Register"])->name("coder.register"); 
+        Route::get("/login", [CoderController::class, "LoginPage"])->name("coder.loginPage");
+        Route::post("/login", [CoderController::class, "Login"])->name("coder.login");  
+    });
 
-    Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
+    Route::middleware([CoderAuth::class])->group(function() {
+        Route::get("/courses", [ContestController::class, "AvailableCoursesForCoders"])->name("coder.courses");
+        Route::get("/courses/{id}", [ContestController::class, "DetailCoursePageForCoder"])->name("coder.detailCourse");
+        Route::get("/courses/{courseId}/questions/{questionId}", [QuestionController::class, "DetailQuestionPageForCoder"])->name("coder.detailQuestion");
 
-    Route::get("/courses", [ContestController::class, "AvailableCoursesForCoders"])->name("coder.courses");
-    Route::get("/courses/{id}", [ContestController::class, "DetailCoursePageForCoder"])->name("coder.detailCourse");
-    Route::get("/courses/{courseId}/questions/{questionId}", [QuestionController::class, "DetailQuestionPageForCoder"])->name("coder.detailQuestion");
+        Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
+    });
 });
 
 Route::get('/', function () {
