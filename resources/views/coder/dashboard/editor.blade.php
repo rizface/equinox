@@ -61,13 +61,20 @@
                     <div class="card-body">
                         <div class="form-group">
                             <select onchange="changeLanguage(this)" class="form-control">
-                                <option value="php">PHP</option>
-                                <option value="python">Python</option>
+                                <option value="68">PHP (7.4.1)</option>
+                                <option value="71">Python (3.8.1)</option>
                             </select>
                         </div>
-                        <div id="editor"></div>
-                        <button class="btn btn-secondary btn-sm mt-3">submit</button>
-                    </div>
+                        <form action="{{route("coder.submitSubmission", [
+                          "courseId" => $question->contest_id, 
+                          "questionId" => $question->id,
+                          ])}}" method="post">
+                          @csrf
+                          <textarea id="editor"></textarea>
+                          <textarea name="hiddenInput" id="hiddenInput" style="display: none"></textarea>
+                          <button type="submit" class="btn btn-secondary btn-sm mt-3">submit</button>
+                        </form>
+                      </div>
                 </div>
             </div>
         </div>
@@ -100,18 +107,26 @@
     editor.session.setValue(phpInstruction())
 
     function changeLanguage(e) {
+      const langMap = {
+        "68": "php",
+        "71": "python"
+      }
+
+      const langInstruction = {
+        "68": phpInstruction,
+        "71": pythonInstruction,
+      }
+
       const lang = e.value
       
-      editor.session.setMode(`ace/mode/${lang}`);
-
-      if (lang == "php") {
-        editor.session.setValue(phpInstruction())
-      }
-
-      if (lang == "python") {
-        editor.session.setValue(pythonInstruction())
-      }
+      editor.session.setMode(`ace/mode/${langMap[lang]}`);
+      editor.session.setValue(langInstruction[lang]())
     }
+
+    editor.session.on('change', function(delta) {
+      var content=document.getElementById('hiddenInput');
+      content.value=editor.session.getValue()
+    });
 </script>
 @endpush
 @endsection

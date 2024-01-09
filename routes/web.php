@@ -10,6 +10,7 @@ use App\Http\Middleware\CoderAuth;
 use App\Http\Middleware\CoderGuest;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,9 +64,12 @@ Route::prefix("/coder")->group(function() {
     Route::middleware([CoderAuth::class])->group(function() {
         Route::get("/courses", [ContestController::class, "AvailableCoursesForCoders"])->name("coder.courses");
         Route::get("/courses/{id}", [ContestController::class, "DetailCoursePageForCoder"])->name("coder.detailCourse");
+        
         Route::get("/courses/{courseId}/questions/{questionId}", [QuestionController::class, "DetailQuestionPageForCoder"])->name("coder.detailQuestion");
+        Route::post("/courses/{courseId}/questions/{questionId}/submission", [QuestionController::class, "SubmitSubmission"])->name("coder.submitSubmission");
 
         Route::get("/courses/{courseId}/coder/{coderId}/join", [ContestController::class, "CoderJoinCourse"])->name("coder.joinCourse");
+
 
         Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
     });

@@ -136,4 +136,16 @@ class QuestionController extends Controller
             return redirect()->back();
         };
     }
+
+    public function SubmitSubmission(Request $request, $courseId, $questionId) {
+        $payload = [
+            "language_id" => 68,
+            "compiler_options" => "",
+            "command_line_arguments" => "",
+            "redirect_stderr_to_stdout" => true,
+            "source_code" => base64_encode($request->hiddenInput)
+        ];
+
+        dd($payload);
+    }
 }
