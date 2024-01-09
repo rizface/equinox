@@ -6,6 +6,7 @@ use Error;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Question extends Model
 {
@@ -41,5 +42,11 @@ class Question extends Model
         if(!$this->description || $this->description == "") {
             throw new Error("Description is required");
         }
+    }
+
+    public function JoinedTheCourse() {
+        return Participant::where("contest_id",  $this->contest_id)
+        ->where("coder_id", Auth::guard("coder")->user()->id)
+        ->count() > 0;
     }
 }

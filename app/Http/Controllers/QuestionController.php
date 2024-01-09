@@ -126,7 +126,11 @@ class QuestionController extends Controller
 
             $question->DecodeParams();
 
-            return view("coder.dashboard.detail-question", compact('question'));
+            if (!$question->JoinedTheCourse()) {
+                return view("coder.dashboard.detail-question", compact('question'));
+            }   
+
+            return view("coder.dashboard.editor", compact('question'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
             return redirect()->back();

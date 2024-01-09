@@ -19,6 +19,17 @@
   <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   {{-- Summernote --}}
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+
+  <link href="https://cdn.jsdelivr.net/npm/ace-builds@1.31.1/css/ace.min.css" rel="stylesheet">
+  <style type="text/css" media="screen">
+      #editor { 
+          position: relative;
+          top:0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+      }
+  </style>
 </head>
 
 <body class="layout-top-nav" style="height: auto">
@@ -40,6 +51,9 @@
           <ul class="navbar-nav">
             <li class="nav-item">
               <a href="{{route("coder.courses")}}" class="nav-link">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route("coder.logout")}}" class="nav-link">Logout</a>
             </li>
         </div>
       </div>
@@ -84,6 +98,7 @@
 
   @stack('datatable')
   @stack('summernote')
+  @stack('codeeditor')
 </body>
 
 </html>

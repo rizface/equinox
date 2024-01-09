@@ -42,37 +42,6 @@
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Solvers</div>
-                </div>
-                <div class="card-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Rain Water</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Stack</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>BFS (Breadth First Search)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
 @push('datatable')
