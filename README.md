@@ -1,6 +1,9 @@
 # Equinox
 Leetcode lite version for my final project
 
+# Dependencies
+- [judge0](https://github.com/judge0/judge0)
+
 # TODO
 ## Admin
 - [ ] Generate real leaderboard for each question
