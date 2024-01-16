@@ -140,12 +140,8 @@ class QuestionController extends Controller
     }
 
     public function SubmitSubmission(Request $request, $courseId, $questionId) {
-
-
-        // dd($payload);
-
         try {
-            $submissionUrl = "localhost:2358/submissions?base64_encoded=true&wait=false";
+            $submissionUrl = env("JUDGE_URL")."/submissions?base64_encoded=true&wait=false";
 
             $question = Question::where("id", $questionId)
             ->where("contest_id", $courseId)
@@ -171,10 +167,12 @@ class QuestionController extends Controller
                     "command_line_arguments" => "",
                     "redirect_stderr_to_stdout" => true,
                     "source_code" => base64_encode($sc),
-                    "callback_url" => "https://webhook.site/7bcb9e39-2fa5-4157-b752-63a22fcb8c24"
+                    "callback_url" => "http://".env("APP_URL")."/api/log"
+                    // "callback_url" => "https://webhook.site/7bcb9e39-2fa5-4157-b752-63a22fcb8c24"
                 ];
 
-                Http::post($submissionUrl, $payload);
+                $res = Http::post($submissionUrl, $payload);
+                dd($payload,$res);
             }
 
         } catch (\Throwable $th) {

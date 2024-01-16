@@ -9,27 +9,19 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
-      - "5433:5432"
+      - "5433:5433"
+    command: "-p 5433"
   equinox:
+    volumes:
+      - .:/var/www
     networks:
       - leetcode-network
     depends_on:
       - leetcode-lite
-    container_name: equinox
+    container_name: equinoxcontainer
     image: equinox:dev
     ports:
       - "8000:8000"
-    environment:
-      - APP_NAME=Laravel
-      - APP_ENV=prod
-      - APP_KEY=base64:zpjPcFebb0Lldr6Tt/A4vzbqL3dY+Qv8JoQYyx9d+RI=
-      - APP_DEBUG=true
-      - DB_CONNECTION=pgsql
-      - DB_HOST=leetcode-lite
-      - DB_PORT=5432
-      - DB_DATABASE=leetcode_lite_ta
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
 networks:
   leetcode-network:
     driver: bridge
