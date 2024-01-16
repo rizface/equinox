@@ -41,10 +41,12 @@
                   <td>{{$i->GetNumberOfParticipants()}}</td>
                   <td>
                     <a href="{{route("coder.detailCourse", ["id"=> $i->id])}}">View</a>
-                    <a class="ml-3" href="{{route("coder.joinCourse", [ "courseId"=> $i->id,
-                      "coderId" => Auth::guard("coder")->user()->id
-                      ])}}">Join</a>
+                    @if (!$i->Joined())
+                      <a class="ml-3" href="{{route("coder.joinCourse", [ "courseId"=> $i->id,
+                        "coderId" => Auth::guard("coder")->user()->id
+                        ])}}">Join</a>
                   </td>
+                    @endif
                 </tr>
                 @endforeach
               </tbody>

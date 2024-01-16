@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             <?php $i = 0 ?>
-                            @foreach ($question->test_cases->params as $params)
+                            @foreach ($question->test_cases["params"]  as $params)
                                 <tr>
                                         <?php $i++; ?>
                                         <td>{{$i}}</td>

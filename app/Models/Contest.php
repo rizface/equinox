@@ -40,4 +40,10 @@ class Contest extends Model
     public function GetNumberOfParticipants() {
         return Participant::where("contest_id", $this->id)->count();
     }
+
+    public function Joined() {
+        return Participant::where("coder_id", Auth::guard("coder")->user()->id)
+        ->where("contest_id", $this->id)
+        ->count() > 0;
+    }
 }

@@ -23,10 +23,23 @@ class Question extends Model
     }
 
     public function DecodeParams() {
-        $this->test_cases = json_decode($this->test_cases);
-        $this->numberOfParams = 0; 
+        $decodedTestCases = [
+            "params" => []
+        ];
 
-        foreach ($this->toArray()["test_cases"]->params[0] as $key => $value) {
+        $this->test_cases = json_decode($this->test_cases);
+        foreach ($this->test_cases->params as $key => $params) {
+            $newParams = [];
+            foreach ($params as $key => $param) {
+                $newParams[$key] = json_decode($param);
+            }
+            array_push($decodedTestCases["params"],$newParams);
+        }
+
+        $this->test_cases = $decodedTestCases;
+
+        $this->numberOfParams = 0; 
+        foreach ($this["test_cases"]["params"][0] as $key => $value) {
             $this->numberOfParams++;
         }
 

@@ -138,14 +138,34 @@ class QuestionController extends Controller
     }
 
     public function SubmitSubmission(Request $request, $courseId, $questionId) {
-        $payload = [
-            "language_id" => 68,
-            "compiler_options" => "",
-            "command_line_arguments" => "",
-            "redirect_stderr_to_stdout" => true,
-            "source_code" => base64_encode($request->hiddenInput)
-        ];
+        // $payload = [
+        //     "language_id" => 68,
+        //     "compiler_options" => "",
+        //     "command_line_arguments" => "",
+        //     "redirect_stderr_to_stdout" => true,
+        //     "source_code" => base64_encode($request->hiddenInput)
+        // ];
 
-        dd($payload);
+        // dd($payload);
+
+        try {
+            $question = Question::where("id", $questionId)
+            ->where("contest_id", $courseId)
+            ->first();
+
+            if(!$question) {
+                throw new Error("Question not found");
+            }
+
+            $question->DecodeParams();
+
+            dd($question);
+
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect()->back();
+        }
     }
 }
