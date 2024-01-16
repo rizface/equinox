@@ -2,7 +2,7 @@
 Leetcode lite version for my final project
 
 # Dependencies
-- [judge0](https://github.com/judge0/judge0)
+- [equinox-judge0](https://github.com/rizface/equinox-judge)
 
 # TODO
 ## Admin
