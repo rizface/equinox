@@ -7,6 +7,8 @@ use App\Models\Question;
 use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class QuestionController extends Controller
@@ -138,28 +140,42 @@ class QuestionController extends Controller
     }
 
     public function SubmitSubmission(Request $request, $courseId, $questionId) {
-        // $payload = [
-        //     "language_id" => 68,
-        //     "compiler_options" => "",
-        //     "command_line_arguments" => "",
-        //     "redirect_stderr_to_stdout" => true,
-        //     "source_code" => base64_encode($request->hiddenInput)
-        // ];
+
 
         // dd($payload);
 
         try {
+            $submissionUrl = "localhost:2358/submissions?base64_encoded=true&wait=false";
+
             $question = Question::where("id", $questionId)
             ->where("contest_id", $courseId)
             ->first();
-
             if(!$question) {
                 throw new Error("Question not found");
             }
 
             $question->DecodeParams();
+            $sc = $request->hiddenInput;
 
-            dd($question);
+            foreach ($question->test_cases["params"] as $key => $params) {
+                $args = '';
+                foreach ($params as $key => $param) {
+                    $args .= $param;
+                }
+
+                $sc .= "\n\n" . "echo solution(".$args.");";
+
+                $payload = [
+                    "language_id" => 68,
+                    "compiler_options" => "",
+                    "command_line_arguments" => "",
+                    "redirect_stderr_to_stdout" => true,
+                    "source_code" => base64_encode($sc),
+                    "callback_url" => "https://webhook.site/7bcb9e39-2fa5-4157-b752-63a22fcb8c24"
+                ];
+
+                Http::post($submissionUrl, $payload);
+            }
 
         } catch (\Throwable $th) {
             dd($th->getMessage());
