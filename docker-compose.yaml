@@ -2,8 +2,6 @@ version: '3'
 
 services:
   leetcode-lite:
-    networks:
-      - leetcode-network
     container_name: leetcode-lite
     image: postgres:15
     environment:
@@ -11,17 +9,3 @@ services:
     ports:
       - "5433:5433"
     command: "-p 5433"
-  equinox:
-    volumes:
-      - .:/var/www
-    networks:
-      - leetcode-network
-    depends_on:
-      - leetcode-lite
-    container_name: equinoxcontainer
-    image: equinox:dev
-    ports:
-      - "8000:8000"
-networks:
-  leetcode-network:
-    driver: bridge
