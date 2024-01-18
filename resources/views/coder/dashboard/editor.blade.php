@@ -5,7 +5,7 @@
     <div class="col-md-5">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Trapped Water</div>
+                <div class="card-title">{{$question->title}}</div>
             </div>
             <div class="card-body">
                 <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
@@ -59,17 +59,17 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-group">
-                            <select onchange="changeLanguage(this)" class="form-control">
-                                <option value="68">PHP (7.4.1)</option>
-                                <option value="71">Python (3.8.1)</option>
-                            </select>
-                        </div>
                         <form action="{{route("coder.submitSubmission", [
                           "courseId" => $question->contest_id, 
                           "questionId" => $question->id,
                           ])}}" method="post">
                           @csrf
+                          <div class="form-group">
+                            <select name="lang" onchange="changeLanguage(this)" class="form-control">
+                                <option value="68">PHP (7.4.1)</option>
+                                <option value="71">Python (3.8.1)</option>
+                            </select>
+                          </div>
                           <textarea id="editor"></textarea>
                           <textarea name="hiddenInput" id="hiddenInput" style="display: none"></textarea>
                           <button type="submit" class="btn btn-secondary btn-sm mt-3">submit</button>
