@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Error;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait UtilsTrait {
     public function ConstructParamsAndReturnValue(Request $request, String $paramKey) {
@@ -45,5 +46,35 @@ trait UtilsTrait {
         }
         
         return false;
+    }
+
+    public function log($data) {
+        $log = new ConsoleOutput();
+        $log->writeln(json_encode($data));
+    }
+
+    public function PHPBuilder(String $sc, Array $params): String {
+        $args = "";
+        $paramAt = 0;
+        $pattern = '/\?>$/';
+        $sc = preg_replace($pattern, '', $sc);
+
+        foreach ($params as $key => $param) {
+            if ($key == "return") {
+                continue;
+            }
+
+            $args .= $param;
+
+            if ($paramAt != sizeof($params) - 2) {
+                $args .= ",";
+            }
+
+            $paramAt++;
+        }
+
+        $sc .= "\n\n" . "echo solution(".$args.");";
+        
+        return $sc;
     }
 }
