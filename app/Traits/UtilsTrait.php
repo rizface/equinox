@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait UtilsTrait {
@@ -40,7 +41,7 @@ trait UtilsTrait {
         return $paramsAndReturnValue;
     }
 
-    public function NullOrEmpty ($val) {
+    public function NullOrEmpty ($val): bool {
         if(!$val || $val == "") {
             return true;
         }
@@ -53,18 +54,57 @@ trait UtilsTrait {
         $log->writeln(json_encode($data));
     }
 
-    public function PHPBuilder(String $sc, Array $params): String {
+    public function JudgePayload(int $langId, string $sc): Array {
+        $payload = [
+            "language_id" => $langId,
+            "compiler_options" => "",
+            "command_line_arguments" => "",
+            "redirect_stderr_to_stdout" => true,
+            "source_code" => $sc,
+            "callback_url" => env("CALLBACK_URL") // TODO: REPLACE THIS WITH YOUR OWN CALLBACK URL
+        ];
+
+        return $payload;
+    }
+
+    public function SendToJudge(array $payload) {
+        $result = [];
+        $submissionUrl = env("JUDGE_URL")."/submissions?base64_encoded=true&wait=false";
+
+        $res = Http::withHeaders([
+            'content-type'=> 'application/json',
+            'Content-Type'=> 'application/json',
+            'X-RapidAPI-Key'=> env("X_RAPID_API_KEY"),
+            'X-RapidAPI-Host'=> env("X_RAPID_API_HOST")
+        ])->post($submissionUrl, $payload);
+        
+        if ($res->status() > 201) {
+            $this->log($res->body());
+            throw new Error("Failed send submission to judge");
+        }
+
+        $result["token"] = $res->json()["token"];
+
+        return $result;
+    }
+
+    public function PHPBuilder(String $sc, Array $params): array {
         $args = "";
         $paramAt = 0;
         $pattern = '/\?>$/';
         $sc = preg_replace($pattern, '', $sc);
-
+        $usedParams= [];
+        $returnValues = [];
+        
         foreach ($params as $key => $param) {
             if ($key == "return") {
+                $returnValues[$key] = $param;
                 continue;
             }
 
             $args .= $param;
+    
+            $usedParams[$key] = $param;
 
             if ($paramAt != sizeof($params) - 2) {
                 $args .= ",";
@@ -75,6 +115,10 @@ trait UtilsTrait {
 
         $sc .= "\n\n" . "echo solution(".$args.");";
         
-        return $sc;
+        return [
+            "sc" => $sc,
+            "params" => $usedParams,
+            "returnValues" => $returnValues
+        ];
     }
 }

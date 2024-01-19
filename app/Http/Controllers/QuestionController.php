@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Contest;
 use App\Models\Question;
+use App\Models\Submission;
 use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -141,7 +143,7 @@ class QuestionController extends Controller
 
     public function SubmitSubmission(Request $request, $courseId, $questionId) {
         try {
-            $submissionUrl = env("JUDGE_URL")."/submissions?base64_encoded=true&wait=false";
+            $batchToken = uuid_create();
 
             $question = Question::where("id", $questionId)
             ->where("contest_id", $courseId)
@@ -149,34 +151,39 @@ class QuestionController extends Controller
             if(!$question) {
                 throw new Error("Question not found");
             }
-
+            
             $question->DecodeParams();
-            $sc = $request->hiddenInput;
-
             foreach ($question->test_cases["params"] as $key => $params) {
-                $args = '';
-                foreach ($params as $key => $param) {
-                    $args .= $param;
+                $sc = "";
+                $usedParams= [];
+                $returnValues = [];
+
+                if ($request->lang == "68") {
+                    $scProps = $this->PHPBuilder($request->hiddenInput, $params);
+                    $sc = $scProps["sc"];
+                    $usedParams = $scProps["params"];
+                    $returnValues = $scProps["returnValues"];
                 }
 
-                $sc .= "\n\n" . "echo solution(".$args.");";
+                $sc = base64_encode($sc);
+                $payload = $this->JudgePayload($request->lang, $sc);
+                $result = $this->SendToJudge($payload);
 
-                $payload = [
-                    "language_id" => 68,
-                    "compiler_options" => "",
-                    "command_line_arguments" => "",
-                    "redirect_stderr_to_stdout" => true,
-                    "source_code" => base64_encode($sc),
-                    "callback_url" => "http://".env("APP_URL")."/api/log"
-                    // "callback_url" => "https://webhook.site/7bcb9e39-2fa5-4157-b752-63a22fcb8c24"
-                ];
-
-                $res = Http::post($submissionUrl, $payload);
-                dd($payload,$res);
+                Submission::create([
+                    "batch_token" => $batchToken,
+                    "submission_token" => $result["token"],
+                    "question_id" => $questionId,
+                    "coder_id" => Auth::guard("coder")->user()->id,
+                    "lang_id" => $request->lang,
+                    "source_code" => $sc,
+                    "params" => json_encode($usedParams),
+                    "expected_return_values" => json_encode($returnValues),
+                    "status" => "pending",
+                    "result" => null,
+                    "correct" => null,
+                ]);
             }
-
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             Alert::error("Failed", $th->getMessage());
         } finally {
             return redirect()->back();
