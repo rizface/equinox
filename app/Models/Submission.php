@@ -24,4 +24,9 @@ class Submission extends Model
         "result",
         "is_correct"
     ];
+
+    public function DecodeParamsAndReturnValue() {
+        $this->params = json_decode($this->params);
+        $this->expected_return_values = json_decode($this->expected_return_values);
+    }
 }

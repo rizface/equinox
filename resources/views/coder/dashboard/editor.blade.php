@@ -16,7 +16,7 @@
                     <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Test Cases</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Submission(s)</a>
+                    <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#submissions" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Submission(s)</a>
                   </li>
                 </ul>
                 <div class="tab-content" id="custom-content-below-tabContent">
@@ -49,7 +49,79 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
+                  </div>
+                  <div class="tab-pane fade" id="submissions" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+                    <div class="accordion mt-2" id="accordionExample">
+                      <?php $submissionAt = 1 ?>
+                      @foreach ($submissions as $key => $submission)
+                      <div class="card">
+                        <div class="card-header" id="headingOne">
+                          <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#submission{{$submissionAt}}" aria-expanded="true" aria-controls="collapseOne">
+                              Submission {{$submissionAt}}
+                            </button>
+                          </h2>
+                        </div>
+                    
+                        <div id="submission{{$submissionAt}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                          <div class="card-body table-responsive">
+                            <table id="example1" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      @for ($i = 1; $i <= $question->numberOfParams; $i++)
+                                          <th>Param {{$i}}</th>
+                                      @endfor
+                                      <th>Expected Result</th>
+                                      <th>Result</th>
+                                      <th>Status</th>
+                                      <th>Accepted</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php $i = 0 ?>
+                                  @foreach ($submission  as $s)
+                                      <tr>
+                                              <?php $i++; ?>
+                                              <td>{{$i}}</td>
+                                          @foreach ($s->params as $param)
+                                              <td>{{$param}}</td>
+                                          @endforeach
+                                            <td>{{$s->expected_return_values->return}}</td>
+                                            <td>{{
+                                              $s->result ? $s->result : "N/A"  
+                                            }}</td>
+                                            <td class="text-capitalize">
+                                              @if ($s->status == "accepted")
+                                                  <span class="badge badge-success">{{$s->status}}</span>
+                                              @endif
+                                              
+                                              @if ($s->status == "pending")
+                                                  <span class="badge badge-secondary">{{$s->status}}</span>
+                                              @endif
+                                            </td>
+                                            <td class="text-capitalize">
+                                              @if ($s->accepted == true)
+                                                  <span class="badge badge-success">Yes</span>
+                                              @endif
+                                              
+                                              @if ($s->accepted == null)
+                                                <span class="badge badge-secondary">N/A</span>
+                                              @elseif ($s->accepted == false)
+                                                <span class="badge badge-danger">No</span>
+                                              @endif
+                                            </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                          </div>
+                        </div>
+                      </div>  
+                      <?php $submissionAt++ ?> 
+                      @endforeach
+                    </div>
+                  </div>
                 </div>
               </div>
         </div>

@@ -134,7 +134,23 @@ class QuestionController extends Controller
                 return view("coder.dashboard.detail-question", compact('question'));
             }   
 
-            return view("coder.dashboard.editor", compact('question'));
+
+            $coderSubmissions = Submission::get()
+            ->where("coder_id", Auth::guard("coder")->user()->id)
+            ->where("question_id", $questionId);
+
+            $submissions = [];
+            foreach ($coderSubmissions as $key => $submission) {
+                if (!isset($submissions[$submission->batch_token])) {
+                    $submissions[$submission->batch_token] = [];
+                }
+
+                $submission->DecodeParamsAndReturnValue();
+
+                array_push($submissions[$submission->batch_token], $submission);
+            }
+
+            return view("coder.dashboard.editor", compact('question', 'submissions'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
             return redirect()->back();
