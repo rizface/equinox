@@ -167,16 +167,15 @@
         theme: "ace/theme/dracula"
     });
 
-    function phpInstruction() {
-      return `<!--write your solution below this comment using function called solution-->`
-    }
-
-    function pythonInstruction() {
-      return `# write your solution below this comment using function called solution`
-    }
-
+    var languange = "php"
     editor.session.setMode("ace/mode/php");
-    editor.session.setValue(phpInstruction())
+
+    function loadLatestValue() {
+      const content = localStorage.getItem(`${languange}-content`);
+      if (content) {
+        editor.session.setValue(content);
+      }
+    }
 
     function changeLanguage(e) {
       const langMap = {
@@ -184,21 +183,25 @@
         "71": "python"
       }
 
-      const langInstruction = {
-        "68": phpInstruction,
-        "71": pythonInstruction,
-      }
+      languange = langMap[e.value]
 
       const lang = e.value
       
       editor.session.setMode(`ace/mode/${langMap[lang]}`);
-      editor.session.setValue(langInstruction[lang]())
+      localStorage.removeItem("content");
+
+      loadLatestValue()
     }
 
     editor.session.on('change', function(delta) {
       var content=document.getElementById('hiddenInput');
       content.value=editor.session.getValue()
+      session = editor.getSession();
+
+      localStorage.setItem(`${languange}-content`, content.value);
     });
+
+    window.onload = loadLatestValue
 </script>
 @endpush
 @endsection
