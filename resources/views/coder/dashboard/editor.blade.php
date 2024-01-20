@@ -52,18 +52,18 @@
                   </div>
                   <div class="tab-pane fade" id="submissions" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
                     <div class="accordion mt-2" id="accordionExample">
-                      <?php $submissionAt = 1 ?>
+                      <?php $submissionAt = sizeof($submissions) ?>
                       @foreach ($submissions as $key => $submission)
                       <div class="card">
                         <div class="card-header" id="headingOne">
                           <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#submission{{$submissionAt}}" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#submission{{$submissionAt}}" aria-expanded="false" aria-controls="collapseOne">
                               Submission {{$submissionAt}}
                             </button>
                           </h2>
                         </div>
                     
-                        <div id="submission{{$submissionAt}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div id="submission{{$submissionAt}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                           <div class="card-body table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                               <thead>
@@ -75,11 +75,10 @@
                                       <th>Expected Result</th>
                                       <th>Result</th>
                                       <th>Status</th>
-                                      <th>Accepted</th>
+                                      <th>Message</th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  <?php $i = 0 ?>
                                   @foreach ($submission  as $s)
                                       <tr>
                                               <?php $i++; ?>
@@ -89,26 +88,22 @@
                                           @endforeach
                                             <td>{{$s->expected_return_values->return}}</td>
                                             <td>{{
-                                              $s->result ? $s->result : "N/A"  
+                                              $s->result ? $s->GetCoderAnswer() : "N/A"  
                                             }}</td>
                                             <td class="text-capitalize">
                                               @if ($s->status == "accepted")
-                                                  <span class="badge badge-success">{{$s->status}}</span>
-                                              @endif
-                                              
-                                              @if ($s->status == "pending")
+                                                  <span class="badge badge-success">{{$s->status}}</span>                                              
+                                              @elseif ($s->status == "pending")
                                                   <span class="badge badge-secondary">{{$s->status}}</span>
+                                              @else
+                                                  <span class="badge badge-danger">{{$s->status}}</span>
                                               @endif
                                             </td>
-                                            <td class="text-capitalize">
-                                              @if ($s->accepted == true)
-                                                  <span class="badge badge-success">Yes</span>
-                                              @endif
-                                              
-                                              @if ($s->accepted == null)
-                                                <span class="badge badge-secondary">N/A</span>
-                                              @elseif ($s->accepted == false)
-                                                <span class="badge badge-danger">No</span>
+                                            <td>
+                                              @if ($s->message != "")
+                                                {{$s->message}}
+                                              @else
+                                                N/A
                                               @endif
                                             </td>
                                       </tr>
@@ -118,7 +113,7 @@
                           </div>
                         </div>
                       </div>  
-                      <?php $submissionAt++ ?> 
+                      <?php $submissionAt-- ?> 
                       @endforeach
                     </div>
                   </div>

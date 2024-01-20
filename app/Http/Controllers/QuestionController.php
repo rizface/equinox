@@ -150,6 +150,8 @@ class QuestionController extends Controller
                 array_push($submissions[$submission->batch_token], $submission);
             }
 
+            $submissions = array_reverse($submissions);
+
             return view("coder.dashboard.editor", compact('question', 'submissions'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());

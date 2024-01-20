@@ -61,7 +61,8 @@ trait UtilsTrait {
             "command_line_arguments" => "",
             "redirect_stderr_to_stdout" => true,
             "source_code" => $sc,
-            "callback_url" => env("CALLBACK_URL") // TODO: REPLACE THIS WITH YOUR OWN CALLBACK URL
+            "callback_url" => "https://webhook.site/7bcb9e39-2fa5-4157-b752-63a22fcb8c24"
+            // "callback_url" => env("CALLBACK_URL") // TODO: REPLACE THIS WITH YOUR OWN CALLBACK URL
         ];
 
         return $payload;
