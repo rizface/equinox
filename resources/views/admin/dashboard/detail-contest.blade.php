@@ -23,12 +23,12 @@
                             <td>{{$i}}</td>
                             <td>{{$q->title}}</td>
                             <td>
-                                <a href="{{route('admin.questionDetailPage', [" id"=> request('id'), "questionId" =>
+                                <a href="{{route('admin.questionDetailPage', ["id"=> request('id'), "questionId" =>
                                     $q->id])}}">View</a>
                                 @if ($contest->ThisIsMyContest())
-                                <a class="m-4" href="{{route('admin.deleteQuestion', [" id"=> request('id'),
+                                <a class="m-4" href="{{route('admin.deleteQuestion', ["id"=> request('id'),
                                     "questionId" => $q->id])}}">Delete</a>
-                                <a class="m-2" href="{{route('admin.updateQuestionPage', [" id"=> request('id'),
+                                <a class="m-2" href="{{route('admin.updateQuestionPage', ["id"=> request('id'),
                                     "questionId" => $q->id])}}">Update</a>
                                 @endif
                             </td>
@@ -55,16 +55,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Muhammad Al Farizzi</td>
-                            <td>50 / 50</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Elon Musk</td>
-                            <td>15 / 50</td>
-                        </tr>
+                        <?php $j = 1 ?>
+                        <?php $numberOfQuestions = $contest->GetNumberOfQuestions() ?>
+                        @foreach ($contest->GetLeaderboard() as $i)
+                           <tr>
+                                <td>{{$j++}}</td>
+                                <td class="text-capitalize">{{$i->Coder->name}}</td>
+                                <td>{{$i->total}} / {{$numberOfQuestions}}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
