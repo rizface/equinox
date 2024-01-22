@@ -6,17 +6,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CoderSolvedQuestion extends Model
+class CoderCompleteCourse extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = "coder_solved_questions";
+    protected $table = "coder_complete_courses";
     protected $fillable = [
-        "coder_id",
-        "question_id",
+        "coder_id", "course_id"
     ];
-
-    public function Coder() {
-        return $this->belongsTo(Coder::class);
-    }
 }

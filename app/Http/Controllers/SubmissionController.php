@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CoderCompleteCourse;
 use App\Models\CoderSolvedQuestion;
+use App\Models\Question;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
 use Illuminate\Http\Request;
@@ -70,6 +72,30 @@ class SubmissionController extends Controller
             CoderSolvedQuestion::create([
                 "coder_id" => $submission->coder_id,
                 "question_id" => $submission->question_id,
+            ]);
+
+            $this->checkIfAllQuestionsIsSolved($question->contest_id, $submission->coder_id);
+        }
+    }
+
+    private function checkIfAllQuestionsIsSolved($contest_id, $coder_id) {
+        $questionIds = Question::where("contest_id", $contest_id)->pluck("id");
+        $numberOfSolvedQuestions = CoderSolvedQuestion::whereIn("question_id", $questionIds)
+        ->where("coder_id",$coder_id)
+        ->count();
+        $allQuestionsIsSolved = sizeof($questionIds) == $numberOfSolvedQuestions;
+
+        if ($allQuestionsIsSolved) {
+            $exists = CoderCompleteCourse::where("coder_id", $coder_id)
+            ->where("course_id", $contest_id)
+            ->count() == 1;
+            if ($exists) {
+                return; // no need to re-insert
+            }
+
+            CoderCompleteCourse::create([
+                "coder_id" => $coder_id,
+                "course_id" => $contest_id,
             ]);
         }
     }

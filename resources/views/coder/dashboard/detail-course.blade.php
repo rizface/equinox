@@ -57,16 +57,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Muhammad Al Farizzi</td>
-                            <td>50 / 50</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Elon Musk</td>
-                            <td>15 / 50</td>
-                        </tr>
+                        <?php $j = 0; ?>
+                        <?php $numberOfQuestions = $course->GetNumberOfQuestions() ?>
+                        @foreach ($course->GetLeaderboard() as $i)
+                            <tr>
+                                <td>{{$j++}}</td>
+                                <td class="text-capitalize">{{$i->Coder->name}}</td>
+                                <td>{{$i->total}} / {{$numberOfQuestions}}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

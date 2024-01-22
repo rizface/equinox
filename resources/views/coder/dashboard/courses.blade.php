@@ -30,6 +30,7 @@
                   <th>Title</th>
                   <th>Number Of Question(s)</th>
                   <th>Participant(s)</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -40,13 +41,20 @@
                   <td>{{$i->GetNumberOfQuestions()}}</td>
                   <td>{{$i->GetNumberOfParticipants()}}</td>
                   <td>
+                    @if ($i->IsCompleteByCurrentUser())
+                    <span class="badge badge-success">Completed</span>
+                    @else
+                    <span class="badge badge-secondary">Not Completed</span>
+                    @endif
+                  </td>
+                  <td>
                     <a href="{{route("coder.detailCourse", ["id"=> $i->id])}}">View</a>
                     @if (!$i->Joined())
                       <a class="ml-3" href="{{route("coder.joinCourse", [ "courseId"=> $i->id,
                         "coderId" => Auth::guard("coder")->user()->id
                         ])}}">Join</a>
-                  </td>
                     @endif
+                  </td>
                 </tr>
                 @endforeach
               </tbody>

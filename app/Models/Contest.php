@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\select;
 
 class Contest extends Model
 {
@@ -45,5 +48,20 @@ class Contest extends Model
         return Participant::where("coder_id", Auth::guard("coder")->user()->id)
         ->where("contest_id", $this->id)
         ->count() > 0;
+    }
+
+    public function IsCompleteByCurrentUser() {
+        return CoderCompleteCourse::where("coder_id", Auth::guard("coder")->user()->id)
+        ->where("course_id", $this->id)
+        ->count() > 0;
+    }
+
+    public function GetLeaderboard() {
+        $questionIds = Question::where("contest_id", $this->id)->pluck("id");
+        return CoderSolvedQuestion::whereIn("question_id", $questionIds)
+        ->select("coder_id", DB::raw("count(*) as total"))
+        ->groupBy("coder_id")
+        ->orderBy("total", "desc")
+        ->get();
     }
 }
