@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $j = 0; ?>
+                        <?php $j = 1; ?>
                         <?php $numberOfQuestions = $course->GetNumberOfQuestions() ?>
                         @foreach ($course->GetLeaderboard() as $i)
                             <tr>
