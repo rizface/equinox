@@ -68,4 +68,8 @@ class Question extends Model
         ->where("coder_id", Auth::guard("coder")->user()->id)
         ->count() > 0;
     }
+
+    public function GetSolvers() {
+        return $this->hasMany(CoderSolvedQuestion::class, "question_id", "id");
+    }
 }

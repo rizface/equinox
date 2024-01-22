@@ -57,21 +57,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Rain Water</td>
-                                <td><a href="">View</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Stack</td>
-                                <td><a href="">View</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>BFS (Breadth First Search)</td>
-                                <td><a href="">View</a></td>
-                            </tr>
+                            @foreach ($question->GetSolvers as $i)
+                                <?php $j = 1; ?>
+                                <tr>
+                                    <td>{{$j++}}</td>
+                                    <td class="text-capitalize">{{$i->Coder->name}}</td>
+                                    <td><a href="TODO">View</a></td> {{--  Implement link to view submitted solution --}}
+                                </tr>                                
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
