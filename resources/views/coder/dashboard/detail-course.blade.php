@@ -14,6 +14,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Action</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,13 @@
                             <td>
                                 <a href="{{route("coder.detailQuestion", ["courseId"=> $course->id, "questionId" =>
                                     $q->id])}}">View</a>
+                            </td>
+                            <td>
+                                @if ($q->IsSolvedByCurrentUser())
+                                <span class="badge badge-success">Solved</span>
+                                @else
+                                <span class="badge badge-secondary">Unsolved</span>
+                                @endif
                             </td>
                             <?php $i += 1 ?>
                         </tr>

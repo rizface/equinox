@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CoderSolvedQuestion;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
 use Illuminate\Http\Request;
@@ -21,14 +22,12 @@ class SubmissionController extends Controller
             // 3 mean no error occured in submission
             if ($request["status"]["id"] == 3) {
                 $submission->DecodeParamsAndReturnValue();
-                $submission->CheckAnswer($request["result"]);
+                $submission->CheckAnswer($request["stdout"]);
                 Submission::where("submission_token", $request["token"])->update([
                     "is_correct" => $submission->is_correct,
                     "result" => $submission->result,
                     "status" => $submission->status,
                 ]);
-                
-                return;
             }
 
             // 11 mean error occured in submission
@@ -38,11 +37,40 @@ class SubmissionController extends Controller
                     "is_correct" => false,
                     "message" => base64_decode($request->stdout),
                 ]);
-                
-                return;
             }
+
+            $this->checkIfAllTestCasesPassed($submission);
         } catch (\Throwable $th) {
             $this->log($th->getMessage());
+        }
+    }
+
+    private function checkIfAllTestCasesPassed($submission) {
+        $question = $submission->Question()->first();
+        $question->DecodeParams();
+        $numberOfTestCases = sizeof($question->test_cases["params"]);
+        $numberOfCorrectTestCasesPerBatch = Submission::where([
+            "batch_token" => $submission->batch_token,
+            "question_id" => $submission->question_id,
+            "is_correct" => true,
+            "coder_id" => $submission->coder_id,
+        ])->count();
+        $allTestCasesPassed = $numberOfTestCases == $numberOfCorrectTestCasesPerBatch;
+
+        if ($allTestCasesPassed) {
+            $isCoderSolvedQuestion = CoderSolvedQuestion::where([
+                "coder_id" => $submission->coder_id,
+                "question_id" => $submission->question_id,
+            ])->count() == 1;
+            
+            if ($isCoderSolvedQuestion) {
+                return; // no need to re-insert
+            }
+
+            CoderSolvedQuestion::create([
+                "coder_id" => $submission->coder_id,
+                "question_id" => $submission->question_id,
+            ]);
         }
     }
 }

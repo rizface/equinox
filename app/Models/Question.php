@@ -62,4 +62,10 @@ class Question extends Model
         ->where("coder_id", Auth::guard("coder")->user()->id)
         ->count() > 0;
     }
+
+    public function IsSolvedByCurrentUser() {
+        return CoderSolvedQuestion::where("question_id", $this->id)
+        ->where("coder_id", Auth::guard("coder")->user()->id)
+        ->count() > 0;
+    }
 }

@@ -39,6 +39,8 @@ class Submission extends Model
     public function CheckAnswer($result) {
         $isAnswerAccepted = false;
         $status = null;
+        $result = base64_decode($result);
+
         if ($result == $this->GetExpectedReturnValues()) {
             $isAnswerAccepted = true;
         }
@@ -58,5 +60,9 @@ class Submission extends Model
 
     public function GetCoderAnswer() {
         return json_decode($this->result)->return;
+    }
+
+    public function Question() {
+        return $this->belongsTo(Question::class, "question_id", "id");
     }
 }
