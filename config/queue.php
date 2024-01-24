@@ -36,7 +36,7 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'table' => 'jobs',
+            'table' => 'judge0-send-submissions',
             'queue' => 'default',
             'retry_after' => 90,
             'after_commit' => false,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendSubmission;
 use App\Models\Contest;
 use App\Models\Question;
 use App\Models\Submission;
@@ -171,36 +172,14 @@ class QuestionController extends Controller
             }
             
             $question->DecodeParams();
-            foreach ($question->test_cases["params"] as $key => $params) {
-                $sc = "";
-                $usedParams= [];
-                $returnValues = [];
 
-                if ($request->lang == "68") {
-                    $scProps = $this->PHPBuilder($request->hiddenInput, $params);
-                    $sc = $scProps["sc"];
-                    $usedParams = $scProps["params"];
-                    $returnValues = $scProps["returnValues"];
-                }
-
-                $sc = base64_encode($sc);
-                $payload = $this->JudgePayload($request->lang, $sc);
-                $result = $this->SendToJudge($payload);
-
-                Submission::create([
-                    "batch_token" => $batchToken,
-                    "submission_token" => $result["token"],
-                    "question_id" => $questionId,
-                    "coder_id" => Auth::guard("coder")->user()->id,
-                    "lang_id" => $request->lang,
-                    "source_code" => $sc,
-                    "params" => json_encode($usedParams),
-                    "expected_return_values" => json_encode($returnValues),
-                    "status" => "pending",
-                    "result" => null,
-                    "correct" => null,
-                ]);
-            }
+            SendSubmission::dispatch([
+                "question" => $question,
+                "request" => $request->all(),
+                "batchToken" => $batchToken,
+                "questionId" => $questionId,
+                "userId" => Auth::guard("coder")->user()->id 
+            ])->onQueue("database");
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
         } finally {
