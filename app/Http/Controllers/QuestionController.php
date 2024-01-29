@@ -195,4 +195,34 @@ class QuestionController extends Controller
             return redirect()->back();
         }
     }
+
+    public function ViewSubmission(Request $request, $id, $questionId) {
+        try {
+            $question = Question::where("id", $questionId)->first();
+            if (!$question) {
+                throw new Error("Question not found");
+            }
+
+            $submissions = Submission::where("question_id", $questionId)
+            ->groupBy("batch_token")
+            ->select("batch_token")
+            ->get();
+
+            $solutionLang = 0;
+            $solution = '';
+            $batchToken = $request->get("batch_token");
+            if ($batchToken) {
+                $submission = Submission::where("batch_token", $batchToken)->first();
+                if ($submission) {
+                    $solution = $submission->source_code;
+                    $solutionLang = $submission->lang_id;
+                }
+            }
+
+            return view('admin.dashboard.editor', compact('submissions', 'solution', 'solutionLang'));
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
 }

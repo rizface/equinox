@@ -62,7 +62,7 @@
                                 <tr>
                                     <td>{{$j++}}</td>
                                     <td class="text-capitalize">{{$i->Coder->name}}</td>
-                                    <td><a href="TODO">View</a></td> {{--  Implement link to view submitted solution --}}
+                                    <td><a href="{{route('admin.viewSubmission', ["id" => $question->contest_id, "questionId" => $question->id])}}">View</a></td> {{--  Implement link to view submitted solution --}}
                                 </tr>                                
                             @endforeach
                         </tbody>
