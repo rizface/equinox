@@ -64,6 +64,9 @@
                         </div>
                     
                         <div id="submission{{$submissionAt}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                          <div class="ml-4 mt-3">
+                            <a href="?solution={{$submission[0]->batch_token}}">View Solution</a>
+                          </div>
                           <div class="card-body table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                               <thead>
@@ -192,14 +195,21 @@
     }
 
     editor.session.on('change', function(delta) {
-      var content=document.getElementById('hiddenInput');
-      content.value=editor.session.getValue()
-      session = editor.getSession();
+      if ((`{{$solution}}`).length == 0) {
+        var content=document.getElementById('hiddenInput');
+        content.value=editor.session.getValue()
+        session = editor.getSession();
 
-      localStorage.setItem(`{{$question->id}}-${languange}-content`, content.value);
+        localStorage.setItem(`{{$question->id}}-${languange}-content`, content.value);
+      }
     });
 
-    window.onload = loadLatestValue
+    if ((`{{$solution}}`).length == 0) {
+      window.onload = loadLatestValue()
+    } else {
+      var regex = /^echo solution\([^;]*\);/gm;
+      editor.session.setValue(atob(`{{$solution}}`).replace(regex, ''));
+    }
 </script>
 @endpush
 @endsection

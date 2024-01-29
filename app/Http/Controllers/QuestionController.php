@@ -120,7 +120,7 @@ class QuestionController extends Controller
         }
     }
 
-    public function DetailQuestionPageForCoder($courseId, $questionId) {
+    public function DetailQuestionPageForCoder(Request $request, $courseId, $questionId) {
         try {
             $question = Question::where("contest_id", $courseId)
             ->where("id", $questionId)
@@ -152,8 +152,17 @@ class QuestionController extends Controller
             }
 
             $submissions = array_reverse($submissions);
+            $solution = '';
+            $batchToken = $request->get("solution");
 
-            return view("coder.dashboard.editor", compact('question', 'submissions'));
+            if ($batchToken) {
+                $submission = Submission::where("batch_token", $batchToken)->first();
+                if($submission) {
+                    $solution = $submission->source_code;
+                }
+            }
+
+            return view("coder.dashboard.editor", compact('question', 'submissions', 'solution'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
             return redirect()->back();
