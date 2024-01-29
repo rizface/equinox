@@ -166,10 +166,13 @@
     editor.session.setMode("ace/mode/php");
 
     function loadLatestValue() {
-      const content = localStorage.getItem(`${languange}-content`);
+      const content = localStorage.getItem(`{{$question->id}}-${languange}-content`);
       if (content) {
         editor.session.setValue(content);
+        return
       }
+
+      editor.session.setValue('');
     }
 
     function changeLanguage(e) {
@@ -193,7 +196,7 @@
       content.value=editor.session.getValue()
       session = editor.getSession();
 
-      localStorage.setItem(`${languange}-content`, content.value);
+      localStorage.setItem(`{{$question->id}}-${languange}-content`, content.value);
     });
 
     window.onload = loadLatestValue
