@@ -19,21 +19,31 @@
                     <tbody>
                         <?php $i = 1 ?>
                         @foreach ($contest->Questions as $q)
-                        <tr>
-                            <td>{{$i}}</td>
-                            <td>{{$q->title}}</td>
-                            <td>
-                                <a href="{{route('admin.questionDetailPage', ["id"=> request('id'), "questionId" =>
-                                    $q->id])}}">View</a>
-                                @if ($contest->ThisIsMyContest())
-                                <a class="m-4" href="{{route('admin.deleteQuestion', ["id"=> request('id'),
-                                    "questionId" => $q->id])}}">Delete</a>
-                                <a class="m-2" href="{{route('admin.updateQuestionPage', ["id"=> request('id'),
-                                    "questionId" => $q->id])}}">Update</a>
-                                @endif
-                            </td>
-                            <?php $i += 1 ?>
-                        </tr>
+                        @if ($contest->ThisIsMyContest())
+                            <tr>
+                                <td>{{$i}}</td>
+                                <td>{{$q->title}}</td>
+                                <td>
+                                    <a href="{{route('admin.questionDetailPage', ["id"=> request('id'), "questionId" =>
+                                        $q->id])}}">View</a>
+                                    <a class="m-4" href="{{route('admin.deleteQuestion', ["id"=> request('id'),
+                                        "questionId" => $q->id])}}">Delete</a>
+                                    <a class="m-2" href="{{route('admin.updateQuestionPage', ["id"=> request('id'),
+                                        "questionId" => $q->id])}}">Update</a>
+                                </td>
+                                <?php $i += 1 ?>
+                            </tr>
+                        @elseif(!$contest->ThisIsMyContest() && $q->is_valid)
+                            <tr>
+                                <td>{{$i}}</td>
+                                <td>{{$q->title}}</td>
+                                <td>
+                                    <a href="{{route('admin.questionDetailPage', ["id"=> request('id'), "questionId" =>
+                                        $q->id])}}">View</a>
+                                </td>
+                                <?php $i += 1 ?>
+                            </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

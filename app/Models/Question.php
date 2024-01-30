@@ -13,7 +13,7 @@ class Question extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        "contest_id", "title", "description", "test_cases"
+        "contest_id", "title", "description", "test_cases", "is_valid"
     ];
     protected $primaryKey = "id";
     protected $table = "questions";
