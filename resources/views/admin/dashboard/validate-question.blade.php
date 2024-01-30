@@ -59,7 +59,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route("coder.submitSubmission", [
+                        <form action="{{route("admin.submitSubmission", [
                           "courseId" => $question->contest_id, 
                           "questionId" => $question->id,
                           ])}}" method="post">
@@ -72,6 +72,7 @@
                           </div>
                           <textarea id="editor"></textarea>
                           <textarea name="hiddenInput" id="hiddenInput" style="display: none"></textarea>
+                          <input type="hidden" name="questionvalidation" value="true">
                           <button type="submit" class="btn btn-secondary btn-sm mt-3">submit</button>
                         </form>
                       </div>

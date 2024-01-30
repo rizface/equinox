@@ -204,12 +204,23 @@ class QuestionController extends Controller
             
             $question->DecodeParams();
 
+            $userId = null;
+            $questionValidation = null;
+
+            if ($request->questionvalidation !=  null) {
+                $userId = Auth::guard("admin")->user()->id;
+                $questionValidation = true;
+            } else {
+                $userId = Auth::guard("coder")->user()->id;
+                $questionValidation = false;
+            }
             SendSubmission::dispatch([
                 "question" => $question,
                 "request" => $request->all(),
                 "batchToken" => $batchToken,
                 "questionId" => $questionId,
-                "userId" => Auth::guard("coder")->user()->id 
+                "userId" => $userId, 
+                "questionValidation" => $questionValidation,
             ])->onQueue("database");
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());

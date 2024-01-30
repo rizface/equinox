@@ -50,6 +50,7 @@ Route::prefix("/admin")->group(function() {
         Route::get('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestionPage"])->name("admin.updateQuestionPage");
         Route::post('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestion"])->name("admin.updateQuestion");
         Route::get('/course/{id}/question/{questionId}/submissions', [QuestionController::class, "ViewSubmission"])->name("admin.viewSubmission");
+        Route::post("/courses/{courseId}/questions/{questionId}/submission", [QuestionController::class, "SubmitSubmission"])->name("admin.submitSubmission");
 
         Route::get("/logout", [AdminController::class, "logout"])->name("admin.logout");
     });

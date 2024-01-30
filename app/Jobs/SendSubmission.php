@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\AdminSubmission;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
 use Illuminate\Bus\Queueable;
@@ -32,6 +33,7 @@ class SendSubmission implements ShouldQueue
         $batchToken = $this->data["batchToken"];
         $questionId = $this->data["questionId"];
         $userId = $this->data["userId"];
+        $questionValidation = $this->data["questionValidation"];
 
         foreach ($question["test_cases"]["params"] as $key => $params) {
             $sc = "";
@@ -48,12 +50,10 @@ class SendSubmission implements ShouldQueue
             $sc = base64_encode($sc);
             $payload = $this->JudgePayload($request["lang"], $sc);
             $result = $this->SendToJudge($payload);
-
-            Submission::create([
+            $submission = [
                 "batch_token" => $batchToken,
                 "submission_token" => $result["token"],
                 "question_id" => $questionId,
-                "coder_id" => $userId,
                 "lang_id" => $request["lang"],
                 "source_code" => $sc,
                 "params" => json_encode($usedParams),
@@ -61,7 +61,15 @@ class SendSubmission implements ShouldQueue
                 "status" => "pending",
                 "result" => null,
                 "correct" => null,
-            ]);
+            ];
+
+            if (!$questionValidation) {
+                $submission["coder_id"] = $userId;
+                Submission::create($submission);
+            } else {
+                $submission["admin_id"] = $userId;
+                AdminSubmission::create($submission);
+            }
         }
     }
 }
