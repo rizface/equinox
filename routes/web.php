@@ -45,6 +45,7 @@ Route::prefix("/admin")->group(function() {
         Route::get('/course/{id}/question', [QuestionController::class, "CreateQuestionPage"])->name("admin.createQuestionPage");
         Route::post("/course/{id}/question", [QuestionController::class, "CreateQuestion"])->name("admin.createQuestion");
         Route::get('/course/{id}/question/{questionId}', [QuestionController::class, "DetailQuestionPage"])->name("admin.questionDetailPage");
+        Route::get('/course/{id}/question/{questionId}/validate', [QuestionController::class, "ValidateQuestionForAdmin"])->name("admin.validateQuestionPage");
         Route::get('/course/{id}/question/{questionId}/delete', [QuestionController::class, "DeleteQuestion"])->name("admin.deleteQuestion");
         Route::get('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestionPage"])->name("admin.updateQuestionPage");
         Route::post('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestion"])->name("admin.updateQuestion");

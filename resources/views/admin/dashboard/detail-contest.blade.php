@@ -13,6 +13,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Valid</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -24,12 +25,23 @@
                                 <td>{{$i}}</td>
                                 <td>{{$q->title}}</td>
                                 <td>
+                                    @if ($q->is_valid)
+                                        Yes
+                                    @else
+                                        No
+                                    @endif
+                                </td>
+                                <td>
                                     <a href="{{route('admin.questionDetailPage', ["id"=> request('id'), "questionId" =>
                                         $q->id])}}">View</a>
                                     <a class="m-4" href="{{route('admin.deleteQuestion', ["id"=> request('id'),
                                         "questionId" => $q->id])}}">Delete</a>
                                     <a class="m-2" href="{{route('admin.updateQuestionPage', ["id"=> request('id'),
                                         "questionId" => $q->id])}}">Update</a>
+                                    @if (!$q->is_valid)
+                                    <a class="m-2" href="{{route('admin.validateQuestionPage', ["id"=> request('id'),
+                                        "questionId" => $q->id])}}">Validate</a>
+                                    @endif
                                 </td>
                                 <?php $i += 1 ?>
                             </tr>

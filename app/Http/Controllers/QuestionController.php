@@ -169,6 +169,28 @@ class QuestionController extends Controller
         };
     }
 
+    public function ValidateQuestionForAdmin(Request $request, $courseId, $questionId) {
+        try {
+            $question = Question::where("contest_id", $courseId)
+            ->where("id", $questionId)
+            ->first();
+            if (!$question) {
+                throw new Error("Question not found");
+            }
+
+            if (!$question->Contest->ThisIsMyContest()) {
+                throw new Error("Question not found");
+            }
+
+            $question->DecodeParams();
+
+            return view("admin.dashboard.validate-question", compact('question'));
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        };
+    }
+
     public function SubmitSubmission(Request $request, $courseId, $questionId) {
         try {
             $batchToken = uuid_create();
