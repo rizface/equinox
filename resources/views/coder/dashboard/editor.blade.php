@@ -82,10 +82,11 @@
                                   </tr>
                               </thead>
                               <tbody>
+                                <?php $j=0; ?>
                                   @foreach ($submission  as $s)
                                       <tr>
-                                              <?php $i++; ?>
-                                              <td>{{$i}}</td>
+                                              <?php $j++; ?>
+                                              <td>{{$j}}</td>
                                           @foreach ($s->params as $param)
                                               <td>{{$param}}</td>
                                           @endforeach
