@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminSubmission;
 use App\Models\CoderCompleteCourse;
 use App\Models\CoderSolvedQuestion;
 use App\Models\Question;
@@ -97,6 +98,59 @@ class SubmissionController extends Controller
                 "coder_id" => $coder_id,
                 "course_id" => $contest_id,
             ]);
+        }
+    }
+
+
+    public function QuestionValidationCheckAnswer(Request $request) {
+        $submission = AdminSubmission::where("submission_token", $request["token"])->first();
+        if (!$submission) {
+            $this->log("Submission not found for token: " . $request["token"]);
+            return;
+        }
+
+        try {
+            // 3 mean no error occured in submission
+            if ($request["status"]["id"] == 3) {
+                $submission->DecodeParamsAndReturnValue();
+                $submission->CheckAnswer($request["stdout"]);
+                AdminSubmission::where("submission_token", $request["token"])->update([
+                    "is_correct" => $submission->is_correct,
+                    "result" => $submission->result,
+                    "status" => $submission->status,
+                ]);
+            }
+
+            // 11 mean error occured in submission
+            if ($request["status"]["id"] == 11) {
+                AdminSubmission::where("submission_token", $request["token"])->update([
+                    "status" => $request["status"]["description"],
+                    "is_correct" => false,
+                    "message" => base64_decode($request->stdout),
+                ]);
+            }
+
+            $this->queestionValidationCheckIfAllTestCasesPassed($submission);
+        } catch (\Throwable $th) {
+            $this->log($th->getMessage());
+        }
+    }
+
+    private function queestionValidationCheckIfAllTestCasesPassed($submission) {
+        $question = $submission->Question()->first();
+        $question->DecodeParams();
+        $numberOfTestCases = sizeof($question->test_cases["params"]);
+        $numberOfCorrectTestCasesPerBatch = AdminSubmission::where([
+            "batch_token" => $submission->batch_token,
+            "question_id" => $submission->question_id,
+            "is_correct" => true,
+            "admin_id" => $submission->admin_id,
+        ])->count();
+        $allTestCasesPassed = $numberOfTestCases == $numberOfCorrectTestCasesPerBatch;
+
+        if ($allTestCasesPassed) {
+            Question::where("id", $submission->question_id)
+            ->update(["is_valid" => true]);
         }
     }
 }

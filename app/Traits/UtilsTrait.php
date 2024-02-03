@@ -78,7 +78,7 @@ trait UtilsTrait {
             'X-RapidAPI-Key'=> env("X_RAPID_API_KEY"),
             'X-RapidAPI-Host'=> env("X_RAPID_API_HOST")
         ])->post($submissionUrl, $payload);
-        
+
         if ($res->status() > 201) {
             $this->log($res->body());
             throw new Error("Failed send submission to judge");
