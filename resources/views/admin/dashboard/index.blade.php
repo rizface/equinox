@@ -90,6 +90,7 @@
 
   @stack('datatable')
   @stack('summernote')
+  @stack('codeeditor')
 </body>
 
 </html>

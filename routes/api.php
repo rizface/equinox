@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::put("/check-submission",[SubmissionController::class, "CheckAnswer"]);
+Route::put("/validate-question",[SubmissionController::class, "QuestionValidationCheckAnswer"]);

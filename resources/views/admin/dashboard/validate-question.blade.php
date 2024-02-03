@@ -1,4 +1,4 @@
-@extends('coder.dashboard.index')
+@extends('admin.dashboard.index')
 
 @section('dashboard')
 <div class="row">
