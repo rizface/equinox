@@ -50,6 +50,76 @@
                         </tbody>
                     </table>
                   </div>
+                  <div class="tab-pane fade" id="submissions" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+                    <div class="accordion mt-2" id="accordionExample">
+                      <?php $submissionAt = sizeof($submissions) ?>
+                      @foreach ($submissions as $key => $submission)
+                      <div class="card">
+                        <div class="card-header" id="headingOne">
+                          <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#submission{{$submissionAt}}" aria-expanded="false" aria-controls="collapseOne">
+                              Submission {{$submissionAt}}
+                            </button>
+                          </h2>
+                        </div>
+                    
+                        <div id="submission{{$submissionAt}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                          <div class="ml-4 mt-3">
+                            <a href="?solution={{$key}}">View Solution</a>
+                          </div>
+                          <div class="card-body table-responsive">
+                            <table id="example1" class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      @for ($i = 1; $i <= $question->numberOfParams; $i++)
+                                          <th>Param {{$i}}</th>
+                                      @endfor
+                                      <th>Expected Result</th>
+                                      <th>Result</th>
+                                      <th>Status</th>
+                                      <th>Message</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($submission  as $s)
+                                      <tr>
+                                              <?php $i++; ?>
+                                              <td>{{$i}}</td>
+                                          @foreach ($s->params as $param)
+                                              <td>{{$param}}</td>
+                                          @endforeach
+                                            <td>{{$s->expected_return_values->return}}</td>
+                                            <td>{{
+                                              $s->result ? $s->GetCoderAnswer() : "N/A"  
+                                            }}</td>
+                                            <td class="text-capitalize">
+                                              @if ($s->status == "accepted")
+                                                  <span class="badge badge-success">{{$s->status}}</span>                                              
+                                              @elseif ($s->status == "pending")
+                                                  <span class="badge badge-secondary">{{$s->status}}</span>
+                                              @else
+                                                  <span class="badge badge-danger">{{$s->status}}</span>
+                                              @endif
+                                            </td>
+                                            <td>
+                                              @if ($s->message != "")
+                                                {{$s->message}}
+                                              @else
+                                                N/A
+                                              @endif
+                                            </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                          </div>
+                        </div>
+                      </div>  
+                      <?php $submissionAt-- ?> 
+                      @endforeach
+                    </div>
+                  </div>
                 </div>
               </div>
         </div>
@@ -126,14 +196,21 @@
     }
 
     editor.session.on('change', function(delta) {
+      if ((`{{$solution}}`).length == 0) {
         var content=document.getElementById('hiddenInput');
         content.value=editor.session.getValue()
         session = editor.getSession();
 
         localStorage.setItem(`admin-{{$question->id}}-${languange}-content`, content.value);
+      }
     });
 
-    window.onload = loadLatestValue()
+    if ((`{{$solution}}`).length == 0) {
+      window.onload = loadLatestValue()
+    } else {
+      var regex = /^echo solution\([^;]*\);/gm;
+      editor.session.setValue(atob(`{{$solution}}`).replace(regex, ''));
+    }
 </script>
 @endpush
 @endsection

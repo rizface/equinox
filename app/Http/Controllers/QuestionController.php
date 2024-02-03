@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendSubmission;
+use App\Models\AdminSubmission;
 use App\Models\Contest;
 use App\Models\Question;
 use App\Models\Submission;
@@ -184,7 +185,32 @@ class QuestionController extends Controller
 
             $question->DecodeParams();
 
-            return view("admin.dashboard.validate-question", compact('question'));
+            $adminSubmissions = AdminSubmission::get()
+            ->where("admin_id", Auth::guard("admin")->user()->id)
+            ->where("question_id", $questionId);
+
+            $submissions = [];
+            foreach ($adminSubmissions as $key => $submission) {
+                if (!isset($submissions[$submission->batch_token])) {
+                    $submissions[$submission->batch_token] = [];
+                }
+
+                $submission->DecodeParamsAndReturnValue();
+
+                array_push($submissions[$submission->batch_token], $submission);
+            }
+
+            $solution = '';
+            $batchToken = $request->get("solution");
+
+            if ($batchToken) {
+                $submission = AdminSubmission::where("batch_token", $batchToken)->first();
+                if($submission) {
+                    $solution = $submission->source_code;
+                }
+            }
+
+            return view("admin.dashboard.validate-question", compact('question', 'submissions', 'solution'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
             return redirect()->back();
