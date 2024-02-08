@@ -32,6 +32,7 @@ class QuestionController extends Controller
                 "title" => $request->title,
                 "description" => $request["question-description"],
                 "test_cases" => json_encode(["params" => $paramsAndReturnValue]),
+                "level" => $request->level
             ]);
 
             Alert::success("Success", "Question successfully created");
