@@ -32,6 +32,7 @@ class QuestionController extends Controller
                 "title" => $request->title,
                 "description" => $request["question-description"],
                 "test_cases" => json_encode(["params" => $paramsAndReturnValue]),
+                "level" => $request->level
             ]);
 
             Alert::success("Success", "Question successfully created");
@@ -103,12 +104,12 @@ class QuestionController extends Controller
             if(!$question->Contest->ThisIsMyContest()) {
                 throw new Error("Can't update other admin's questions");
             };
-
             $question->title = $request->title;
             $question->description = $request->description;
             $question->test_cases = json_encode([
                 "params" => $this->ConstructParamsAndReturnValue($request, "param")
             ]);
+            $question->level = $request->level;
 
             $question->Validate();
             $question->save();

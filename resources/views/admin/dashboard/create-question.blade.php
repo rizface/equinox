@@ -11,9 +11,23 @@
             </div>
             
             <div class="card-body card-outline">
-                <div class="form-group">
-                    <label for="" class="form-label">Title</label>
-                    <input type="text" name="title" class="form-control">
+                <div class="row">
+                    <div class="col">   
+                        <div class="form-group">
+                            <label for="" class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="" class="form-label">Level</label>
+                            <select name="level" class="form-control">
+                                <option value="easy">Easy</option>    
+                                <option value="medium">Medium</option>    
+                                <option value="hard">Hard</option>    
+                            </select>                    
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="form-label">

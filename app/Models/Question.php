@@ -13,7 +13,7 @@ class Question extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        "contest_id", "title", "description", "test_cases", "is_valid"
+        "contest_id", "title", "description", "test_cases", "is_valid", "level"
     ];
     protected $primaryKey = "id";
     protected $table = "questions";
@@ -71,5 +71,9 @@ class Question extends Model
 
     public function GetSolvers() {
         return $this->hasMany(CoderSolvedQuestion::class, "question_id", "id");
+    }
+
+    public function LevelIs(String $level): bool {
+        return $this->level == $level;
     }
 }
