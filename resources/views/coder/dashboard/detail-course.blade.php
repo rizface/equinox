@@ -13,6 +13,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Level</th>
                             <th>Action</th>
                             <th>Status</th>
                         </tr>
@@ -23,6 +24,18 @@
                         <tr>
                             <td>{{$i}}</td>
                             <td>{{$q->title}}</td>
+                            <td>
+                                @switch($q->level)
+                                    @case("easy")
+                                        <span class="text-capitalize badge badge-success">{{$q->level}}</span>
+                                        @break
+                                    @case("medium")
+                                        <span class="text-capitalize badge badge-warning">{{$q->level}}</span>
+                                        @break
+                                    @default
+                                    <span class="text-capitalize badge badge-danger">{{$q->level}}</span>
+                                @endswitch
+                            </td>
                             <td>
                                 <a href="{{route("coder.detailQuestion", ["courseId"=> $course->id, "questionId" =>
                                     $q->id])}}">View</a>
