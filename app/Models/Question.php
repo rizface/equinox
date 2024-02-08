@@ -72,4 +72,8 @@ class Question extends Model
     public function GetSolvers() {
         return $this->hasMany(CoderSolvedQuestion::class, "question_id", "id");
     }
+
+    public function LevelIs(String $level): bool {
+        return $this->level == $level;
+    }
 }

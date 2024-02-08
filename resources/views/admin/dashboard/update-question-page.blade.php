@@ -11,8 +11,24 @@
                     <form action="{{route('admin.updateQuestion', ['id' => request('id'), 'questionId' => request('questionId')])}}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label">Title</label>
-                            <input type="text" name="title" value="{{$question->title}}" class="form form-control">
+                            <div class="row">
+                                <div class="col">   
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Title</label>
+                                        <input value="{{$question->title}}" type="text" name="title" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Level</label>
+                                        <select name="level" class="form-control">
+                                            <option {{$question->LevelIs("easy") ? "selected" : ""}} value="easy">Easy</option>    
+                                            <option {{$question->LevelIs("medium") ? "selected" : ""}} value="medium">Medium</option>    
+                                            <option {{$question->LevelIs("hard") ? "selected" : ""}} value="hard">Hard</option>    
+                                        </select>                    
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="form-label">
@@ -35,7 +51,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $i = 0 ?>
-                                    @foreach ($question->test_cases->params as $params)
+                                    @foreach ($question->test_cases["params"] as $params)
                                         <tr id="row{{$i}}">
                                             @foreach ($params as $key => $param)
                                                 <td>
