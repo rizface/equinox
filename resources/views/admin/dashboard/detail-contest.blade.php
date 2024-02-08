@@ -14,6 +14,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Valid</th>
+                            <th>Level</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -30,6 +31,18 @@
                                     @else
                                         No
                                     @endif
+                                </td>
+                                <td>
+                                    @switch($q->level)
+                                        @case("easy")
+                                            <span class="text-capitalize badge badge-success">{{$q->level}}</span>
+                                            @break
+                                        @case("medium")
+                                            <span class="text-capitalize badge badge-warning">{{$q->level}}</span>
+                                            @break
+                                        @default
+                                            <span class="text-capitalize badge badge-danger">{{$q->level}}</span>
+                                    @endswitch
                                 </td>
                                 <td>
                                     <a href="{{route('admin.questionDetailPage', ["id"=> request('id'), "questionId" =>
