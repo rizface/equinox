@@ -85,7 +85,7 @@ class QuestionController extends Controller
             };
 
             $question->DecodeParams();
-
+            dd($question);
             return view("admin.dashboard.update-question-page", compact('question'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
@@ -95,6 +95,7 @@ class QuestionController extends Controller
 
     public function UpdateQuestion(Request $request, $id, $questionId) {
         try {
+            dd($request->all(), $this->ConstructParamsAndReturnValue($request, "param"));
             $question = Question::where("id", $questionId)->first();
             
             if(!$question) {
@@ -184,7 +185,7 @@ class QuestionController extends Controller
                 throw new Error("Question not found");
             }
 
-            $question->DecodeParams();
+            $question->DecodeParams(true);
 
             $adminSubmissions = AdminSubmission::get()
             ->where("admin_id", Auth::guard("admin")->user()->id)
@@ -228,7 +229,6 @@ class QuestionController extends Controller
             if(!$question) {
                 throw new Error("Question not found");
             }
-            
             $question->DecodeParams();
 
             $userId = null;

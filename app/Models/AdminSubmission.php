@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\UtilsTrait;
+use Hamcrest\Type\IsString;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AdminSubmission extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, UtilsTrait;
 
     protected $primaryKey = "id";
     protected $fillable = [
@@ -39,8 +41,15 @@ class AdminSubmission extends Model
         $isAnswerAccepted = false;
         $status = null;
         $result = base64_decode($result);
+        
+        $decodedResult = json_decode($result);
+        if (is_null($decodedResult)) {
+            $result = "'$result'";
+        } else {
+            $result = $decodedResult;
+        } 
 
-        if ($result == $this->GetExpectedReturnValues()) {
+        if ($result==($this->GetExpectedReturnValues())) {
             $isAnswerAccepted = true;
         }
 

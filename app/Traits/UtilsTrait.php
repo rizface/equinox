@@ -96,13 +96,18 @@ trait UtilsTrait {
         $sc = preg_replace($pattern, '', $sc);
         $usedParams= [];
         $returnValues = [];
-        
+        $paramIsArray = false;
+        $this->log($params);
         foreach ($params as $key => $param) {
             if ($key == "return") {
                 $returnValues[$key] = $param;
                 continue;
             }
 
+            if (is_array($param)) {
+                $param = json_encode($param);
+                $paramIsArray = true;
+            } 
             $args .= $param;
     
             $usedParams[$key] = $param;
@@ -114,7 +119,13 @@ trait UtilsTrait {
             $paramAt++;
         }
 
-        $sc .= "\n\n" . "echo solution(".$args.");";
+        $solution = "solution(".$args.")";
+        $this->log($solution);
+        if ($paramIsArray) {
+            $solution = "json_encode(".$solution.")";
+        }
+        $this->log($solution);
+        $sc .= "\n\n" . "echo $solution;";
         
         return [
             "sc" => $sc,

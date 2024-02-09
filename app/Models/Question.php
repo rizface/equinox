@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +23,7 @@ class Question extends Model
         return $this->belongsTo(Contest::class);
     }
 
-    public function DecodeParams() {
+    public function DecodeParams($forView = false) {
         $decodedTestCases = [
             "params" => []
         ];
@@ -31,8 +32,17 @@ class Question extends Model
         foreach ($this->test_cases->params as $key => $params) {
             $newParams = [];
             foreach ($params as $key => $param) {
-                $newParams[$key] = json_decode($param);
+                if (!$forView) {
+                    if(!is_string(json_decode($param)) && json_decode($param) != null) {
+                        $param = json_decode($param);
+                    } else {
+                        $param = "'$param'";
+                    }
+                }
+
+                $newParams[$key] = $param;
             }
+
             array_push($decodedTestCases["params"],$newParams);
         }
 
