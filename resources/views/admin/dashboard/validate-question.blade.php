@@ -43,7 +43,11 @@
                                         <?php $i++; ?>
                                         <td>{{$i}}</td>
                                     @foreach ($params as $param)
-                                        <td>{{$param}}</td>
+                                    @if (is_array($param))
+                                      <td>{{json_encode($param)}}</td>
+                                    @else
+                                      <td>{{$param}}</td>
+                                    @endif
                                     @endforeach
                                 </tr>
                             @endforeach
@@ -90,9 +94,10 @@
                                           @foreach ($s->params as $param)
                                               <td>{{$param}}</td>
                                           @endforeach
-                                            <td>{{$s->expected_return_values->return}}</td>
+                                            
+                                            <td>{{json_encode($s->expected_return_values->return)}}</td>
                                             <td>{{
-                                              $s->result ? $s->GetCoderAnswer() : "N/A"  
+                                              $s->result ? json_encode($s->GetCoderAnswer()) : "N/A"  
                                             }}</td>
                                             <td class="text-capitalize">
                                               @if ($s->status == "accepted")

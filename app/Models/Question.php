@@ -22,7 +22,7 @@ class Question extends Model
         return $this->belongsTo(Contest::class);
     }
 
-    public function DecodeParams() {
+    public function DecodeParams($forView = false) {
         $decodedTestCases = [
             "params" => []
         ];
@@ -31,8 +31,13 @@ class Question extends Model
         foreach ($this->test_cases->params as $key => $params) {
             $newParams = [];
             foreach ($params as $key => $param) {
-                $newParams[$key] = json_decode($param);
+                if (!$forView) {
+                    $param = json_decode($param);
+                }
+
+                $newParams[$key] = $param;
             }
+
             array_push($decodedTestCases["params"],$newParams);
         }
 

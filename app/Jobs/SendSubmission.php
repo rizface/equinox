@@ -35,11 +35,12 @@ class SendSubmission implements ShouldQueue
         $userId = $this->data["userId"];
         $questionValidation = $this->data["questionValidation"];
 
+        $this->log($question);
         foreach ($question["test_cases"]["params"] as $key => $params) {
             $sc = "";
             $usedParams= [];
             $returnValues = [];
-
+            $this->log($request["lang"]);
             if ($request["lang"] == "68") {
                 $scProps = $this->PHPBuilder($request["hiddenInput"], $params);
                 $sc = $scProps["sc"];

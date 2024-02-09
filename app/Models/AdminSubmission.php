@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\UtilsTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AdminSubmission extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, UtilsTrait;
 
     protected $primaryKey = "id";
     protected $fillable = [
@@ -40,6 +41,10 @@ class AdminSubmission extends Model
         $status = null;
         $result = base64_decode($result);
 
+        $result = json_decode($result);
+        $this->log($this->result);
+        $this->log($this->GetExpectedReturnValues());
+        $this->log($result , $this->GetExpectedReturnValues());
         if ($result == $this->GetExpectedReturnValues()) {
             $isAnswerAccepted = true;
         }
