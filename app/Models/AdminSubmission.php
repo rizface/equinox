@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\UtilsTrait;
+use Hamcrest\Type\IsString;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,12 +41,15 @@ class AdminSubmission extends Model
         $isAnswerAccepted = false;
         $status = null;
         $result = base64_decode($result);
+        
+        $decodedResult = json_decode($result);
+        if (is_null($decodedResult)) {
+            $result = "'$result'";
+        } else {
+            $result = $decodedResult;
+        } 
 
-        $result = json_decode($result);
-        $this->log($this->result);
-        $this->log($this->GetExpectedReturnValues());
-        $this->log($result , $this->GetExpectedReturnValues());
-        if ($result == $this->GetExpectedReturnValues()) {
+        if ($result==($this->GetExpectedReturnValues())) {
             $isAnswerAccepted = true;
         }
 
