@@ -108,7 +108,6 @@ trait UtilsTrait {
                 $param = json_encode($param);
                 $paramIsArray = true;
             } 
-            
             $args .= $param;
     
             $usedParams[$key] = $param;

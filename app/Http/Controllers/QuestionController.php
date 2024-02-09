@@ -229,7 +229,6 @@ class QuestionController extends Controller
             if(!$question) {
                 throw new Error("Question not found");
             }
-            
             $question->DecodeParams();
 
             $userId = null;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +33,11 @@ class Question extends Model
             $newParams = [];
             foreach ($params as $key => $param) {
                 if (!$forView) {
-                    $param = json_decode($param);
+                    if(!is_string(json_decode($param)) && json_decode($param) != null) {
+                        $param = json_decode($param);
+                    } else {
+                        $param = "'$param'";
+                    }
                 }
 
                 $newParams[$key] = $param;
