@@ -130,13 +130,13 @@ class SubmissionController extends Controller
                 ]);
             }
 
-            $this->queestionValidationCheckIfAllTestCasesPassed($submission);
+            $this->questionValidationCheckIfAllTestCasesPassed($submission);
         } catch (\Throwable $th) {
             $this->log($th->getMessage());
         }
     }
 
-    private function queestionValidationCheckIfAllTestCasesPassed($submission) {
+    private function questionValidationCheckIfAllTestCasesPassed($submission) {
         $question = $submission->Question()->first();
         $question->DecodeParams();
         $numberOfTestCases = sizeof($question->test_cases["params"]);
