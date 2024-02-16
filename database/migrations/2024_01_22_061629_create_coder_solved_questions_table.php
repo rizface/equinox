@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('coder_solved_questions', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("coder_id")->references("id")->on("coders");
-            $table->foreignUuid("question_id")->references("id")->on("questions");
+            $table->foreignUuid("coder_id")->references("id")->on("coders")->onDelete("cascade");
+            $table->foreignUuid("question_id")->references("id")->on("questions")->onDelete("cascade");
             $table->unique(["coder_id", "question_id"]);
             $table->timestamps();
         });
