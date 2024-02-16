@@ -26,7 +26,7 @@ class QuestionController extends Controller
     public function CreateQuestion(Request $request, $id) {
         try {
             $paramsAndReturnValue = $this->ConstructParamsAndReturnValue($request,"input");
-            
+            // dd($paramsAndReturnValue);
             Question::create([
                 "contest_id" => $id,
                 "title" => $request->title,
@@ -185,7 +185,7 @@ class QuestionController extends Controller
                 throw new Error("Question not found");
             }
 
-            $question->DecodeParams(true);
+            $question->DecodeParamsForView();
 
             $adminSubmissions = AdminSubmission::get()
             ->where("admin_id", Auth::guard("admin")->user()->id)
@@ -229,11 +229,11 @@ class QuestionController extends Controller
             if(!$question) {
                 throw new Error("Question not found");
             }
-            $question->DecodeParams();
 
+            $question->DecodeParams();
             $userId = null;
             $questionValidation = null;
-
+            // dd($question);
             if ($request->questionvalidation !=  null) {
                 $userId = Auth::guard("admin")->user()->id;
                 $questionValidation = true;
@@ -241,6 +241,7 @@ class QuestionController extends Controller
                 $userId = Auth::guard("coder")->user()->id;
                 $questionValidation = false;
             }
+
             SendSubmission::dispatch([
                 "question" => $question,
                 "request" => $request->all(),
