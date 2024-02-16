@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\UtilsTrait;
-use Hamcrest\Type\IsString;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +33,11 @@ class AdminSubmission extends Model
     }
 
     private function GetExpectedReturnValues() {
+        // special case for false / 'false'
+        if ($this->expected_return_values->return === "'false'") {
+            return false;
+        }
+
         return $this->expected_return_values->return;
     }
 
@@ -48,6 +52,10 @@ class AdminSubmission extends Model
         } else {
             $result = $decodedResult;
         } 
+
+        $this->log($decodedResult);
+        $this->log($this->GetExpectedReturnValues());
+        $this->log($result == $this->GetExpectedReturnValues());
 
         if ($result==($this->GetExpectedReturnValues())) {
             $isAnswerAccepted = true;
