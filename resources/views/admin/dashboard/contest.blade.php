@@ -40,7 +40,7 @@
                 <tr>
                   <td>{{$i->title}}</td>
                   <td>{{$i->GetNumberOfQuestions()}}</td>
-                  <td>{{20}}</td>
+                  <td>{{$i->GetNumberOfParticipants()}}</td>
                   <td><a href="{{route("admin.contestDetailPage", ["id"=> $i->id])}}">View</a></td>
                 </tr>
                 @endforeach
