@@ -28,12 +28,24 @@ trait UtilsTrait {
 
         for ($i=0; $i < $paramsLength; $i++) { 
             $paramAndReturnValue = [];
-
+            
             for ($j=1; $j <= $indexInput; $j++) { 
+                $decodedParam = json_decode($request["$paramKey$j"][$i], true);
+
+                if (($decodedParam !== null)) {
+                    $paramAndReturnValue["param$j"] = json_decode($request["$paramKey$j"][$i]);
+                    continue;
+                } 
+
                 $paramAndReturnValue["param$j"] = $request["$paramKey$j"][$i];
             }
 
-            $paramAndReturnValue["return"] = $request["return"][$i];
+            $decodedReturn = json_decode($request["return"][$i]);
+            if ($decodedReturn !== null) {
+                $paramAndReturnValue["return"] = $decodedReturn;
+            } else {
+                $paramAndReturnValue["return"] = $request["return"][$i];
+            }
 
             array_push($paramsAndReturnValue, $paramAndReturnValue);
         }
@@ -61,7 +73,7 @@ trait UtilsTrait {
             "command_line_arguments" => "",
             "redirect_stderr_to_stdout" => true,
             "source_code" => $sc,
-            "callback_url" => "https://webhook.site/7bcb9e39-2fa5-4157-b752-63a22fcb8c24"
+            "callback_url" => "https://webhook.site/116b1c7f-9cc8-445b-8f38-8be75e1b1543"
             // "callback_url" => env("CALLBACK_URL") // TODO: REPLACE THIS WITH YOUR OWN CALLBACK URL
         ];
 
@@ -104,13 +116,24 @@ trait UtilsTrait {
                 continue;
             }
 
+
+            $this->log($params);
+            $this->log(is_bool($param));
+            $this->log(is_string($param));
+
             if (is_array($param)) {
                 $param = json_encode($param);
                 $paramIsArray = true;
-            } 
+                $usedParams[$key] = $param;
+            } else if (is_string($param)) {
+                $usedParams[$key] = $param;
+                $param = "'".$param."'";
+            } else if (is_bool($param)) {
+                $param = $param ? "true" : "false";
+                $usedParams[$key] = $param;
+            }
+
             $args .= $param;
-    
-            $usedParams[$key] = $param;
 
             if ($paramAt != sizeof($params) - 2) {
                 $args .= ",";
@@ -118,7 +141,7 @@ trait UtilsTrait {
 
             $paramAt++;
         }
-
+        $this->log("args: ".$args);
         $solution = "solution(".$args.")";
         $this->log($solution);
         if ($paramIsArray) {
