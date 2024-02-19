@@ -33,7 +33,11 @@
                                         <?php $i++; ?>
                                         <td>{{$i}}</td>
                                     @foreach ($params as $param)
-                                        <td>{{$param}}</td>
+                                        @if (is_array($param))
+                                            <td>{{json_encode($param)}}</td>
+                                        @else
+                                            <td>{{$param}}</td>
+                                        @endif
                                     @endforeach
                                 </tr>
                             @endforeach
