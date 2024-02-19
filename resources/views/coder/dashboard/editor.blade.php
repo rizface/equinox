@@ -27,28 +27,32 @@
                   </div>
                   <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
                     <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                @for ($i = 1; $i <= $question->numberOfParams; $i++)
-                                    <th>Param {{$i}}</th>
-                                @endfor
-                                <th>Expected Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $i = 0 ?>
-                            @foreach ($question->test_cases["params"]  as $params)
-                                <tr>
-                                        <?php $i++; ?>
-                                        <td>{{$i}}</td>
-                                    @foreach ($params as $param)
-                                        <td>{{$param}}</td>
-                                    @endforeach
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                      <thead>
+                          <tr>
+                              <th>#</th>
+                              @for ($i = 1; $i <= $question->numberOfParams; $i++)
+                                  <th>Param {{$i}}</th>
+                              @endfor
+                              <th>Expected Result</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <?php $i = 0 ?>
+                          @foreach ($question->test_cases["params"]  as $params)
+                              <tr>
+                                      <?php $i++; ?>
+                                      <td>{{$i}}</td>
+                                  @foreach ($params as $param)
+                                  @if (is_array($param))
+                                    <td>{{json_encode($param)}}</td>
+                                  @else
+                                    <td>{{$param}}</td>
+                                  @endif
+                                  @endforeach
+                              </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
                   </div>
                   <div class="tab-pane fade" id="submissions" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
                     <div class="accordion mt-2" id="accordionExample">
