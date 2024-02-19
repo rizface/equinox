@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, UtilsTrait;
 
     protected $primaryKey = "id";
     protected $fillable = [
@@ -33,15 +33,40 @@ class Submission extends Model
     }
 
     private function GetExpectedReturnValues() {
+        // special case for false / 'false'
+        if (str_replace("'", "", $this->expected_return_values->return) == "false") {
+            return false;
+        }
+
+        if (str_replace("'", "", $this->expected_return_values->return) == "true") {
+            return true;
+        }
+
+
         return $this->expected_return_values->return;
     }
 
     public function CheckAnswer($result) {
         $isAnswerAccepted = false;
         $status = null;
-        $result = base64_decode($result);
+        $result = base64_decode($result);   
 
-        if ($result == $this->GetExpectedReturnValues()) {
+        $decodedResult = json_decode($result);
+        if ($decodedResult !== null) {
+            $result = $decodedResult;
+        }
+
+        $this->log($decodedResult);
+        $this->log($this->GetExpectedReturnValues());
+        $this->log($result == $this->GetExpectedReturnValues());
+        
+        if (is_bool($this->GetExpectedReturnValues())) {
+            $result = boolval($result);
+        }
+
+        // dd($result, $this->GetExpectedReturnValues(), $result === $this->GetExpectedReturnValues());
+
+        if ($result===$this->GetExpectedReturnValues()) {
             $isAnswerAccepted = true;
         }
 
