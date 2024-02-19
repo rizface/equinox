@@ -89,15 +89,19 @@
                                 <?php $j=0; ?>
                                   @foreach ($submission  as $s)
                                       <tr>
-                                              <?php $j++; ?>
-                                              <td>{{$j}}</td>
+                                            <?php $j++; ?>
+                                            <td>{{$j}}</td>
                                           @foreach ($s->params as $param)
-                                              <td>{{$param}}</td>
+                                            <td>{{$param}}</td>
                                           @endforeach
+                                          @if (is_array($s->expected_return_values->return))
+                                            <td>{{json_encode($s->expected_return_values->return)}}</td>
+                                          @else
                                             <td>{{$s->expected_return_values->return}}</td>
-                                            <td>{{
-                                              $s->result ? $s->GetCoderAnswer() : "N/A"  
-                                            }}</td>
+                                          @endif
+                                            <td>
+                                                {{$s->result ? json_encode($s->GetCoderAnswer()) : "N/A"}}
+                                            </td>
                                             <td class="text-capitalize">
                                               @if ($s->status == "accepted")
                                                   <span class="badge badge-success">{{$s->status}}</span>                                              

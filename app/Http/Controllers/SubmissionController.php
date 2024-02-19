@@ -102,6 +102,7 @@ class SubmissionController extends Controller
     }
 
 
+    // QUESTION VALIDATION SECTION
     public function QuestionValidationCheckAnswer(Request $request) {
         $submission = AdminSubmission::where("submission_token", $request["token"])->first();
         if (!$submission) {
