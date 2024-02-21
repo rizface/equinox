@@ -104,4 +104,14 @@ class CoderController extends Controller
 
         return redirect()->route("coder.loginPage");
     }
+
+    public function ProfilePage() {
+        $coder = Auth::guard("coder")->user();
+        $totalSolvedQuestions = $coder->CountTotalSolvedQuestions();
+        $totalSolvedQuestionsPerLevel = $coder->CountSolvedQuestionsPerDifficulty();
+        $timeline = $coder->Timeline();
+
+        
+        return view("coder.dashboard.profile", compact('totalSolvedQuestions', 'totalSolvedQuestionsPerLevel', 'coder', 'timeline'));
+    }
 }

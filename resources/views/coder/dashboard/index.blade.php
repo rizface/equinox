@@ -53,6 +53,9 @@
               <a href="{{route("coder.courses")}}" class="nav-link">Courses</a>
             </li>
             <li class="nav-item">
+              <a href="{{route("coder.profile")}}" class="nav-link">Profile</a>
+            </li>
+            <li class="nav-item">
               <a href="{{route("coder.logout")}}" class="nav-link">Logout</a>
             </li>
         </div>
