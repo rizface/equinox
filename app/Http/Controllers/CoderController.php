@@ -114,4 +114,24 @@ class CoderController extends Controller
         
         return view("coder.dashboard.profile", compact('totalSolvedQuestions', 'totalSolvedQuestionsPerLevel', 'coder', 'timeline'));
     }
+
+    public function UpdateProfile(Request $request) {
+        try {
+            $coder = Auth::guard("coder")->user();
+
+            $coder->name = $request->name;
+            $coder->username = $request->username;
+            $coder->nim = $request->nim;
+
+            $coder->Validate();
+
+            $coder->save();
+
+            Alert::success("Success", "Profile Sucessfully Updated");
+        } catch (\Throwable $th) {
+            Alert::error("error", $th->getMessage());
+        } finally {
+            return redirect()->back();
+        }
+    }
 }

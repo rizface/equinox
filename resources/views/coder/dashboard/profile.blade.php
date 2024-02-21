@@ -112,23 +112,24 @@
             </div>
 
             <div class="tab-pane" id="settings">
-              <form method="post" class="form-horizontal">
+              <form method="post" action="{{route('coder.profile.update')}}" class="form-horizontal">
+                @csrf
                 <div class="form-group row">
                   <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                   <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputName" placeholder="Name" value="{{$coder->name}}">
+                    <input type="text" name="name"  class="form-control" id="inputName" placeholder="Name" value="{{$coder->name}}">
                   </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputName2" class="col-sm-2 col-form-label">NIM</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="NIM" value="{{$coder->nim}}">
+                      <input type="text" name="nim" class="form-control" id="inputName2" placeholder="NIM" value="{{$coder->nim}}">
                     </div>
                   </div>
                 <div class="form-group row">
                   <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
                   <div class="col-sm-10">
-                    <input type="username" class="form-control" id="inputEmail" placeholder="Username" value="{{$coder->username}}">
+                    <input type="text" name="username" class="form-control" id="inputEmail" placeholder="Username" value="{{$coder->username}}">
                   </div>
                 </div>
                 <div class="form-group row">

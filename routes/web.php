@@ -66,6 +66,7 @@ Route::prefix("/coder")->group(function() {
 
     Route::middleware([CoderAuth::class])->group(function() {
         Route::get("/profile", [CoderController::class, "ProfilePage"])->name("coder.profile");
+        Route::post("/profile", [CoderController::class, "UpdateProfile"])->name("coder.profile.update");
 
         Route::get("/courses", [ContestController::class, "AvailableCoursesForCoders"])->name("coder.courses");
         Route::get("/courses/{id}", [ContestController::class, "DetailCoursePageForCoder"])->name("coder.detailCourse");

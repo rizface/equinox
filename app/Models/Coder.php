@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Error;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,6 +49,20 @@ class Coder extends Authenticatable
         ->get();
 
         return $result;
+    }
+
+    public function Validate() {
+        if ($this->name === "" || $this->name === null) {
+            throw new Error("Name is required");
+        }
+        
+        if ($this->username === "" || $this->username === null) {
+            throw new Error("Username is required");
+        }
+
+        if ($this->nim === "" || $this->nim === null) {
+            throw new Error("NIM is required");
+        }
     }
 
     public function JoinedCourses() {
