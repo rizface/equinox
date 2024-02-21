@@ -38,7 +38,12 @@
                                 {!! $question->description !!}
                             </textarea>
                         </div>
+
                         <div class="form-group">
+                            <button onclick="addParams()" type="button" class="btn btn-sm btn-secondary">
+                                Add Test Case
+                            </button>
+
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -49,7 +54,7 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="params">
                                     <?php $i = 0 ?>
                                     @foreach ($question->test_cases["params"] as $params)
                                         <tr id="row{{$i}}">
@@ -58,7 +63,11 @@
                                                     <input 
                                                     type="text"
                                                     id="input{{$i}}"
-                                                    value="{{$param}}"
+                                                    @if (is_array($param))
+                                                        value="{{json_encode($param)}}"
+                                                    @else
+                                                        value="{{$param}}"
+                                                    @endif
                                                     type="text" name="{{$key}}[]" id="" class="form form-control">
                                                 </td>
                                             @endforeach
@@ -106,7 +115,7 @@
             });
         });
     </script>
-    @endpush
+@endpush
 
 @push('summernote')
     <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
@@ -117,6 +126,69 @@
                 height: 250
             })
         })
+    </script>
+@endpush
+
+@push('script')
+    <script>
+        const numberOfTestCases = {{sizeof($question->test_cases["params"])}};
+        let testCasesLastIndex = numberOfTestCases-1;
+        const numberOfParams = {{$question->numberOfParams}};
+        const paramsContainer = document.getElementById('params');
+    
+        function createTR() {
+            const tr = document.createElement('tr');
+            tr.id = `row${testCasesLastIndex}`;
+            testCasesLastIndex+=1
+            return tr;
+        }
+
+        function createTD() {
+            const tds = []
+
+            for (let i = 0; i < numberOfParams; i++) {
+                const td = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = `param${i+1}[]`;
+                input.className = 'form form-control';
+                td.appendChild(input);
+                tds.push(td);
+            }
+
+            const returnTD = document.createElement('td');
+            const returns = document.createElement('input');
+            returns.type =  'text';
+            returns.name = 'return[]';
+            returns.className = 'form form-control';
+            returnTD.appendChild(returns);
+            tds.push(returnTD);
+
+            const action = document.createElement('td');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = 'Delete';
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                deleteParams(a);
+            });
+            a.setAttribute('data-row', `${testCasesLastIndex}`)
+            action.appendChild(a);
+            tds.push(action);
+
+            return tds;
+        }
+
+
+        function addParams() {
+            const tr = createTR();
+            tr.setAttribute('id', `row${testCasesLastIndex}`)
+            const tds = createTD();
+            tds.forEach(td => {
+                tr.appendChild(td);
+            });
+            paramsContainer.appendChild(tr);
+        }   
     </script>
 @endpush
 @endsection

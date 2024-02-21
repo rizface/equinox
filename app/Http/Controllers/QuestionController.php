@@ -85,7 +85,7 @@ class QuestionController extends Controller
             };
 
             $question->DecodeParams();
-            dd($question);
+
             return view("admin.dashboard.update-question-page", compact('question'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
@@ -95,7 +95,6 @@ class QuestionController extends Controller
 
     public function UpdateQuestion(Request $request, $id, $questionId) {
         try {
-            dd($request->all(), $this->ConstructParamsAndReturnValue($request, "param"));
             $question = Question::where("id", $questionId)->first();
             
             if(!$question) {
