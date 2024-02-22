@@ -109,10 +109,10 @@ class CoderController extends Controller
         $coder = Auth::guard("coder")->user();
         $totalSolvedQuestions = $coder->CountTotalSolvedQuestions();
         $totalSolvedQuestionsPerLevel = $coder->CountSolvedQuestionsPerDifficulty();
+        $totalCompletedCourses = $coder->CountCompletedCourses();
         $timeline = $coder->Timeline();
 
-        
-        return view("coder.dashboard.profile", compact('totalSolvedQuestions', 'totalSolvedQuestionsPerLevel', 'coder', 'timeline'));
+        return view("coder.dashboard.profile", compact('totalSolvedQuestions', 'totalSolvedQuestionsPerLevel', 'coder', 'timeline', 'totalCompletedCourses'));
     }
 
     public function UpdateProfile(Request $request) {

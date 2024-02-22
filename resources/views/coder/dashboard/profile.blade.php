@@ -18,6 +18,9 @@
 
           <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
+              <b>Total Solved Courses</b> <a class="float-right">{{$totalCompletedCourses}}</a>
+            </li>
+            <li class="list-group-item">
                 <b>Total Solved Questions</b> <a class="float-right">{{$totalSolvedQuestions}}</a>
             </li>
             @foreach ($totalSolvedQuestionsPerLevel as $i)

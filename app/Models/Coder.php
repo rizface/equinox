@@ -40,6 +40,10 @@ class Coder extends Authenticatable
         return $result;
     }
 
+    public function CountCompletedCourses() {
+        return CoderCompleteCourse::where("coder_id", "=", $this->id)->count();
+    }
+
     public function Timeline() {
         $result =  DB::table("coder_solved_questions")
         ->select(DB::raw("questions.*, coder_solved_questions.created_at as solved_at"))
