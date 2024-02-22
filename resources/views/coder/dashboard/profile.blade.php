@@ -107,7 +107,11 @@
                             </div>
                             <!-- /.user-block -->
                             <p>
-                                Solve question <b>{{$t->title}}</b> 
+                              @if ($t->type == 'course')
+                                  Complete course <b>{{$t->title}}</b>
+                                @else
+                                Solve question <b>{{$t->title}}</b> from course <b>{{$t->parent}}</b>
+                              @endif
                             </p>
                         </div>
                     <!-- /.post -->
