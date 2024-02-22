@@ -104,4 +104,34 @@ class CoderController extends Controller
 
         return redirect()->route("coder.loginPage");
     }
+
+    public function ProfilePage() {
+        $coder = Auth::guard("coder")->user();
+        $totalSolvedQuestions = $coder->CountTotalSolvedQuestions();
+        $totalSolvedQuestionsPerLevel = $coder->CountSolvedQuestionsPerDifficulty();
+        $totalCompletedCourses = $coder->CountCompletedCourses();
+        $timeline = $coder->Timeline();
+
+        return view("coder.dashboard.profile", compact('totalSolvedQuestions', 'totalSolvedQuestionsPerLevel', 'coder', 'timeline', 'totalCompletedCourses'));
+    }
+
+    public function UpdateProfile(Request $request) {
+        try {
+            $coder = Auth::guard("coder")->user();
+
+            $coder->name = $request->name;
+            $coder->username = $request->username;
+            $coder->nim = $request->nim;
+
+            $coder->Validate();
+
+            $coder->save();
+
+            Alert::success("Success", "Profile Sucessfully Updated");
+        } catch (\Throwable $th) {
+            Alert::error("error", $th->getMessage());
+        } finally {
+            return redirect()->back();
+        }
+    }
 }
