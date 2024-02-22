@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CacheTimeline;
 use App\Models\Coder;
 use App\Traits\UtilsTrait;
 use Error;
@@ -110,7 +111,20 @@ class CoderController extends Controller
         $totalSolvedQuestions = $coder->CountTotalSolvedQuestions();
         $totalSolvedQuestionsPerLevel = $coder->CountSolvedQuestionsPerDifficulty();
         $totalCompletedCourses = $coder->CountCompletedCourses();
-        $timeline = $coder->Timeline();
+        $timeline = CacheTimeline::where("coder_id", $coder->id)->orderBy("solved_at", "desc")->get();
+
+        if (sizeof($timeline) === 0) {
+            $timeline = $coder->Timeline();
+            foreach ($timeline as $t) {
+                CacheTimeline::create([
+                    "coder_id" => $coder->id,
+                    "title" => $t->title,
+                    "type" => $t->type,
+                    "parent" => $t->parent,
+                    "solved_at" => $t->solved_at
+                ]);
+            }
+        }
 
         return view("coder.dashboard.profile", compact('totalSolvedQuestions', 'totalSolvedQuestionsPerLevel', 'coder', 'timeline', 'totalCompletedCourses'));
     }

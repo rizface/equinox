@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminSubmission;
+use App\Models\CacheTimeline;
 use App\Models\CoderCompleteCourse;
 use App\Models\CoderSolvedQuestion;
+use App\Models\Contest;
 use App\Models\Question;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
@@ -74,6 +76,13 @@ class SubmissionController extends Controller
                 "coder_id" => $submission->coder_id,
                 "question_id" => $submission->question_id,
             ]);
+            
+            CacheTimeline::create([
+                "coder_id" => $submission->coder_id,
+                "title" => $question->title,
+                "type" => "question",
+                "parent" => $question->Contest->title,
+            ]);
 
             $this->checkIfAllQuestionsIsSolved($question->contest_id, $submission->coder_id);
         }
@@ -97,6 +106,15 @@ class SubmissionController extends Controller
             CoderCompleteCourse::create([
                 "coder_id" => $coder_id,
                 "course_id" => $contest_id,
+            ]);
+
+            $course = Contest::where("id", $contest_id)->first();
+
+            CacheTimeline::create([
+                "coder_id" => $coder_id,
+                "title" => $course->title,
+                "type" => "course",
+                "parent" => null,
             ]);
         }
     }
