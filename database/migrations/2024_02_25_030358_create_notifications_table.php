@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->boolean("for_all_coder")->nullable(false)->default(false);
-            $table->boolean("for_all_course_admin")->nullable(false)->default(false);
-            $table->uuid("for_admin_id")->nullable(true);
-            $table->uuid("for_coder_id")->nullable(true);
+            $table->uuid("from_id")->nullable(false);
+            $table->uuid("to_id")->nullable(false);
+            $table->foreignUuid("question_id")->references("id")->on("questions")->onDelete("cascade")->nullable(true);
             $table->boolean("seen")->nullable(true)->default(false); // only set true/false when receiver in specific coder or admin
             $table->text("title")->nullable(false);
             $table->text("message")->nullable(false);

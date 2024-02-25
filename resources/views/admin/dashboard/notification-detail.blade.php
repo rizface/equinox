@@ -18,9 +18,20 @@
                         <span class="description">{{$n->created_at->diffForHumans()}}</span>
                         </div>
                         <!-- /.user-block -->
-                        <p>
+                        @if ($n->question_id)
+                              <p>
+                                Your question with title <b>{{$n->Question->title}}</b> from course <b>{{$n->Question->Contest->title}}</b> is reported
+                                by <b>{{$n->Sender->name}}</b>
+                                with description: {{$n->message}}
+                              </p>
+                              <p>
+                                <a href="{{route('admin.questionDetailPage', ["id" => $n->Question->contest_id, "questionId" => $n->question_id])}}">
+                                  See Question
+                                </a>
+                            </p>
+                        @else
                             {{$n->message}}
-                        </p>
+                        @endif
                     </div>
                 @endforeach
               </div>

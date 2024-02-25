@@ -23,11 +23,11 @@ class AdminNavbar extends Component
     {
         $adminId = Auth::guard("admin")->user()->id;
 
-        $numberOfUnseenNotif = Notification::where("for_admin_id", $adminId)
+        $numberOfUnseenNotif = Notification::where("to_id", $adminId)
         ->where("seen", false)
         ->count();
 
-        $notif = Notification::where("for_admin_id", $adminId)
+        $notif = Notification::where("to_id", $adminId)
         ->orderBy("created_at", "desc")
         ->limit(10)
         ->get();

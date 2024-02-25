@@ -300,13 +300,12 @@ class QuestionController extends Controller
                 "description" => $request->description
             ]);
 
-            $questionTitle = $question->title;
-            $courseTitle = $question->Contest->title;
-
             Notification::create([
-                "for_admin_id" => $question->Contest->admin_id,
-                "title" =>  "Your question is reported by ".Auth::guard("coder")->user()->name,
-                "message" =>  "Your question with title $questionTitle from course $courseTitle is reported with description: ". $request->description
+                "from_id" => Auth::guard("coder")->user()->id,
+                "to_id" => $question->Contest->admin_id,
+                "question_id" =>  $request->question_id,
+                "title" =>  "Question Report",
+                "message" =>  $request->description
             ]);
 
             Alert::success("Success", "Report successfully submited");

@@ -12,11 +12,10 @@ class Notification extends Model
 
     protected $table = "notifications";
     protected $fillable = [
-        "for_all_coder",
-        "for_all_course_admin",
-        "for_admin_id",
-        "for_coder_id",
-        "send",
+        "from_id",
+        "to_id",
+        "question_id",
+        "seen",
         "title",
         "message"
     ];
@@ -24,5 +23,13 @@ class Notification extends Model
     public function MarkAsSeen() {
         $this->seen = true;
         $this->save();
+    }
+
+    public function Sender() {
+        return $this->belongsTo(Coder::class, "from_id");
+    }
+
+    public function Question() {
+        return $this->belongsTo(Question::class, "question_id");
     }
 }

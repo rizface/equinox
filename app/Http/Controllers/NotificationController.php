@@ -12,7 +12,7 @@ class NotificationController extends Controller
 {
     public function GetList() {
         try {
-            $notifications = Notification::where("for_admin_id", Auth::guard("admin")->user()->id)->get();
+            $notifications = Notification::where("to_id", Auth::guard("admin")->user()->id)->get();
             $unseenIds = [];
   
             foreach ($notifications as $n) {
