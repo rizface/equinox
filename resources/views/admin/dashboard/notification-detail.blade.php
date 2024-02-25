@@ -13,17 +13,23 @@
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
                             <a href="#" class="text-capitalize">{{$n->title}}.</a>
-                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                         </span>
                         <span class="description">{{$n->created_at->diffForHumans()}}</span>
                         </div>
                         <!-- /.user-block -->
                         @if ($n->question_id)
+                            @if ($n->Sender)
                               <p>
                                 Your question with title <b>{{$n->Question->title}}</b> from course <b>{{$n->Question->Contest->title}}</b> is reported
                                 by <b>{{$n->Sender->name}}</b>
                                 with description: {{$n->message}}
+                              </p>  
+                            @else
+                              <p>
+                                Your question with title <b>{{$n->Question->title}}</b> from course <b>{{$n->Question->Contest->title}}</b> has been invalidated
+                                by <b>System Adminstrator</b>
                               </p>
+                            @endif
                               <p>
                                 <a href="{{route('admin.questionDetailPage', ["id" => $n->Question->contest_id, "questionId" => $n->question_id])}}">
                                   See Question

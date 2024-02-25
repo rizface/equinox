@@ -43,7 +43,7 @@
                             <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
-                                    {{$n->Sender->name}}
+                                    {{$n->Sender ? $n->Sender->name : "System Administrator"}}
                                 @if ($n->seen)
                                 <span class="float-right text-sm text-primary"><i class="fas fa-star"></i></span>
                                 @endif

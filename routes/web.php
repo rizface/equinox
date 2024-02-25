@@ -14,6 +14,7 @@ use App\Http\Middleware\CoderGuest;
 use App\Http\Middleware\SuperAdminAuth;
 use App\Http\Middleware\SuperAdminGuest;
 use App\Models\Question;
+use App\Models\SuperAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,9 @@ Route::prefix("/superadmin")->group(function() {
     Route::middleware([SuperAdminAuth::class])->group(function() {
         Route::get("/logout", [SuperAdminController::class, "Logout"])->name("superadmin.logout");
         Route::get("/", [SuperAdminController::class, "Index"])->name("superadmin.index");
+        Route::get("/reports/{questionId}", [SuperAdminController::class, "Reports"])->name("superadmin.reports");
+        Route::get("/questions/{questionId}", [SuperAdminController::class, "QuestionDetailPage"])->name("superadmin.questionDetail");
+        Route::get("/questions/{questionId}/invalidate", [SuperAdminController::class, "InvalidateQuestion"])->name("superadmin.invalidateQuestion");
     });
 });
 
