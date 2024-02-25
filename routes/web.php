@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CoderController;
 use App\Http\Controllers\ContestController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\AdminGuestMiddleware;
@@ -51,6 +52,8 @@ Route::prefix("/admin")->group(function() {
         Route::post('/course/{id}/question/{questionId}/update', [QuestionController::class, "UpdateQuestion"])->name("admin.updateQuestion");
         Route::get('/course/{id}/question/{questionId}/submissions', [QuestionController::class, "ViewSubmission"])->name("admin.viewSubmission");
         Route::post("/courses/{courseId}/questions/{questionId}/submission", [QuestionController::class, "SubmitSubmission"])->name("admin.submitSubmission");
+
+        Route::get("/notifications", [NotificationController::class, "GetList"])->name("admin.notification.list");
 
         Route::get("/logout", [AdminController::class, "logout"])->name("admin.logout");
     });

@@ -25,34 +25,7 @@
   @include('sweetalert::alert')
   <div class="wrapper">
 
-    <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-      <div class="container">
-        <a href="../../index3.html" class="navbar-brand">
-          <img src="{{asset('/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-          <span class="brand-text font-weight-light">AdminLTE 3</span>
-        </a>
-        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-          <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Courses
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{route("admin.dashboard")}}">Courses</a>
-                <a class="dropdown-item" href="{{route("admin.createContestPage")}}">Create Course</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a href="{{route("admin.logout")}}" class="nav-link">Logout</a>
-            </li>
-        </div>
-      </div>
-    </nav>
+    <x-AdminNavbar />
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
