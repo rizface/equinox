@@ -6,6 +6,7 @@ use App\Jobs\SendSubmission;
 use App\Models\AdminSubmission;
 use App\Models\Contest;
 use App\Models\Question;
+use App\Models\QuestionReport;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
 use Error;
@@ -281,6 +282,22 @@ class QuestionController extends Controller
             return view('admin.dashboard.editor', compact('submissions', 'solution', 'solutionLang'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function CreateReport(Request $request) {
+        try {
+            QuestionReport::create([
+                "question_id" => $request->question_id,
+                "coder_id" => Auth::guard("coder")->user()->id,
+                "description" => $request->description
+            ]);
+
+            Alert::success("Success", "Report successfully submited");
+        } catch (\Throwable $th) {
+            $this->log($th->getMessage());
+        } finally {
             return redirect()->back();
         }
     }

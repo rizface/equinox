@@ -75,6 +75,8 @@ Route::prefix("/coder")->group(function() {
         Route::post("/courses/{courseId}/questions/{questionId}/submission", [QuestionController::class, "SubmitSubmission"])->name("coder.submitSubmission");
         Route::get("/courses/{courseId}/coder/{coderId}/join", [ContestController::class, "CoderJoinCourse"])->name("coder.joinCourse");
 
+        Route::post("/report/questions", [QuestionController::class, "CreateReport"])->name("coder.report.question");
+
         Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
     });
 });
