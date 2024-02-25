@@ -1,17 +1,17 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminstratorController;
 use App\Http\Controllers\CoderController;
 use App\Http\Controllers\ContestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SuperAdminController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\AdminGuestMiddleware;
 use App\Http\Middleware\CoderAuth;
 use App\Http\Middleware\CoderGuest;
 use App\Models\Question;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +24,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::prefix("/superadmin")->group(function() {
+    Route::get("/login", [SuperAdminController::class, "LoginPage"])->name("superadmin.loginPage");
+    Route::post("/login", [SuperAdminController::class, "Login"])->name("superadmin.login");
+    Route::get("/", [SuperAdminController::class, "Index"])->name("");
+});
 
 Route::prefix("/admin")->group(function() {
     Route::middleware([AdminGuestMiddleware::class])->group(function() {
