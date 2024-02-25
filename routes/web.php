@@ -11,6 +11,8 @@ use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\AdminGuestMiddleware;
 use App\Http\Middleware\CoderAuth;
 use App\Http\Middleware\CoderGuest;
+use App\Http\Middleware\SuperAdminAuth;
+use App\Http\Middleware\SuperAdminGuest;
 use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +28,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix("/superadmin")->group(function() {
-    Route::get("/login", [SuperAdminController::class, "LoginPage"])->name("superadmin.loginPage");
-    Route::post("/login", [SuperAdminController::class, "Login"])->name("superadmin.login");
-    Route::get("/", [SuperAdminController::class, "Index"])->name("");
+    Route::middleware([SuperAdminGuest::class])->group(function() {
+        Route::get("/login", [SuperAdminController::class, "LoginPage"])->name("superadmin.loginPage");
+        Route::post("/login", [SuperAdminController::class, "Login"])->name("superadmin.login");
+    });
+
+    Route::middleware([SuperAdminAuth::class])->group(function() {
+        Route::get("/logout", [SuperAdminController::class, "Logout"])->name("superadmin.logout");
+        Route::get("/", [SuperAdminController::class, "Index"])->name("superadmin.index");
+    });
 });
 
 Route::prefix("/admin")->group(function() {

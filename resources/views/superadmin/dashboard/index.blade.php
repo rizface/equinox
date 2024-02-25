@@ -50,13 +50,13 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="{{route("coder.courses")}}" class="nav-link">Courses</a>
+              <a href="{{route("coder.courses")}}" class="nav-link">Course Admins</a>
             </li>
             <li class="nav-item">
-              <a href="{{route("coder.profile")}}" class="nav-link">Profile</a>
+              <a href="{{route("coder.profile")}}" class="nav-link">Question Report</a>
             </li>
             <li class="nav-item">
-              <a href="{{route("coder.logout")}}" class="nav-link">Logout</a>
+              <a href="{{route("superadmin.logout")}}" class="nav-link">Logout</a>
             </li>
         </div>
       </div>

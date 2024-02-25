@@ -19,22 +19,26 @@ class SuperAdminController extends Controller
             if(Auth::guard("superadmin")->attempt(["username" => $request->username, "password" => $request->password])) {
                 Auth::login(SuperAdmin::where("username", $request->username)->first());
 
-                return redirect(route('superadmin.dashboard'));
+                return redirect(route('superadmin.index'));
             } else {
                 throw new Error("wrong username or password");
             }
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
 
-            return redirect(route('superadmin.loginPage'));
+            return redirect(route('superadmin.index'));
         }
     }
 
-    public function Logout() {
-        dd("Logout");
+    public function Logout(Request $request) {
+        Auth::guard("superadmin")->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route("superadmin.loginPage");
     }
 
     public function Index() {
-        return view("superadmin.dashboard.index");
+        return view("superadmin.dashboard.question-report");
     }
 }
