@@ -14,6 +14,7 @@ class QuestionReport extends Model
     protected $fillable = [
         "question_id",
         "coder_id",
+        "title",
         "description"
     ];
 }

@@ -295,6 +295,7 @@ class QuestionController extends Controller
             }
 
             QuestionReport::create([
+                "title" => $request->title,
                 "question_id" => $request->question_id,
                 "coder_id" => Auth::guard("coder")->user()->id,
                 "description" => $request->description

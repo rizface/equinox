@@ -136,6 +136,10 @@
                     <form method="post" action="{{route("coder.report.question")}}" class="mt-4">
                       @csrf
                       <div class="form-group">
+                        <label for="">Title</label>
+                        <input type="text" name="title" class="form-control">
+                      </div>
+                      <div class="form-group">
                         <label>Description</label>
                         <textarea name="description" cols="30" rows="10" class="form-control"></textarea>
                         <input type="hidden" name="question_id" value="{{$question->id}}">
