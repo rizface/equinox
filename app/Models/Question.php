@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
@@ -135,5 +136,23 @@ class Question extends Model
 
     public function LevelIs(String $level): bool {
         return $this->level == $level;
+    }
+
+    public function Invalidate() {
+        $this->is_valid = false;
+        $this->save();
+    }
+
+    public function GetReports() {
+        return DB::table("question_reports")
+        ->select(DB::raw("
+        question_reports.id as report_id, question_reports.title as report_title, 
+        question_reports.description as description, coders.id as reporter_id, coders.name as reporter_name, 
+        questions.id as question_id, question_reports.created_at as report_time"))
+        ->join("coders", "question_reports.coder_id", "=", "coders.id")
+        ->join("questions", "question_reports.question_id", "=", "questions.id")
+        ->where("question_id", $this->id)
+        ->orderBy("report_time", "desc")
+        ->get();
     }
 }

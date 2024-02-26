@@ -19,13 +19,48 @@
   <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   {{-- Summernote --}}
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+
+  <link href="https://cdn.jsdelivr.net/npm/ace-builds@1.31.1/css/ace.min.css" rel="stylesheet">
+  <style type="text/css" media="screen">
+      #editor { 
+          position: relative;
+          top:0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+      }
+  </style>
 </head>
 
 <body class="layout-top-nav" style="height: auto">
   @include('sweetalert::alert')
   <div class="wrapper">
 
-    <x-AdminNavbar />
+    <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+      <div class="container">
+        <a href="../../index3.html" class="navbar-brand">
+          <img src="{{asset('/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+          <span class="brand-text font-weight-light">AdminLTE 3</span>
+        </a>
+        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a href="#" class="nav-link">Course Admins</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route("superadmin.index")}}" class="nav-link">Question Report</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route("superadmin.logout")}}" class="nav-link">Logout</a>
+            </li>
+        </div>
+      </div>
+    </nav>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -67,7 +102,6 @@
   @stack('datatable')
   @stack('summernote')
   @stack('codeeditor')
-  @stack("script")
 </body>
 
 </html>

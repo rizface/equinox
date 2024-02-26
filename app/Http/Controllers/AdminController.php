@@ -20,7 +20,7 @@ class AdminController extends Controller
     public function Login(Request $request) {
         try {
             if(Auth::guard("admin")->attempt(["username" => $request->username, "password" => $request->password])) {
-                Auth::login(Admin::where("username", $request->username)->first());
+                Auth::guard("login")->login(Admin::where("username", $request->username)->first());
 
                 return redirect(route('admin.dashboard'));
             } else {

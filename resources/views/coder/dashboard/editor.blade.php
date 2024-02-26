@@ -18,6 +18,9 @@
                   <li class="nav-item">
                     <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#submissions" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Submission(s)</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-red" id="custom-content-below-profile-tab" data-toggle="pill" href="#report" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Report</a>
+                  </li>
                 </ul>
                 <div class="tab-content" id="custom-content-below-tabContent">
                   <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
@@ -128,6 +131,23 @@
                       <?php $submissionAt-- ?> 
                       @endforeach
                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+                    <form method="post" action="{{route("coder.report.question")}}" class="mt-4">
+                      @csrf
+                      <div class="form-group">
+                        <label for="">Title</label>
+                        <input type="text" name="title" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" cols="30" rows="10" class="form-control"></textarea>
+                        <input type="hidden" name="question_id" value="{{$question->id}}">
+                      </div>
+                      <div class="form-group">
+                        <button class="btn btn-sm btn-danger">Report</button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Jobs\SendSubmission;
 use App\Models\AdminSubmission;
 use App\Models\Contest;
+use App\Models\Notification;
 use App\Models\Question;
+use App\Models\QuestionReport;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
 use Error;
@@ -281,6 +283,37 @@ class QuestionController extends Controller
             return view('admin.dashboard.editor', compact('submissions', 'solution', 'solutionLang'));
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function CreateReport(Request $request) {
+        try {
+            $question = Question::where("id", $request->question_id)->first();
+            if(!$question) {
+                throw new Error("Question not found");
+            }
+
+            QuestionReport::create([
+                "title" => $request->title,
+                "question_id" => $request->question_id,
+                "coder_id" => Auth::guard("coder")->user()->id,
+                "description" => $request->description
+            ]);
+
+            Notification::create([
+                "from_id" => Auth::guard("coder")->user()->id,
+                "to_id" => $question->Contest->admin_id,
+                "question_id" =>  $request->question_id,
+                "title" =>  "Question Report",
+                "message" =>  $request->description
+            ]);
+
+            Alert::success("Success", "Report successfully submited");
+        } catch (\Throwable $th) {
+            $this->log($th->getMessage());
+            Alert::error("Failed", "Failed create report");
+        } finally {
             return redirect()->back();
         }
     }

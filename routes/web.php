@@ -1,16 +1,20 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminstratorController;
 use App\Http\Controllers\CoderController;
 use App\Http\Controllers\ContestController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SuperAdminController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\AdminGuestMiddleware;
 use App\Http\Middleware\CoderAuth;
 use App\Http\Middleware\CoderGuest;
+use App\Http\Middleware\SuperAdminAuth;
+use App\Http\Middleware\SuperAdminGuest;
 use App\Models\Question;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Models\SuperAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +27,21 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::prefix("/superadmin")->group(function() {
+    Route::middleware([SuperAdminGuest::class])->group(function() {
+        Route::get("/login", [SuperAdminController::class, "LoginPage"])->name("superadmin.loginPage");
+        Route::post("/login", [SuperAdminController::class, "Login"])->name("superadmin.login");
+    });
+
+    Route::middleware([SuperAdminAuth::class])->group(function() {
+        Route::get("/logout", [SuperAdminController::class, "Logout"])->name("superadmin.logout");
+        Route::get("/", [SuperAdminController::class, "Index"])->name("superadmin.index");
+        Route::get("/reports/{questionId}", [SuperAdminController::class, "Reports"])->name("superadmin.reports");
+        Route::get("/questions/{questionId}", [SuperAdminController::class, "QuestionDetailPage"])->name("superadmin.questionDetail");
+        Route::get("/questions/{questionId}/invalidate", [SuperAdminController::class, "InvalidateQuestion"])->name("superadmin.invalidateQuestion");
+    });
+});
 
 Route::prefix("/admin")->group(function() {
     Route::middleware([AdminGuestMiddleware::class])->group(function() {
@@ -52,6 +71,8 @@ Route::prefix("/admin")->group(function() {
         Route::get('/course/{id}/question/{questionId}/submissions', [QuestionController::class, "ViewSubmission"])->name("admin.viewSubmission");
         Route::post("/courses/{courseId}/questions/{questionId}/submission", [QuestionController::class, "SubmitSubmission"])->name("admin.submitSubmission");
 
+        Route::get("/notifications", [NotificationController::class, "GetList"])->name("admin.notification.list");
+
         Route::get("/logout", [AdminController::class, "logout"])->name("admin.logout");
     });
 });
@@ -74,6 +95,8 @@ Route::prefix("/coder")->group(function() {
         Route::get("/courses/{courseId}/questions/{questionId}", [QuestionController::class, "DetailQuestionPageForCoder"])->name("coder.detailQuestion");
         Route::post("/courses/{courseId}/questions/{questionId}/submission", [QuestionController::class, "SubmitSubmission"])->name("coder.submitSubmission");
         Route::get("/courses/{courseId}/coder/{coderId}/join", [ContestController::class, "CoderJoinCourse"])->name("coder.joinCourse");
+
+        Route::post("/report/questions", [QuestionController::class, "CreateReport"])->name("coder.report.question");
 
         Route::get("/logout", [CoderController::class, "Logout"])->name("coder.logout");
     });

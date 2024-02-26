@@ -47,6 +47,10 @@ return [
         'coder' => [
             'driver' => 'session',
             'provider' => 'coders',
+        ],
+        'superadmin' => [
+            'driver' => 'session',
+            'provider' => 'superadmins',
         ]
     ],
 
@@ -79,6 +83,10 @@ return [
         'coders' => [
             'driver' => 'eloquent',
             'model' => App\Models\Coder::class,
+        ],
+        "superadmins" => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SuperAdmin::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
