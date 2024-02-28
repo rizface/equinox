@@ -42,6 +42,7 @@ Route::prefix("/superadmin")->group(function() {
         Route::get("/questions/{questionId}/invalidate", [SuperAdminController::class, "InvalidateQuestion"])->name("superadmin.invalidateQuestion");
 
         Route::get("/invalid-admins", [SuperAdminController::class, "ListInvalidAdmins"])->name("superadmin.invalidAdmins");
+        Route::get("/validate/invalid-admins/{adminId}", [SuperAdminController::class, "ValidateAdmin"])->name("superadmin.validateAdmin");
     });
 });
 

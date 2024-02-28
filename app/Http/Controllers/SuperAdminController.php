@@ -122,4 +122,22 @@ class SuperAdminController extends Controller
 
         return view("superadmin.dashboard.invalid-admins", compact("admins"));
     }
+
+    public function ValidateAdmin($adminId) {
+        try {
+            $admin = Admin::where("id", $adminId)->first();
+
+            if (!$admin) {
+                throw new Error("Admin not found");
+            }
+
+            $admin->ValidateAdmin();
+
+            Alert::success("Success", "Success validate admin");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect(route('superadmin.invalidAdmins'));
+        }
+    }
 } 

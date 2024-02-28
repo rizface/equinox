@@ -28,7 +28,7 @@
                                         <td>{{$a->created_at}}</td>
                                         <td>
                                             <div class="col-md-2">
-                                                <a href="#">Validate</a>
+                                                <a href="{{route("superadmin.validateAdmin", ["adminId" => $a->id])}}" onclick="return confirm('Are you sure want to validate this admin ?')">Validate</a>
                                             </div>
                                         </td>
                                     </tr>

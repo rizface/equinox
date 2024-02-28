@@ -13,4 +13,9 @@ class Admin extends Authenticatable
     protected $table = "admins";
     protected $primaryKey = "id";
     protected $fillable = ["name", "username", "password", "is_valid"];
+
+    public function ValidateAdmin() {
+        $this->is_valid = true;
+        $this->save();
+    }
 }
