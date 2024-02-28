@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Question;
 use App\Models\SuperAdmin;
+use App\Models\Admin;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +84,6 @@ class SuperAdminController extends Controller
 
             return redirect(route('superadmin.index'));
         }
-
     }
 
     public function InvalidateQuestion($questionId) {
@@ -116,4 +116,47 @@ class SuperAdminController extends Controller
             return redirect(route('superadmin.index'));
         }
     }
-}
+
+    public function ListInvalidAdmins() {
+        $invalidAdmins = Admin::where("is_valid", false)->get();
+        $validAdmins = Admin::where("is_valid", true)->get();
+
+        return view("superadmin.dashboard.invalid-admins", compact("invalidAdmins", "validAdmins"));
+    }
+
+    public function ValidateAdmin($adminId) {
+        try {
+            $admin = Admin::where("id", $adminId)->first();
+
+            if (!$admin) {
+                throw new Error("Admin not found");
+            }
+
+            $admin->ValidateAdmin();
+
+            Alert::success("Success", "Success validate admin");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect(route('superadmin.invalidAdmins'));
+        }
+    }
+
+    public function InvalidateAdmin($adminId) {
+        try {
+            $admin = Admin::where("id", $adminId)->first();
+
+            if (!$admin) {
+                throw new Error("Admin not found");
+            }
+
+            $admin->InvalidateAdmin();
+
+            Alert::success("Success", "Success invalidate admin");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect(route('superadmin.invalidAdmins'));
+        }
+    }
+} 

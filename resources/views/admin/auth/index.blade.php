@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 </head>
 <body class="hold-transition login-page">
-@include('sweetalert::alert')
-@yield('auth')
+  @include('sweetalert::alert')
+  @yield('auth')
 
 <!-- jQuery -->
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
