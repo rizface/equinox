@@ -118,9 +118,10 @@ class SuperAdminController extends Controller
     }
 
     public function ListInvalidAdmins() {
-        $admins = Admin::where("is_valid", false)->get();
+        $invalidAdmins = Admin::where("is_valid", false)->get();
+        $validAdmins = Admin::where("is_valid", true)->get();
 
-        return view("superadmin.dashboard.invalid-admins", compact("admins"));
+        return view("superadmin.dashboard.invalid-admins", compact("invalidAdmins", "validAdmins"));
     }
 
     public function ValidateAdmin($adminId) {
@@ -134,6 +135,24 @@ class SuperAdminController extends Controller
             $admin->ValidateAdmin();
 
             Alert::success("Success", "Success validate admin");
+        } catch (\Throwable $th) {
+            Alert::error("Failed", $th->getMessage());
+        } finally {
+            return redirect(route('superadmin.invalidAdmins'));
+        }
+    }
+
+    public function InvalidateAdmin($adminId) {
+        try {
+            $admin = Admin::where("id", $adminId)->first();
+
+            if (!$admin) {
+                throw new Error("Admin not found");
+            }
+
+            $admin->InvalidateAdmin();
+
+            Alert::success("Success", "Success invalidate admin");
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
         } finally {
