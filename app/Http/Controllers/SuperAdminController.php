@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Question;
 use App\Models\SuperAdmin;
+use App\Models\Admin;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -115,4 +116,10 @@ class SuperAdminController extends Controller
             return redirect(route('superadmin.index'));
         }
     }
-}
+
+    public function ListInvalidAdmins() {
+        $admins = Admin::where("is_valid", false)->get();
+
+        return view("superadmin.dashboard.invalid-admins", compact("admins"));
+    }
+} 
