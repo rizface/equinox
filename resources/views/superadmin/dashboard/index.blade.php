@@ -50,7 +50,7 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="#" class="nav-link">Course Admins</a>
+              <a href="#" class="nav-link">Validate Course Admins</a>
             </li>
             <li class="nav-item">
               <a href="{{route("superadmin.index")}}" class="nav-link">Question Report</a>

@@ -20,6 +20,6 @@ class AdminAuthMiddleware
             return $next($request);
         }
 
-        return redirect()->back();
+        return redirect(route("admin.loginPage"));
     }
 }

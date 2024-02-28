@@ -19,15 +19,30 @@ class AdminController extends Controller
 
     public function Login(Request $request) {
         try {
-            if(Auth::guard("admin")->attempt(["username" => $request->username, "password" => $request->password])) {
-                Auth::guard("login")->login(Admin::where("username", $request->username)->first());
-
-                return redirect(route('admin.dashboard'));
-            } else {
-                throw new Error("username / password salah");
+            $admin = Admin::where("username", $request->username)->first();
+            if (!$admin) {
+                throw new Error("Admin not found");
             }
+
+            $credIsValid = Auth::guard("admin")->attempt(["username" => $request->username, "password" => $request->password]);
+            $adminsIsValid = $admin->is_valid;
+            $canLogin = $credIsValid && $adminsIsValid;
+
+
+            if (!$credIsValid) {
+                throw new Error("Wrong username / password");
+            }
+
+            if (!$canLogin) {
+                Auth::guard("admin")->logout();
+                throw new Error("Admin account is not validated yet by the super admin");
+            }
+
+            Auth::guard("login")->login(Admin::where("username", $request->username)->first());
+
+            return redirect(route('admin.dashboard'));
         } catch (\Throwable $th) {
-            Alert::error("Gagal", $th->getMessage());
+            Alert::error("Failed", $th->getMessage());
 
             return redirect(route('admin.loginPage'));
         }

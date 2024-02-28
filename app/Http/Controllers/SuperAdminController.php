@@ -83,7 +83,6 @@ class SuperAdminController extends Controller
 
             return redirect(route('superadmin.index'));
         }
-
     }
 
     public function InvalidateQuestion($questionId) {
