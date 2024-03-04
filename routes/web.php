@@ -107,6 +107,5 @@ Route::prefix("/coder")->group(function() {
 });
 
 Route::get('/', function () {
-    $q = Question::first();
-    return view('welcome', compact('q'));
+    route::redirect(route("coder.loginPage"));
 });
