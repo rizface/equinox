@@ -95,6 +95,7 @@
 <script>
   $(function () {
         ["#example1", "#example2", "#example3"].forEach(e => {
+          if (e === "#example1" || e === "#example2") {
             $(e).DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "paging": true,
@@ -105,6 +106,29 @@
                 "autoWidth": false,
                 "responsive": true,
             });
+          }
+
+          if (e === "#example3") {
+            $(e).DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "buttons": [
+                  {
+                      text: 'New Course',
+                      action: function ( e, dt, node, config ) {
+                          window.location.href = "{{route('admin.createContestPage')}}"
+                      },
+                      className: "btn-sm mt-2"
+                  }
+                ]
+            }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+          }
         })
     });
 </script>

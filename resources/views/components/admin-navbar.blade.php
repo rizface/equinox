@@ -11,14 +11,10 @@
       </button>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <li class="nav-item">
+            <a class="nav-link" href="{{route("admin.dashboard")}}">
               Courses
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{route("admin.dashboard")}}">Courses</a>
-              <a class="dropdown-item" href="{{route("admin.createContestPage")}}">Create Course</a>
-            </div>
           </li>
           <li class="nav-item">
             <a href="{{route("admin.logout")}}" class="nav-link">Logout</a>
