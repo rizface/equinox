@@ -187,9 +187,10 @@ class QuestionController extends Controller
 
             $question->DecodeParamsForView();
 
-            $adminSubmissions = AdminSubmission::get()
-            ->where("admin_id", Auth::guard("admin")->user()->id)
-            ->where("question_id", $questionId);
+            $adminSubmissions = AdminSubmission::where("admin_id", Auth::guard("admin")->user()->id)
+            ->where("question_id", $questionId)
+            ->orderBy("created_at", "desc")
+            ->get();
 
             $submissions = [];
             foreach ($adminSubmissions as $key => $submission) {
