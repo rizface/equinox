@@ -94,8 +94,11 @@
                                           @foreach ($s->params as $param)
                                               <td>{{$param}}</td>
                                           @endforeach
-                                            
+                                          @if (is_array($s->expected_return_values->return))
                                             <td>{{json_encode($s->expected_return_values->return)}}</td>
+                                          @else
+                                            <td>{{$s->expected_return_values->return}}</td>
+                                          @endif
                                             <td>{{
                                               $s->result ? json_encode($s->GetCoderAnswer()) : "N/A"  
                                             }}</td>
