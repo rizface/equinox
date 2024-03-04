@@ -66,15 +66,21 @@ trait UtilsTrait {
         $log->writeln(json_encode($data));
     }
 
-    public function JudgePayload(int $langId, string $sc): Array {
+    public function JudgePayload(int $langId, string $sc, $questionValidation): Array {
+        $path = "/api/check-submission";
+
+        if($questionValidation) {
+            $path = "/api/validate-question";
+        } 
+
         $payload = [
             "language_id" => $langId,
             "compiler_options" => "",
             "command_line_arguments" => "",
             "redirect_stderr_to_stdout" => true,
             "source_code" => $sc,
-            "callback_url" => "https://webhook.site/116b1c7f-9cc8-445b-8f38-8be75e1b1543"
-            // "callback_url" => env("CALLBACK_URL") // TODO: REPLACE THIS WITH YOUR OWN CALLBACK URL
+            // "callback_url" => "https://webhook.site/116b1c7f-9cc8-445b-8f38-8be75e1b1543"
+            "callback_url" => env("CALLBACK_URL").$path
         ];
 
         return $payload;

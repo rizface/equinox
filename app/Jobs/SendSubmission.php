@@ -62,7 +62,7 @@ class SendSubmission implements ShouldQueue
             // $this->log(json_encode($usedParams));
 
             $sc = base64_encode($sc);
-            $payload = $this->JudgePayload($request["lang"], $sc);
+            $payload = $this->JudgePayload($request["lang"], $sc, $questionValidation);
             $result = $this->SendToJudge($payload);
             $this->log($sc);
             $submission = [
