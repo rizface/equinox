@@ -38,7 +38,7 @@ class AdminController extends Controller
                 throw new Error("Admin account is not validated yet by the super admin");
             }
 
-            Auth::guard("login")->login(Admin::where("username", $request->username)->first());
+            Auth::guard("admin")->login(Admin::where("username", $request->username)->first());
 
             return redirect(route('admin.dashboard'));
         } catch (\Throwable $th) {
