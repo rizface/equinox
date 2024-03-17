@@ -43,7 +43,7 @@
                                                     <td>{{$a->username}}</td>
                                                     <td>{{\Carbon\Carbon::parse($a->created_at)->isoFormat("DD-MM-YYYY")}}</td>
                                                     <td>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-4">
                                                             <a href="{{route("superadmin.validateAdmin", ["adminId" => $a->id])}}" onclick="return confirm('Are you sure want to validate this admin ?')">Validate</a>
                                                         </div>
                                                     </td>
