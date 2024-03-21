@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Create Course</div>
+                    <div class="card-title">Update Course</div>
                 </div>
                 <div class="card-body">
                     <form action="{{route("admin.updateCourse", ["id" => $course->id])}}" method="post">
