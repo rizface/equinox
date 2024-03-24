@@ -68,6 +68,7 @@
                   <th>Title</th>
                   <th>Number Of Question(s)</th>
                   <th>Participant(s)</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -77,6 +78,13 @@
                   <td>{{$i->Course->title}}</td>
                   <td>{{$i->Course->GetNumberOfQuestions()}}</td>
                   <td>{{$i->Course->GetNumberOfParticipants()}}</td>
+                  <td>
+                    @if ($i->Course->IsCompleteByCurrentUser())
+                    <span class="badge badge-success">Completed</span>
+                    @else
+                    <span class="badge badge-secondary">Not Completed</span>
+                    @endif
+                  </td>
                   <td>
                     <a href="{{route("coder.detailCourse", ["id"=> $i->Course->id])}}">View</a>
                   </td>
