@@ -124,19 +124,19 @@
                 <div class="form-group row">
                   <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                   <div class="col-sm-10">
-                    <input type="text" name="name"  class="form-control" id="inputName" placeholder="Name" value="{{$coder->name}}">
+                    <input type="text" name="name"  class="form-control" id="inputName" placeholder="Name" value="{{$coder->name}}" required>
                   </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputName2" class="col-sm-2 col-form-label">NIM</label>
                     <div class="col-sm-10">
-                      <input type="text" name="nim" class="form-control" id="inputName2" placeholder="NIM" value="{{$coder->nim}}">
+                      <input type="text" name="nim" class="form-control" id="inputName2" placeholder="NIM" value="{{$coder->nim}}" required>
                     </div>
                   </div>
                 <div class="form-group row">
                   <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
                   <div class="col-sm-10">
-                    <input type="text" name="username" class="form-control" id="inputEmail" placeholder="Username" value="{{$coder->username}}">
+                    <input type="text" name="username" class="form-control" id="inputEmail" placeholder="Username" value="{{$coder->username}}" required>
                   </div>
                 </div>
                 <div class="form-group row">

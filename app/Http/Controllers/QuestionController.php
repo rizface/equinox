@@ -290,6 +290,12 @@ class QuestionController extends Controller
 
     public function CreateReport(Request $request) {
         try {
+            $this->validate($request, [
+                "title" => ["required"],
+                "description" => ["required"],
+                "question_id" => ["required"]
+            ]);
+
             $question = Question::where("id", $request->question_id)->first();
             if(!$question) {
                 throw new Error("Question not found");
@@ -313,7 +319,7 @@ class QuestionController extends Controller
             Alert::success("Success", "Report successfully submited");
         } catch (\Throwable $th) {
             $this->log($th->getMessage());
-            Alert::error("Failed", "Failed create report");
+            Alert::error("Failed", $th->getMessage());
         } finally {
             return redirect()->back();
         }

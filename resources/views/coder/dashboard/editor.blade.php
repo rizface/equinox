@@ -137,11 +137,11 @@
                       @csrf
                       <div class="form-group">
                         <label for="">Title</label>
-                        <input type="text" name="title" class="form-control">
+                        <input type="text" name="title" class="form-control" required>
                       </div>
                       <div class="form-group">
                         <label>Description</label>
-                        <textarea name="description" cols="30" rows="10" class="form-control"></textarea>
+                        <textarea name="description" cols="30" rows="10" class="form-control" required></textarea>
                         <input type="hidden" name="question_id" value="{{$question->id}}">
                       </div>
                       <div class="form-group">
@@ -166,7 +166,7 @@
                           <div class="form-group">
                             <select name="lang" onchange="changeLanguage(this)" class="form-control">
                                 <option value="68">PHP (7.4.1)</option>
-                                <option value="71">Python (3.8.1)</option>
+                                {{-- <option value="71">Python (3.8.1)</option> --}}
                             </select>
                           </div>
                           <textarea id="editor"></textarea>

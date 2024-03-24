@@ -11,7 +11,7 @@
         <form action="{{route("coder.login")}}" method="post">
           @csrf
           <div class="input-group mb-3">
-            <input type="text" name="username" class="form-control" placeholder="Username">
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" name="password" class="form-control" placeholder="Kata Sandi">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -28,7 +28,7 @@
           </div>
           <div class="row">
             <div class="col">
-              <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
           </div>
         </form>
@@ -40,7 +40,7 @@
         </p> --}}
 
         <p class="mb-0">
-          <a href="{{route('coder.registerPage')}}" class="text-center">Buat Akun</a>
+          <a href="{{route('coder.registerPage')}}" class="text-center">Create Account</a>
         </p>
       </div>
       <!-- /.login-card-body -->
