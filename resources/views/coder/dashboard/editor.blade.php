@@ -137,11 +137,11 @@
                       @csrf
                       <div class="form-group">
                         <label for="">Title</label>
-                        <input type="text" name="title" class="form-control">
+                        <input type="text" name="title" class="form-control" required>
                       </div>
                       <div class="form-group">
                         <label>Description</label>
-                        <textarea name="description" cols="30" rows="10" class="form-control"></textarea>
+                        <textarea name="description" cols="30" rows="10" class="form-control" required></textarea>
                         <input type="hidden" name="question_id" value="{{$question->id}}">
                       </div>
                       <div class="form-group">

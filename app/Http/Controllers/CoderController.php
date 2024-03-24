@@ -106,7 +106,7 @@ class CoderController extends Controller
     }
 
     public function ProfilePage() {
-        $coder = Coder::where("id", Auth::guard("coder")->user()->id);
+        $coder = Coder::where("id", Auth::guard("coder")->user()->id)->first();
         $totalSolvedQuestions = $coder->CountTotalSolvedQuestions();
         $totalSolvedQuestionsPerLevel = $coder->CountSolvedQuestionsPerDifficulty();
         $totalCompletedCourses = $coder->CountCompletedCourses();
@@ -117,7 +117,7 @@ class CoderController extends Controller
 
     public function UpdateProfile(Request $request) {
         try {
-            $coder = Coder::where("id", Auth::guard("coder")->user()->id);
+            $coder = Coder::where("id", Auth::guard("coder")->user()->id)->first();
             $coder->name = $request->name;
             $coder->username = $request->username;
             $coder->nim = $request->nim;
