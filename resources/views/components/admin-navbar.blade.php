@@ -1,6 +1,6 @@
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="../../index3.html" class="navbar-brand">
+      <a href="{{route("admin.dashboard")}}" class="navbar-brand">
         <img src="{{asset('/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light">POLBATCODE</span>
@@ -21,7 +21,7 @@
           </li>
         </ul>
 
-              <!-- Right navbar links -->
+        <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
           <!-- Messages Dropdown Menu -->
           <li class="nav-item dropdown">
@@ -36,7 +36,7 @@
                     <a href="#" class="dropdown-item">
                         <!-- Message Start -->
                         <div class="media">
-                            <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                            <img src="{{asset('dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     {{$n->Sender ? $n->Sender->name : "System Administrator"}}
