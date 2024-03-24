@@ -28,7 +28,7 @@
           </div>
           <div class="row">
             <div class="col">
-              <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
           </div>
         </form>
@@ -40,7 +40,7 @@
         </p> --}}
 
         <p class="mb-0">
-          <a href="{{route('coder.registerPage')}}" class="text-center">Buat Akun</a>
+          <a href="{{route('coder.registerPage')}}" class="text-center">Create Account</a>
         </p>
       </div>
       <!-- /.login-card-body -->

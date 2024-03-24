@@ -146,7 +146,7 @@
                           <div class="form-group">
                             <select name="lang" onchange="changeLanguage(this)" class="form-control">
                                 <option value="68">PHP (7.4.1)</option>
-                                <option value="71">Python (3.8.1)</option>
+                                {{-- <option value="71">Python (3.8.1)</option> --}}
                             </select>
                           </div>
                           <textarea id="editor"></textarea>

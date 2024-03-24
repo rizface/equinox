@@ -63,7 +63,7 @@ class AdminController extends Controller
 
             $existing = Admin::where("username", $request->username)->first();
             if($existing) {
-                throw new Error("Username telah digunakan");
+                throw new Error("Username already taken");
             }
             
             Admin::create([
@@ -72,7 +72,7 @@ class AdminController extends Controller
                 "password" => Hash::make($request->password),
             ]);
 
-            Alert::success("Berhasil", "Berhasil Terdaftar Sebagai Admin Kontes");
+            Alert::success("Success", "Register is successful, please wait for the super admin to validate your account");
 
             return redirect(route('admin.loginPage'));
         } catch (\Throwable $th) {

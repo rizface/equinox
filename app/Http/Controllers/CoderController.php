@@ -46,7 +46,7 @@ class CoderController extends Controller
 
             $existing = Coder::where("username", $request->username)->first();
             if ($existing) {
-                throw new Error("$request->username already taken");
+                throw new Error("Username $request->username already taken");
             }
 
             Coder::create([
@@ -56,7 +56,7 @@ class CoderController extends Controller
                 "nim" => $request->nim
             ]);
 
-            Alert::success("Success", "Success create coder account");
+            Alert::success("Success", "Successfully registered, please login to continue");
             return redirect()->route("coder.loginPage");
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
@@ -90,7 +90,7 @@ class CoderController extends Controller
                 return redirect()->route("coder.courses");
             }
             
-            throw new Error("Login failed check your username/password");
+            throw new Error("Login failed please check your username and password");
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
             return redirect()->route("coder.loginPage");
@@ -106,7 +106,7 @@ class CoderController extends Controller
     }
 
     public function ProfilePage() {
-        $coder = Auth::guard("coder")->user();
+        $coder = Coder::where("id", Auth::guard("coder")->user()->id);
         $totalSolvedQuestions = $coder->CountTotalSolvedQuestions();
         $totalSolvedQuestionsPerLevel = $coder->CountSolvedQuestionsPerDifficulty();
         $totalCompletedCourses = $coder->CountCompletedCourses();
@@ -117,17 +117,14 @@ class CoderController extends Controller
 
     public function UpdateProfile(Request $request) {
         try {
-            $coder = Auth::guard("coder")->user();
-
+            $coder = Coder::where("id", Auth::guard("coder")->user()->id);
             $coder->name = $request->name;
             $coder->username = $request->username;
             $coder->nim = $request->nim;
-
             $coder->Validate();
-
             $coder->save();
 
-            Alert::success("Success", "Profile Sucessfully Updated");
+            Alert::success("Success", "Successfully updated your profile");
         } catch (\Throwable $th) {
             Alert::error("error", $th->getMessage());
         } finally {

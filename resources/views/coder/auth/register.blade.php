@@ -8,7 +8,7 @@
   
     <div class="card">
       <div class="card-body register-card-body">
-        <p class="login-box-msg">Buat Akun Baru</p>
+        <p class="login-box-msg">Create New Account</p>
   
         <form action="{{route("coder.register")}}" method="post">
             @csrf
@@ -55,13 +55,13 @@
           <div class="row">
             <!-- /.col -->
             <div class="col">
-              <button type="submit" class="btn btn-primary btn-block">Buat Akun</button>
+              <button type="submit" class="btn btn-primary btn-block">Create Account</button>
             </div>
             <!-- /.col -->
           </div>
         </form>
   
-        <a href="{{route('coder.loginPage')}}" class="text-center">Saya Sudah Memiliki Akun</a>
+        <a href="{{route('coder.loginPage')}}" class="text-center">Already Have an Account</a>
       </div>
       <!-- /.form-box -->
     </div><!-- /.card -->
