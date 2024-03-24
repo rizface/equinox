@@ -62,7 +62,7 @@ class AdminController extends Controller
             ]);
 
             $existing = Admin::where("username", $request->username)->first();
-            if(!isNull($existing)) {
+            if($existing) {
                 throw new Error("Username telah digunakan");
             }
             
