@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | General UI</title>
+  <title>POLBATCODE</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -103,5 +103,4 @@
   @stack('summernote')
   @stack('codeeditor')
 </body>
-
 </html>
