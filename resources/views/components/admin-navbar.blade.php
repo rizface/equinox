@@ -45,7 +45,9 @@
                                 @endif
                                 </h3>
                                 <p class="text-sm">{{Str::of($n->message)->limit(25)}}</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                  {{$n->created_at->diffForHumans()}}
+                                </p>
                             </div>
                         </div>
                         <!-- Message End -->
