@@ -30,21 +30,31 @@ trait UtilsTrait {
             $paramAndReturnValue = [];
             
             for ($j=1; $j <= $indexInput; $j++) { 
-                $decodedParam = json_decode($request["$paramKey$j"][$i], true);
+                $p = $request["$paramKey$j"][$i];
+                if (!$p) {
+                    throw new Error("Cannot have empty param or return value");
+                }
+
+                $decodedParam = json_decode($p);
 
                 if (($decodedParam !== null)) {
-                    $paramAndReturnValue["param$j"] = json_decode($request["$paramKey$j"][$i]);
+                    $paramAndReturnValue["param$j"] = $decodedParam;
                     continue;
                 } 
 
-                $paramAndReturnValue["param$j"] = $request["$paramKey$j"][$i];
+                $paramAndReturnValue["param$j"] = $p;
             }
 
-            $decodedReturn = json_decode($request["return"][$i]);
+            $returnValue =  $request["return"][$i];
+            if (!$returnValue) {
+                throw new Error("Cannot have empty param or return value");
+            }
+
+            $decodedReturn = json_decode($returnValue);
             if ($decodedReturn !== null) {
                 $paramAndReturnValue["return"] = $decodedReturn;
             } else {
-                $paramAndReturnValue["return"] = $request["return"][$i];
+                $paramAndReturnValue["return"] = $returnValue;
             }
 
             array_push($paramsAndReturnValue, $paramAndReturnValue);

@@ -28,7 +28,7 @@ class QuestionController extends Controller
     public function CreateQuestion(Request $request, $id) {
         try {
             $paramsAndReturnValue = $this->ConstructParamsAndReturnValue($request,"input");
-            // dd($paramsAndReturnValue);
+
             Question::create([
                 "contest_id" => $id,
                 "title" => $request->title,
@@ -39,7 +39,7 @@ class QuestionController extends Controller
 
             Alert::success("Success", "Question successfully created");
         } catch (\Throwable $th) {
-            Alert::error("Failed", "Failed create the question");
+            Alert::error("Failed", $th->getMessage());
         } finally {
             return redirect(route('admin.createQuestionPage', ["id"=>$id]));
         }
