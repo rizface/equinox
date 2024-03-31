@@ -109,3 +109,8 @@ Route::prefix("/coder")->group(function() {
 Route::get('/', function () {
     route::redirect(route("coder.loginPage"));
 });
+
+Route::get("/callback", function() {
+    echo env("CALLBAC_URL");
+    return;
+})->name("callback");

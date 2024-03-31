@@ -55,16 +55,10 @@ class Submission extends Model
         if ($decodedResult !== null) {
             $result = $decodedResult;
         }
-
-        $this->log($decodedResult);
-        $this->log($this->GetExpectedReturnValues());
-        $this->log($result == $this->GetExpectedReturnValues());
         
         if (is_bool($this->GetExpectedReturnValues())) {
             $result = boolval($result);
         }
-
-        // dd($result, $this->GetExpectedReturnValues(), $result === $this->GetExpectedReturnValues());
 
         if ($result===$this->GetExpectedReturnValues()) {
             $isAnswerAccepted = true;
