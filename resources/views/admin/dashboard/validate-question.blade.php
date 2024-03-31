@@ -99,9 +99,7 @@
                                           @else
                                             <td>{{$s->expected_return_values->return}}</td>
                                           @endif
-                                            <td>{{
-                                              $s->result ? json_encode($s->GetCoderAnswer()) : "N/A"  
-                                            }}</td>
+                                            <td>RESULT</td>
                                             <td class="text-capitalize">
                                               @if ($s->status == "accepted")
                                                   <span class="badge badge-success">{{$s->status}}</span>                                              
