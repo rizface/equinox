@@ -147,6 +147,8 @@ trait UtilsTrait {
             } else if (is_bool($param)) {
                 $param = $param ? "true" : "false";
                 $usedParams[$key] = $param;
+            } else {
+                $usedParams[$key] = $param;
             }
 
             $args .= $param;
