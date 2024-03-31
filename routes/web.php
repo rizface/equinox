@@ -113,6 +113,6 @@ Route::middleware('cache.headers:public;etag')->group(function() {
 });
 
 Route::get("/callback", function() {
-    echo env("CALLBAC_URL");
+    echo env("CALLBACK_URL");
     return;
 })->name("callback");
