@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('admin_submissions', function (Blueprint $table) {
-            $table->text("message");
+            $table->text("message")->nullable(true)->default('');
         });
     }
 
