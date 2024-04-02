@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use function PHPUnit\Framework\isNull;
+
 trait UtilsTrait {
     public function ConstructParamsAndReturnValue(Request $request, String $paramKey) {
         if(!is_countable($request[$paramKey."1"])) {
@@ -31,7 +33,8 @@ trait UtilsTrait {
             
             for ($j=1; $j <= $indexInput; $j++) { 
                 $p = $request["$paramKey$j"][$i];
-                if (!$p) {
+            
+                if (is_null($p)) {
                     throw new Error("Cannot have empty param or return value");
                 }
 
@@ -46,7 +49,7 @@ trait UtilsTrait {
             }
 
             $returnValue =  $request["return"][$i];
-            if (!$returnValue) {
+            if (is_null($returnValue)) {
                 throw new Error("Cannot have empty param or return value");
             }
 
