@@ -31,7 +31,8 @@ trait UtilsTrait {
             
             for ($j=1; $j <= $indexInput; $j++) { 
                 $p = $request["$paramKey$j"][$i];
-                if (!$p) {
+            
+                if (is_null($p)) {
                     throw new Error("Cannot have empty param or return value");
                 }
 
@@ -46,7 +47,7 @@ trait UtilsTrait {
             }
 
             $returnValue =  $request["return"][$i];
-            if (!$returnValue) {
+            if (is_null($returnValue)) {
                 throw new Error("Cannot have empty param or return value");
             }
 
