@@ -5,7 +5,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">{{$question->title}}</div>
+                    <div class="card-title">
+                        <a href="{{route('coder.detailCourse', ["id" => request('courseId')])}}">
+                            <i class="btn-sm fas fa-arrow-left mr-2"></i>
+                          </a>
+                        {{$question->title}}
+                    </div>
                 </div>
                 <div class="card-body">
                     {!!$question->description!!}
@@ -33,7 +38,11 @@
                                         <?php $i++; ?>
                                         <td>{{$i}}</td>
                                     @foreach ($params as $param)
+                                    @if (is_array($param))
+                                        <td>{{json_encode($param)}}</td>
+                                    @else
                                         <td>{{$param}}</td>
+                                    @endif
                                     @endforeach
                                 </tr>
                             @endforeach
