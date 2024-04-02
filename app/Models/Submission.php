@@ -33,6 +33,10 @@ class Submission extends Model
     }
 
     private function GetExpectedReturnValues() {
+        if (is_array($this->expected_return_values->return)) {
+            return $this->expected_return_values->return;
+        }
+        
         // special case for false / 'false'
         if (str_replace("'", "", $this->expected_return_values->return) == "false") {
             return false;
