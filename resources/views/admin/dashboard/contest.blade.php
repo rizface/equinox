@@ -63,7 +63,7 @@
                 <tr>
                   <td>{{$i->title}}</td>
                   <td>{{$i->GetNumberOfQuestions()}}</td>
-                  <td>{{20}}</td>
+                  <td>{{$i->GetNumberOfParticipants()}}</td>
                   <td>
                     <a href="{{route("admin.contestDetailPage", ["id"=> $i->id])}}">View</a>
                     <a class="m-4" href="{{route("admin.deleteCourse", ["id"=> $i->id])}}">Delete</a>
