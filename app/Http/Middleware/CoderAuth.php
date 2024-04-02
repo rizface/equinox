@@ -20,6 +20,6 @@ class CoderAuth
             return $next($request);
         }
 
-        return redirect()->back();
+        return redirect()->route("coder.loginPage");
     }
 }

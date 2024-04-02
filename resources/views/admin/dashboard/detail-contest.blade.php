@@ -5,7 +5,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Questions</div>
+                <div class="card-title">
+                    <a href="{{route('admin.dashboard')}}">
+                        <i class="btn-sm fas fa-arrow-left mr-2"></i>
+                      </a>
+                    Questions
+                </div>
             </div>
             <div class="card-body">
                 <table id="example2" class="table table-bordered table-striped">

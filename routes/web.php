@@ -107,5 +107,5 @@ Route::prefix("/coder")->group(function() {
 });
 
 Route::get('/', function () {
-    route::redirect(route("coder.loginPage"));
+    return redirect()->route("coder.loginPage");
 });

@@ -5,7 +5,12 @@
     <div class="col-md-5">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">{{$question->title}}</div>
+                <div class="card-title">
+                  <a href="{{route('coder.detailCourse', ["id" => request('courseId')])}}">
+                    <i class="btn-sm fas fa-arrow-left mr-2"></i>
+                  </a>
+                  {{$question->title}}
+                </div>
             </div>
             <div class="card-body">
                 <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">

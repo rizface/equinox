@@ -7,7 +7,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Question Description</div>
+                <div class="card-title">
+                    <a href="{{route('admin.dashboard')}}">
+                        <i class="btn-sm fas fa-arrow-left mr-2"></i>
+                    </a>
+                    Question Description
+                </div>
             </div>
             
             <div class="card-body card-outline">

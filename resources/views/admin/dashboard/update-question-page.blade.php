@@ -5,7 +5,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">{{$question->title}}</div>
+                    <div class="card-title">
+                        <a href="{{route('admin.contestDetailPage', ["id" => request('id')])}}">
+                            <i class="btn-sm fas fa-arrow-left mr-2"></i>
+                          </a>
+                        {{$question->title}}
+                    </div>
                 </div>
                 <div class="card-body">
                     <form action="{{route('admin.updateQuestion', ['id' => request('id'), 'questionId' => request('questionId')])}}" method="post">
