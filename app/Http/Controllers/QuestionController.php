@@ -13,8 +13,6 @@ use App\Traits\UtilsTrait;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class QuestionController extends Controller
@@ -234,7 +232,7 @@ class QuestionController extends Controller
             $question->DecodeParams();
             $userId = null;
             $questionValidation = null;
-            // dd($question);
+
             if ($request->questionvalidation !=  null) {
                 $userId = Auth::guard("admin")->user()->id;
                 $questionValidation = true;
@@ -251,6 +249,8 @@ class QuestionController extends Controller
                 "userId" => $userId, 
                 "questionValidation" => $questionValidation,
             ])->onQueue("database");
+
+            Alert::success("Success", "Submission successfully submited");
         } catch (\Throwable $th) {
             Alert::error("Failed", $th->getMessage());
         } finally {
