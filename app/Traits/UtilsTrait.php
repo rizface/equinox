@@ -5,6 +5,7 @@ namespace App\Traits;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait UtilsTrait {
@@ -90,7 +91,7 @@ trait UtilsTrait {
             "command_line_arguments" => "",
             "redirect_stderr_to_stdout" => true,
             "source_code" => $sc,
-            // "callback_url" => "https://webhook.site/7855225c-6d32-4f54-88b5-2e43af9dcaef"
+            // "callback_url" => "https://webhook.site/88ea0964-c377-419c-94e9-d88dbc95bac0"
             "callback_url" => "http://43.218.14.77".$path
         ];
 
@@ -126,17 +127,15 @@ trait UtilsTrait {
         $usedParams= [];
         $returnValues = [];
         $paramIsArray = false;
-        $this->log($params);
+        $returnIsArray = false;
+
         foreach ($params as $key => $param) {
             if ($key == "return") {
                 $returnValues[$key] = $param;
+                $returnIsArray = is_array($param);
                 continue;
             }
 
-
-            $this->log($params);
-            $this->log(is_bool($param));
-            $this->log(is_string($param));
 
             if (is_array($param)) {
                 $param = json_encode($param);
@@ -160,13 +159,12 @@ trait UtilsTrait {
 
             $paramAt++;
         }
-        $this->log("args: ".$args);
+
         $solution = "solution(".$args.")";
-        $this->log($solution);
-        if ($paramIsArray) {
+        if ($paramIsArray || $returnIsArray) {
             $solution = "json_encode(".$solution.")";
         }
-        $this->log($solution);
+
         $sc .= "\n\n" . "echo $solution;";
         
         return [

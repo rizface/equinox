@@ -33,6 +33,10 @@ class AdminSubmission extends Model
     }
 
     private function GetExpectedReturnValues() {
+        if (is_array($this->expected_return_values->return)) {
+            return $this->expected_return_values->return;
+        }
+
         // special case for false / 'false'
         if (str_replace("'", "", $this->expected_return_values->return) == "false") {
             return false;
@@ -55,16 +59,10 @@ class AdminSubmission extends Model
         if ($decodedResult !== null) {
             $result = $decodedResult;
         }
-
-        $this->log($decodedResult);
-        $this->log($this->GetExpectedReturnValues());
-        $this->log($result == $this->GetExpectedReturnValues());
-        
         if (is_bool($this->GetExpectedReturnValues())) {
             $result = boolval($result);
         }
 
-        // dd($result, $this->GetExpectedReturnValues(), $result === $this->GetExpectedReturnValues());
 
         if ($result==($this->GetExpectedReturnValues())) {
             $isAnswerAccepted = true;
