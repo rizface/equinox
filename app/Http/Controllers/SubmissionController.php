@@ -114,7 +114,6 @@ class SubmissionController extends Controller
             // 3 mean no error occured in submission
             if ($request["status"]["id"] == 3) {
                 $submission->DecodeParamsAndReturnValue();
-                // dd($submission);
                 $submission->CheckAnswer($request["stdout"]);
                 AdminSubmission::where("submission_token", $request["token"])->update([
                     "is_correct" => $submission->is_correct,

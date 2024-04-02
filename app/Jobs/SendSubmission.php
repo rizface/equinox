@@ -35,7 +35,6 @@ class SendSubmission implements ShouldQueue
         $userId = $this->data["userId"];
         $questionValidation = $this->data["questionValidation"];
 
-        $this->log($question);
         foreach ($question["test_cases"]["params"] as $key => $params) {
             $sc = "";
             $usedParams= [];
@@ -48,23 +47,11 @@ class SendSubmission implements ShouldQueue
                 $returnValues = $scProps["returnValues"];
             }
 
-            // $this->log("A");
-            // $this->log($scProps);
-            // $this->log("B");
-            // $this->log($scProps["params"]);
-            // $this->log("C");
-            // $this->log($usedParams);
-            // $this->log("ATAS");
-            // $this->log($usedParams);
-            // $this->log("TENGAH");
-            // $this->log($params);
-            // $this->log("BAWAH");
-            // $this->log(json_encode($usedParams));
 
             $sc = base64_encode($sc);
             $payload = $this->JudgePayload($request["lang"], $sc, $questionValidation);
             $result = $this->SendToJudge($payload);
-            $this->log($sc);
+
             $submission = [
                 "batch_token" => $batchToken,
                 "submission_token" => $result["token"],
