@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-use function PHPUnit\Framework\isNull;
-
 trait UtilsTrait {
     public function ConstructParamsAndReturnValue(Request $request, String $paramKey) {
         if(!is_countable($request[$paramKey."1"])) {
