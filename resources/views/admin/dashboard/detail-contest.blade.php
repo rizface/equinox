@@ -53,10 +53,9 @@
                                         "questionId" => $q->id])}}">Delete</a>
                                     <a class="m-2" href="{{route('admin.updateQuestionPage', ["id"=> request('id'),
                                         "questionId" => $q->id])}}">Update</a>
-                                    @if (!$q->is_valid)
                                     <a class="m-2" href="{{route('admin.validateQuestionPage', ["id"=> request('id'),
-                                        "questionId" => $q->id])}}">Validate</a>
-                                    @endif
+                                        "questionId" => $q->id])}}">Validate
+                                    </a>
                                 </td>
                                 <?php $i += 1 ?>
                             </tr>
