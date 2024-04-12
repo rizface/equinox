@@ -30,6 +30,7 @@
                 <div class="tab-content" id="custom-content-below-tabContent">
                   <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
                     <div class="mt-4">
+                        <b>Please write your code in function with name solution</b>
                         {!! $question->description !!}  
                     </div>
                   </div>
@@ -146,9 +147,7 @@
                       </div>
                       <div class="form-group">
                         <label>Description</label>
-                        <textarea name="description" cols="30" rows="10" class="form-control" required>
-                          <b>Please write your code in function with name solution</b>
-                        </textarea>
+                        <textarea name="description" cols="30" rows="10" class="form-control" required></textarea>
                         <input type="hidden" name="question_id" value="{{$question->id}}">
                       </div>
                       <div class="form-group">
