@@ -30,7 +30,7 @@
                 <div class="tab-content" id="custom-content-below-tabContent">
                   <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
                     <div class="mt-4">
-                        <b>Please write your code in function with name solution</b>
+                        <b>Note: ⚠️ Please write your code in function with name solution</b>
                         {!! $question->description !!}  
                     </div>
                   </div>
