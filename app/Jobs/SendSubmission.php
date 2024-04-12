@@ -57,7 +57,7 @@ class SendSubmission implements ShouldQueue
                 "submission_token" => $result["token"],
                 "question_id" => $questionId,
                 "lang_id" => $request["lang"],
-                "source_code" => $sc,
+                "source_code" => base64_encode($request["hiddenInput"]),
                 "params" => json_encode($usedParams),
                 "expected_return_values" => json_encode($returnValues),
                 "status" => "pending",
