@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                         <?php $i = 1 ?>
-                        @foreach ($course->Questions as $q)
+                        @foreach ($course->ValidQuestions as $q)
                         <tr>
                             <td>{{$i}}</td>
                             <td>{{$q->title}}</td>
