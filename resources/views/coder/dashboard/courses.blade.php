@@ -38,7 +38,7 @@
                 @foreach ($allCourses as $i)
                 <tr>
                   <td>{{$i->title}}</td>
-                  <td>{{$i->GetNumberOfQuestions()}}</td>
+                  <td>{{$i->GetNumberOfValidQuestions()}}</td>
                   <td>{{$i->GetNumberOfParticipants()}}</td>
                   <td>
                     @if ($i->IsCompleteByCurrentUser())

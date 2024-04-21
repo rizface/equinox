@@ -130,6 +130,11 @@ class QuestionController extends Controller
             if (!$question) {
                 throw new Error("Question not found");
             }
+
+            if (!$question->is_valid) {
+                throw new Error("Question not found");
+            }
+
             $question->DecodeParams();
 
             if (!$question->JoinedTheCourse()) {

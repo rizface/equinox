@@ -24,8 +24,19 @@ class Contest extends Model
         return $this->hasMany(Question::class);
     }
 
+    public function ValidQuestions() {
+        return $this->hasMany(Question::class)
+        ->where("is_valid", true);
+    }
+
     public function GetNumberOfQuestions() {
         return Question::where("contest_id", $this->id)->count();
+    }
+
+    public function GetNumberOfValidQuestions() {
+        return Question::where("contest_id", $this->id)
+        ->where("is_valid", true)
+        ->count();
     }
 
     public function ThisIsMyContest() {
