@@ -18,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::put("/check-submission",[SubmissionController::class, "CheckAnswer"]);
 Route::put("/validate-question",[SubmissionController::class, "QuestionValidationCheckAnswer"]);
+
+
+Route::post("/callback/onlyoffice", function(Request $request){
+    Log::info("Callback from onlyoffice");
+    Log::info($request->all());
+    return response()->json(["status" => "ok"]);
+});
