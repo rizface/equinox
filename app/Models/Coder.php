@@ -46,13 +46,13 @@ class Coder extends Authenticatable
 
     public function Timeline() {
         $result = DB::table("coder_solved_questions")
-        ->select(DB::raw("questions.title as title,'question' as type, contests.title as parent, coder_solved_questions.created_at as solved_at"))
+        ->select(DB::raw("questions.id as question_id, contests.id as contest_id, questions.title as title,'question' as type, contests.title as parent, coder_solved_questions.created_at as solved_at"))
         ->join("questions", "questions.id", "=", "coder_solved_questions.question_id")
         ->join("contests", "contests.id", "=", "questions.contest_id")
         ->where("coder_id", "=", $this->id)
         ->union(
             DB::table("coder_complete_courses")
-            ->select(DB::raw("title,'course' as type, null as parent, coder_complete_courses.created_at as solved_at"))
+            ->select(DB::raw("null, contests.id, title,'course' as type, null as parent, coder_complete_courses.created_at as solved_at"))
             ->join("contests", "contests.id", "=", "coder_complete_courses.course_id")
             ->where("coder_id", "=", $this->id)
         )
