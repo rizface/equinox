@@ -115,7 +115,7 @@ class SubmissionController extends Controller
                 "coder_id" => $coder_id,
                 "contest_id" => $contest_id,
                 "title" => Contest::where("id", $contest_id)->first()->title,
-                "type" => "contest",
+                "type" => "course",
                 "solved_at" => now(),
             ]);
         }
