@@ -6,6 +6,7 @@ use App\Models\AdminSubmission;
 use App\Models\CacheTimeline;
 use App\Models\CoderCompleteCourse;
 use App\Models\CoderSolvedQuestion;
+use App\Models\Contest;
 use App\Models\Question;
 use App\Models\Submission;
 use App\Traits\UtilsTrait;
@@ -113,7 +114,7 @@ class SubmissionController extends Controller
             CacheTimeline::create([
                 "coder_id" => $coder_id,
                 "contest_id" => $contest_id,
-                "title" => Question::where("contest_id", $contest_id)->first()->Contest()->first()->title,
+                "title" => Contest::where("id", $contest_id)->first()->title,
                 "type" => "contest",
                 "solved_at" => now(),
             ]);

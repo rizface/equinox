@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cache_timeline', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->uuid("id")->primary();
             $table->uuid("coder_id")->nullable(false);
             $table->uuid("question_id")->nullable(true);
             $table->uuid("contest_id")->nullable(true);
