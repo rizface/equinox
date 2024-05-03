@@ -48,9 +48,9 @@ return [
 
         'ses' => [
             'transport' => 'ses',
-            'key' => "AKIAY6SKWZZIT3J7OYNK",
-            'secret' => "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",
-            'region' => "ap-southeast-3",
+            // 'key' => "AKIAY6SKWZZIT3J7OYNK",
+            // 'secret' => "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",
+            // 'region' => "ap-southeast-3",
         ],
 
         'mailgun' => [
