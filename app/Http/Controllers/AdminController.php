@@ -74,7 +74,7 @@ class AdminController extends Controller
                 "password" => Hash::make($request->password),
             ]);
 
-            Mail::to("malfarizzi33@gmail.com")->send(new AccountActivation($admin->id));
+            Mail::to("rizlatter@gmail.com")->send(new AccountActivation($admin->id));
 
             Alert::success("Success", "Register is successful, please wait for the super admin to validate your account");
 
