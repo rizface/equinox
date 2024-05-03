@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountActivation;
 use App\Models\Admin;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 use function PHPUnit\Framework\isNull;
@@ -66,11 +68,13 @@ class AdminController extends Controller
                 throw new Error("Username already taken");
             }
             
-            Admin::create([
+            $admin = Admin::create([
                 "username" => $request->username,
                 "name" => $request->name,
                 "password" => Hash::make($request->password),
             ]);
+
+            Mail::to("malfarizzi33@gmail.com")->send(new AccountActivation($admin->id));
 
             Alert::success("Success", "Register is successful, please wait for the super admin to validate your account");
 
