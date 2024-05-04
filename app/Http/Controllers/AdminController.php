@@ -60,7 +60,8 @@ class AdminController extends Controller
                 "username" => ["required"],
                 "name" => ["required"],
                 "password" => ["required"],
-                "confirm-password" => ["required", "same:password"]
+                "confirm-password" => ["required", "same:password"],
+                "email" => ["required"]
             ]);
 
             $existing = Admin::where("username", $request->username)->first();
@@ -68,15 +69,21 @@ class AdminController extends Controller
                 throw new Error("Username already taken");
             }
             
+            $existing = Admin::where("email", $request->email)->first();
+            if($existing) {
+                throw new Error("Email already taken");
+            }
+            
             $admin = Admin::create([
                 "username" => $request->username,
                 "name" => $request->name,
                 "password" => Hash::make($request->password),
+                "email" => $request->email,
             ]);
 
-            Mail::to("rizlatter@gmail.com")->send(new AccountActivation($admin->id));
+            Mail::to($admin->email)->send(new AccountActivation($admin->id));
 
-            Alert::success("Success", "Register is successful, please wait for the super admin to validate your account");
+            Alert::success("Success", "Register is successful, please check your email to validate your account");
 
             return redirect(route('admin.loginPage'));
         } catch (\Throwable $th) {
@@ -92,5 +99,26 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route("admin.loginPage");
+    }
+
+    public function Activation($id) {
+        $admin = Admin::where("id", $id)
+        ->first();
+
+        if (!$admin) {
+            Alert::error("Failed", "Admin not found");
+            return redirect(route("admin.loginPage"));
+        }
+
+        if ($admin->is_valid) {
+            Alert::error("Failed", "Admin account is already validated");
+            return redirect(route("admin.loginPage"));
+        }
+
+        $admin->ValidateAdmin();
+
+        Alert::success("Success", "Admin account is validated");
+
+        return redirect(route("admin.loginPage"));
     }
 }   

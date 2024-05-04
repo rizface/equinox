@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    {{$adminId}}
+    Your account has been created. Please click the link below to activate your account.
+    <a href="{{$activationUrl}}">Activate Account</a>
 </body>
 </html>

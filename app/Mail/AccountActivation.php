@@ -39,6 +39,9 @@ class AccountActivation extends Mailable
     {
         return new Content(
             view: 'mail.account-activation',
+            with: [
+                'activationUrl' => env('APP_URL') . '/admin/activate/' . $this->adminId,
+            ],
         );
     }
 
