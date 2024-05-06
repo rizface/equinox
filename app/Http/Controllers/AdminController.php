@@ -37,7 +37,7 @@ class AdminController extends Controller
 
             if (!$canLogin) {
                 Auth::guard("admin")->logout();
-                throw new Error("Admin account is not validated yet by the super admin");
+                throw new Error("Admin account is not activated yet");
             }
 
             Auth::guard("admin")->login(Admin::where("username", $request->username)->first());
