@@ -64,6 +64,10 @@ class AdminController extends Controller
                 "email" => ["required"]
             ]);
 
+            if (strlen($request->password) < 8) {
+                throw new Error("Password must be at least 8 characters");
+            }
+
             $existing = Admin::where("username", $request->username)->first();
             if($existing) {
                 throw new Error("Username already taken");
