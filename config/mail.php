@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => "ses",
 
     /*
     |--------------------------------------------------------------------------
@@ -45,9 +45,11 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
-
         'ses' => [
             'transport' => 'ses',
+            'key' => env("AWS_ACCESS_KEY_ID"),
+            'secret' => env("AWS_SECRET_ACCESS_KEY"),
+            'region' => env("AWS_DEFAULT_REGION"),
         ],
 
         'mailgun' => [
@@ -100,8 +102,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => "alfarizzi2711@gmail.com",
+        'name' => "Fariz",
     ],
 
     /*

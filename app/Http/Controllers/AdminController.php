@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountActivation;
 use App\Models\Admin;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 use function PHPUnit\Framework\isNull;
@@ -35,7 +37,7 @@ class AdminController extends Controller
 
             if (!$canLogin) {
                 Auth::guard("admin")->logout();
-                throw new Error("Admin account is not validated yet by the super admin");
+                throw new Error("Admin account is not activated yet");
             }
 
             Auth::guard("admin")->login(Admin::where("username", $request->username)->first());
@@ -58,21 +60,34 @@ class AdminController extends Controller
                 "username" => ["required"],
                 "name" => ["required"],
                 "password" => ["required"],
-                "confirm-password" => ["required", "same:password"]
+                "confirm-password" => ["required", "same:password"],
+                "email" => ["required"]
             ]);
+
+            if (strlen($request->password) < 8) {
+                throw new Error("Password must be at least 8 characters");
+            }
 
             $existing = Admin::where("username", $request->username)->first();
             if($existing) {
                 throw new Error("Username already taken");
             }
             
-            Admin::create([
+            $existing = Admin::where("email", $request->email)->first();
+            if($existing) {
+                throw new Error("Email already taken");
+            }
+            
+            $admin = Admin::create([
                 "username" => $request->username,
                 "name" => $request->name,
                 "password" => Hash::make($request->password),
+                "email" => $request->email,
             ]);
 
-            Alert::success("Success", "Register is successful, please wait for the super admin to validate your account");
+            Mail::to($admin->email)->send(new AccountActivation($admin->id));
+
+            Alert::success("Success", "Register is successful, please check your email to validate your account");
 
             return redirect(route('admin.loginPage'));
         } catch (\Throwable $th) {
@@ -88,5 +103,26 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route("admin.loginPage");
+    }
+
+    public function Activation($id) {
+        $admin = Admin::where("id", $id)
+        ->first();
+
+        if (!$admin) {
+            Alert::error("Failed", "Admin not found");
+            return redirect(route("admin.loginPage"));
+        }
+
+        if ($admin->is_valid) {
+            Alert::error("Failed", "Admin account is already validated");
+            return redirect(route("admin.loginPage"));
+        }
+
+        $admin->ValidateAdmin();
+
+        Alert::success("Success", "Admin account is validated");
+
+        return redirect(route("admin.loginPage"));
     }
 }   

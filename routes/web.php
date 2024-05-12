@@ -48,6 +48,8 @@ Route::prefix("/superadmin")->group(function() {
 });
 
 Route::prefix("/admin")->group(function() {
+    Route::get("/activate/{id}", [AdminController::class, "Activation"]);
+
     Route::middleware([AdminGuestMiddleware::class])->group(function() {
         Route::get('/login', [AdminController::class,"LoginPage"])->name("admin.loginPage");
         Route::get('/register', [AdminController::class, "RegisterPage"])->name("admin.registerPage");
