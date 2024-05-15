@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => "ses",
+    'default' => env('MAIL_MAILER', 'ses'),
 
     /*
     |--------------------------------------------------------------------------
@@ -102,8 +102,8 @@ return [
     */
 
     'from' => [
-        'address' => "alfarizzi2711@gmail.com",
-        'name' => "Fariz",
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example')
     ],
 
     /*
